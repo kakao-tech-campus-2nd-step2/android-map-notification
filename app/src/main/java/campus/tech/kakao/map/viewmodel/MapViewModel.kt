@@ -114,18 +114,17 @@ class MapViewModel @Inject constructor(
 
     fun loadKeywords() {
         viewModelScope.launch {
-            val sharedPreferences = getApplication<Application>().getSharedPreferences("keywords", Context.MODE_PRIVATE)
-            val keywordsSet = sharedPreferences.getStringSet("keywords", setOf()) ?: setOf()
-            _keywords.postValue(keywordsSet.toList())
+            val keywords = withContext(Dispatchers.IO) {
+                repository.loadKeywords()
+            }
+            _keywords.postValue(keywords)
         }
     }
 
     fun saveKeywords(keywords: List<String>) {
         viewModelScope.launch {
-            val sharedPreferences = getApplication<Application>().getSharedPreferences("keywords", Context.MODE_PRIVATE)
-            sharedPreferences.edit().apply {
-                putStringSet("keywords", keywords.toSet())
-                apply()
+            withContext(Dispatchers.IO) {
+                repository.saveKeywords(keywords)
             }
             _keywords.postValue(keywords)
         }

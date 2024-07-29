@@ -64,7 +64,9 @@
             app:layout_constraintTop_toBottomOf="@+id/frameLayout"
             android:visibility="visible"
             android:orientation="horizontal"
-            android:scrollbars="horizontal"/>
+            android:scrollbars="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_keyword"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvSearchResult"
@@ -75,7 +77,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rvKeywords"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_search_result"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

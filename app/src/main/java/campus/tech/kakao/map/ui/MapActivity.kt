@@ -152,7 +152,7 @@ class MapActivity : AppCompatActivity() {
             null,
             false
         )
-        bottomSheetBinding.lifecycleOwner = this
+        bottomSheetBinding.lifecycleOwner = bottomSheetDialog
         bottomSheetBinding.viewModel = mapViewModel
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
@@ -165,8 +165,7 @@ class MapActivity : AppCompatActivity() {
             errorBinding.viewModel = mapViewModel
         }
         errorBinding.message = message
-        errorBinding.root.visibility = View.VISIBLE
-        binding.searchLayout.visibility = View.GONE
-        binding.mapView.visibility = View.GONE
+        binding.searchLayout.visibility = if (message != null) View.GONE else View.VISIBLE
+        binding.mapView.visibility = if (message != null) View.GONE else View.VISIBLE
     }
 }

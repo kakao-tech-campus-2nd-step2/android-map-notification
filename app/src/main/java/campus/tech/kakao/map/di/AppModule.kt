@@ -33,7 +33,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMapItemRepository(mapItemDao: MapItemDao): MapItemRepository {
-        return MapItemRepository(mapItemDao)
+    fun provideMapItemRepository(
+        mapItemDao: MapItemDao,
+        @ApplicationContext context: Context
+    ): MapItemRepository {
+        return MapItemRepository(mapItemDao, context)
     }
 }

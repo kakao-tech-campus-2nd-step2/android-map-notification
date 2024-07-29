@@ -33,10 +33,7 @@ class MainActivity : AppCompatActivity(), SearchResultAdapter.OnItemClickListene
         binding.lifecycleOwner = this
         binding.viewModel = mapViewModel
 
-        binding.rvSearchResult.layoutManager = LinearLayoutManager(this)
         binding.rvSearchResult.adapter = searchResultAdapter
-
-        binding.rvKeywords.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvKeywords.adapter = keywordAdapter
 
         mapViewModel.searchResults.observe(this, Observer { results ->
