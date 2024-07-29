@@ -5,43 +5,34 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import campus.tech.kakao.map.R
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import campus.tech.kakao.map.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
-    lateinit var tvServiceMessage: TextView
+
+    private val splashViewModel: SplashViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        val binding: ActivitySplashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+        binding.lifecycleOwner = this
+        binding.viewModel = splashViewModel
 
-        tvServiceMessage = findViewById(R.id.tvServiceMessage)
-
-        val remoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
-        val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 0
-        }
-        remoteConfig.setConfigSettingsAsync(configSettings)
-
-        fetchRemoteConfigValues(remoteConfig)
-    }
-
-    private fun fetchRemoteConfigValues(remoteConfig: FirebaseRemoteConfig) {
-        remoteConfig.fetchAndActivate().addOnCompleteListener(this) { task ->
-            if (task.isSuccessful) {
-                val state = remoteConfig.getString("serviceState")
-                Log.d("SplashActivity", "serviceState: $state")
-
-                if (state == "ON_SERVICE") {
-                    startActivity(Intent(this, MapActivity::class.java))
-                } else {
-                    tvServiceMessage.text = "서버 점검 중 입니다. 나중에 다시 시도해 주세요."
-                    tvServiceMessage.visibility = TextView.VISIBLE
-                }
+        splashViewModel.serviceState.observe(this, Observer { state ->
+            if (state == "ON_SERVICE") {
+                startActivity(Intent(this, MapActivity::class.java))
+                finish()
             } else {
-                Toast.makeText(this, "Failed to fetch remote config values", Toast.LENGTH_SHORT).show()
+                binding.tvServiceMessage.visibility = TextView.VISIBLE
             }
-        }
+        })
+
+        splashViewModel.serviceMessage.observe(this, Observer { message ->
+            Log.d("SplashActivity", "serviceMessage: $message")
+        })
     }
 }
