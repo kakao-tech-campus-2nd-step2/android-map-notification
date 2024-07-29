@@ -19,7 +19,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".presenter.view.SplashActivity"
+            android:name=".presenter.view.ErrorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presenter.view.MapActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,14 +31,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presenter.view.ErrorActivity"
-            android:exported="false" />
-        <activity
-            android:name=".presenter.view.MapActivity"
-            android:exported="false"/>
-        <activity
             android:name=".presenter.view.PlaceSearchActivity"
-            android:exported="false" />
+            android:exported="false"></activity>
     </application>
 
 </manifest>
