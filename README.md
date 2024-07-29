@@ -16,5 +16,5 @@
 ## 구현할 기능 목록
 ### 1단계 기능
 - [x] 스플래시 화면 구현
-- [ ] Remote Config 값 불러와 비교하기
-- [ ] 에러시 serviceMessage 출력
+- [x] Remote Config 값 불러와 비교하기
+- [x] 에러시 serviceMessage 출력
