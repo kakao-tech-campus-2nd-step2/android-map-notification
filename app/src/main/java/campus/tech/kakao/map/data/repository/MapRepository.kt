@@ -3,7 +3,6 @@ package campus.tech.kakao.map.data.repository
 import android.content.Context
 import android.util.Log
 import campus.tech.kakao.map.data.dao.PlaceDao
-import campus.tech.kakao.map.data.database.PlacesDBHelper
 import campus.tech.kakao.map.data.database.PlacesRoomDB
 import campus.tech.kakao.map.data.model.DBPlace
 import campus.tech.kakao.map.data.model.DBPlace.Companion.DATABASE_NAME
@@ -25,7 +24,6 @@ class MapRepository @Inject constructor(
     private val context: Context,
     private val dataStoreManager: DataStoreManager,
     private val placeDao: PlaceDao,
-    private val localSql: PlacesDBHelper,
     private val localRoom: PlacesRoomDB
 ) : LocalDBRepoImpl {
 
@@ -35,7 +33,7 @@ class MapRepository @Inject constructor(
     /**
      * 카카오 REST API 관련
      */
-    fun searchPlaces(search: String, onPlaceResponse: (List<Place>) -> Unit) {
+    suspend fun searchPlaces(search: String, onPlaceResponse: (List<Place>) -> Unit) {
         RetrofitClient.retrofitService.requestPlaces(query = search).enqueue(object :
             Callback<SearchResponse> {
             override fun onResponse(
@@ -49,6 +47,7 @@ class MapRepository @Inject constructor(
                         val category = it.categoryName.split(" \u003e ").last()
                         responseList.add(Place(it.placeName, it.addressName, category, it.x, it.y))
                     }
+                    Log.d("search", "search3: ${Thread.currentThread().name}")
                     onPlaceResponse(responseList)
                 } else {
                     onPlaceResponse(emptyList())
@@ -110,44 +109,6 @@ class MapRepository @Inject constructor(
 
     override suspend fun delete(dbPlace: DBPlace) = placeDao.delete(dbPlace)
 
-
-    /**
-     * Local DB 관련 - DBHelper
-     */
-    fun insertLocalInitialData() {
-        if (!dbFileExists(PlacesDBHelper.TABLE_NAME)) {
-            val places = arrayListOf<Place>()
-            for (i in 1..30) {
-                val cafe = Place("카페$i", "서울 성동구 성수동 $i", "카페")
-                val pharmacy = Place("약국$i", "서울 강남구 대치동 $i", "약국")
-                places.add(cafe)
-                places.add(pharmacy)
-            }
-            localSql.insertPlaces(places)
-        }
-        Log.d("search2", "insetSearch: ${Thread.currentThread().name}")
-    }
-
-    fun getAllLocalPlaces(): List<Place> {
-        return localSql.getAllPlaces()
-    }
-
-    fun insertLocalPlace(name: String, address: String, category: String) {
-        val place = Place(name, address, category)
-        localSql.insertPlace(place)
-    }
-
-    fun deleteLocalPlace(name: String, address: String, category: String) {
-        val place = Place(name, address, category)
-        localSql.deletePlace(place)
-    }
-
-    fun searchDBPlaces(search: String, onPlaceResponse: (List<Place>) -> Unit) {
-        val allPlaces = getAllLocalPlaces()
-        val filtered = allPlaces.filter { it.name.contains(search, ignoreCase = true) }
-        Log.d("Thread", "${Thread.currentThread().name}")   // main 스레드
-        onPlaceResponse(filtered)
-    }
 
 
     /**

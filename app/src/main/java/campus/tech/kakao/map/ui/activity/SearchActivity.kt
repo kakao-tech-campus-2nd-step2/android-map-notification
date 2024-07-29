@@ -39,7 +39,6 @@ class SearchActivity : AppCompatActivity() {
 
         binding.searchInput.addTextChangedListener { text ->
             viewModel.searchPlaces(text.toString())
-//            viewModel.searchDBPlaces(text.toString())     // DBHelper 테스트 용 (검색)
 //            viewModel.searchRoomPlaces(text.toString())   // Room 테스트 용 (검색)
         }
 

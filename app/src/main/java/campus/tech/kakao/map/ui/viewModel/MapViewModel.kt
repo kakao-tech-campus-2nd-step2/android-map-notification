@@ -33,25 +33,14 @@ class MapViewModel @Inject constructor(@ApplicationContext context: Context, pri
 
     fun searchPlaces(search: String) {
         viewModelScope.launch {
+            Log.d("search", "search: ${Thread.currentThread().name}")
             if (search.isEmpty()) {
                 _places.value = mutableListOf()
                 return@launch
             }
             repository.searchPlaces(search) { placeList ->
                 _places.value = placeList
-            }
-        }
-    }
-
-    fun searchDBPlaces(search: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (search.isEmpty()) {
-                _places.postValue(mutableListOf())
-                return@launch
-            }
-            repository.searchDBPlaces(search) { placeList ->
-                _places.postValue(placeList)
-                Log.d("search", "insetSearch: ${Thread.currentThread().name}")
+                Log.d("search", "search2: ${Thread.currentThread().name}")
             }
         }
     }
@@ -64,7 +53,7 @@ class MapViewModel @Inject constructor(@ApplicationContext context: Context, pri
             }
             repository.searchRoomPlaces(search) { placeList ->
                 _places.postValue(placeList)
-                Log.d("search", "insetSearch: ${Thread.currentThread().name}")
+                Log.d("search", "search: ${Thread.currentThread().name}")
             }
         }
     }
@@ -72,7 +61,6 @@ class MapViewModel @Inject constructor(@ApplicationContext context: Context, pri
     private fun setLocalDB() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertRoomInitialData()
-            repository.insertLocalInitialData()
             repository.setPrefs()
         }
     }

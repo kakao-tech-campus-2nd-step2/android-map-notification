@@ -5,7 +5,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import campus.tech.kakao.map.data.dao.PlaceDao
-import campus.tech.kakao.map.data.database.PlacesDBHelper
 import campus.tech.kakao.map.data.database.PlacesRoomDB
 import campus.tech.kakao.map.data.repository.DataStoreManager
 import campus.tech.kakao.map.data.repository.MapRepository
@@ -28,22 +27,15 @@ object AppModule {
         @ApplicationContext context: Context,
         dataStoreManager: DataStoreManager,
         placeDao: PlaceDao,
-        placesDBHelper: PlacesDBHelper,
         placesRoomDB: PlacesRoomDB
     ): MapRepository {
-        return MapRepository(context, dataStoreManager, placeDao, placesDBHelper, placesRoomDB)
+        return MapRepository(context, dataStoreManager, placeDao, placesRoomDB)
     }
 
     @Provides
     @Singleton
     fun providePlaceDao(placesRoomDB: PlacesRoomDB): PlaceDao {
         return placesRoomDB.placeDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideDBHelper(@ApplicationContext context: Context): PlacesDBHelper {
-        return PlacesDBHelper(context)
     }
 
     @Provides
