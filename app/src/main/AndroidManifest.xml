@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".PlaceApplication"
         android:allowBackup="true"
@@ -15,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Map"
         tools:targetApi="31">
+        <activity
+            android:name=".presentation.SplashScreenActivity"
+            android:exported="false" />
         <activity
             android:name=".presentation.map.MapActivity"
             android:exported="true">
@@ -29,9 +33,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.search.SearchActivity"
-            android:exported="false"/>
-
-
+            android:exported="false" />
     </application>
 
 </manifest>
