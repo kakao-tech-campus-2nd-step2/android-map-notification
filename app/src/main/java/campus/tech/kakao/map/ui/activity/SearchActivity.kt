@@ -12,16 +12,13 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import campus.tech.kakao.map.application.MyApplication
-import campus.tech.kakao.map.databinding.ActivitySearchBinding
 import campus.tech.kakao.map.data.model.Place
+import campus.tech.kakao.map.databinding.ActivitySearchBinding
 import campus.tech.kakao.map.ui.adapter.PlacesAdapter
 import campus.tech.kakao.map.ui.adapter.SearchHistoryAdapter
 import campus.tech.kakao.map.ui.viewModel.MapViewModel
-import campus.tech.kakao.map.ui.viewModel.MapViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {

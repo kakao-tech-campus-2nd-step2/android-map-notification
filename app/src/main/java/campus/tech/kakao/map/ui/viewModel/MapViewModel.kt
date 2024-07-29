@@ -6,13 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import campus.tech.kakao.map.data.repository.MapRepository
 import campus.tech.kakao.map.data.model.Place
 import campus.tech.kakao.map.data.model.RecentSearchWord
-import com.kakao.vectormap.KakaoMap
+import campus.tech.kakao.map.data.repository.MapRepository
 import com.kakao.vectormap.LatLng
-import com.kakao.vectormap.label.Label
-import com.kakao.vectormap.label.LabelStyles
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers

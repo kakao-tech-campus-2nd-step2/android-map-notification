@@ -1,6 +1,5 @@
 package campus.tech.kakao.map.ui.viewModel
 
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

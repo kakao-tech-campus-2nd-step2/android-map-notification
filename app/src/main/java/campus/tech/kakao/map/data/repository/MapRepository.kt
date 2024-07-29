@@ -1,24 +1,19 @@
 package campus.tech.kakao.map.data.repository
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import campus.tech.kakao.map.data.dao.PlaceDao
 import campus.tech.kakao.map.data.database.PlacesDBHelper
 import campus.tech.kakao.map.data.database.PlacesRoomDB
 import campus.tech.kakao.map.data.model.DBPlace
 import campus.tech.kakao.map.data.model.DBPlace.Companion.DATABASE_NAME
-import campus.tech.kakao.map.data.network.api.RetrofitClient
-import campus.tech.kakao.map.data.network.dto.SearchResponse
 import campus.tech.kakao.map.data.model.Place
 import campus.tech.kakao.map.data.model.RecentSearchWord
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
+import campus.tech.kakao.map.data.network.api.RetrofitClient
+import campus.tech.kakao.map.data.network.dto.SearchResponse
 import com.kakao.vectormap.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

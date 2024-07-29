@@ -2,37 +2,29 @@ package campus.tech.kakao.map.ui.activity
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
 import androidx.core.view.isInvisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import campus.tech.kakao.map.BuildConfig
-import campus.tech.kakao.map.application.MyApplication
 import campus.tech.kakao.map.R
-import campus.tech.kakao.map.databinding.ActivityMainBinding
 import campus.tech.kakao.map.data.model.Place
+import campus.tech.kakao.map.databinding.ActivityMainBinding
 import campus.tech.kakao.map.databinding.BottomSheetBinding
 import campus.tech.kakao.map.databinding.MapErrorBinding
 import campus.tech.kakao.map.ui.viewModel.MapViewModel
 import campus.tech.kakao.map.utill.BitmapUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.kakao.sdk.common.util.Utility
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
-import com.kakao.vectormap.KakaoMapSdk
 import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.camera.CameraAnimation
@@ -43,8 +35,6 @@ import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.lang.Exception
-import java.lang.IllegalArgumentException
 
 
 @AndroidEntryPoint

@@ -6,8 +6,6 @@ import androidx.room.Insert
 import androidx.room.Query
 import campus.tech.kakao.map.data.model.DBPlace
 import campus.tech.kakao.map.data.model.DBPlace.Companion.TABLE_NAME
-import campus.tech.kakao.map.data.model.Place
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlaceDao {

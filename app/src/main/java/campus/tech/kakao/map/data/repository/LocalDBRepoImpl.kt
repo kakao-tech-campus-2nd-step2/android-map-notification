@@ -1,7 +1,6 @@
 package campus.tech.kakao.map.data.repository
 
 import campus.tech.kakao.map.data.model.DBPlace
-import kotlinx.coroutines.flow.Flow
 
 interface LocalDBRepoImpl {
 
