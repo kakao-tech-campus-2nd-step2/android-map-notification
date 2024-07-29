@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="78dp"
         android:background="#F8F8F8"
         android:paddingVertical="16dp"
         android:paddingHorizontal="24dp">
@@ -31,7 +31,7 @@
             android:text="@{place.place}"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="#4B4B4B"
+            android:textColor="#4D4D4D"
             android:paddingLeft="24dp"
             app:layout_constraintStart_toEndOf="@+id/imgLocation"
             app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:text="@{place.address}"
             android:textSize="12sp"
-            android:textColor="#5D5D5D"
+            android:textColor="#868686"
             android:paddingLeft="24dp"
             app:layout_constraintStart_toEndOf="@+id/imgLocation"
             app:layout_constraintTop_toBottomOf="@id/tvName"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:text="@{place.category}"
             android:textSize="12sp"
-            android:textColor="#5D5D5D"
+            android:textColor="#868686"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvName"/>
 
