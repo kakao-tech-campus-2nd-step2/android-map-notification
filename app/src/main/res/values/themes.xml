@@ -6,7 +6,7 @@
     </style>
 
     <style name="Theme.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/splash_yellow</item>
+        <item name="windowSplashScreenBackground">@color/white</item>
         <item name="windowSplashScreenAnimatedIcon" tools:targetApi="S">@android:color/transparent</item>
         <item name="postSplashScreenTheme">@style/Theme.Map</item>
     </style>
