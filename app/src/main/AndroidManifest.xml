@@ -18,26 +18,11 @@
         android:theme="@style/Theme.Map"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <service
-            android:name=".presenter.service.FcmService"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-            <meta-data
-                android:name="com.google.firebase.messaging.default_notification_channel_id"
-                android:value="manifest" />
-            <meta-data
-                android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@drawable/ic_launcher_foreground" />
-            <meta-data
-                android:name="com.google.firebase.messaging.default_notification_color"
-                android:resource="@color/colorAccent" />
-
-        </service>
         <activity
-            android:name=".presenter.view.SplashActivity"
+            android:name=".presenter.view.ErrorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presenter.view.MapActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,14 +31,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presenter.view.ErrorActivity"
-            android:exported="false" />
-        <activity
-            android:name=".presenter.view.MapActivity"
-            android:exported="false"/>
-        <activity
             android:name=".presenter.view.PlaceSearchActivity"
-            android:exported="false" />
+            android:exported="false"></activity>
     </application>
 
 </manifest>

@@ -5,7 +5,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
 }
 
 android {
@@ -69,10 +68,6 @@ dependencies {
     implementation("androidx.test:core-ktx:1.5.0")
     implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("androidx.test.espresso:espresso-contrib:3.6.1")
-    implementation("androidx.activity:activity:1.8.0")
-    implementation("com.google.firebase:firebase-config-ktx:22.0.0")
-    implementation("com.google.firebase:firebase-common-ktx:21.0.0")
-    implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
     androidTestImplementation("androidx.test:core:1.5.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk-android:1.13.11")
@@ -95,8 +90,6 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
-
-    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
 
 }
 
