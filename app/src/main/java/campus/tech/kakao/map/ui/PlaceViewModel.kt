@@ -1,20 +1,15 @@
 package campus.tech.kakao.map.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import campus.tech.kakao.map.BuildConfig
 import campus.tech.kakao.map.data.NetworkRepository
 import campus.tech.kakao.map.data.PlaceRepository
-import campus.tech.kakao.map.data.RetrofitLocalKeywordService
 import campus.tech.kakao.map.domain.Place
 import campus.tech.kakao.map.domain.PlaceUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
