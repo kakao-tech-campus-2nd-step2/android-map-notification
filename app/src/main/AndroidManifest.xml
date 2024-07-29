@@ -2,9 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+=======
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+>>>>>>> refactoring/step_2
 
     <application
         android:allowBackup="true"
@@ -13,11 +20,27 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+<<<<<<< HEAD
+=======
+        android:name=".MyApplication"
+        android:soundEffectsEnabled="true"
+>>>>>>> refactoring/step_2
         android:supportsRtl="true"
         android:theme="@style/Theme.Map"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
             android:name=".MainActivity"
+=======
+            android:name=".view.MapErrorActivity"
+            android:exported="false" />
+        <activity
+
+            android:name=".view.SearchPlaceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.MainActivity"
+>>>>>>> refactoring/step_2
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,3 +51,7 @@
     </application>
 
 </manifest>
+<<<<<<< HEAD
+=======
+
+>>>>>>> refactoring/step_2
