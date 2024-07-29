@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
 import campus.tech.kakao.map.PlaceApplication
 import campus.tech.kakao.map.R
@@ -36,7 +37,8 @@ class SplashScreenActivity : AppCompatActivity() {
         this.window?.apply {
             this.statusBarColor = Color.TRANSPARENT
             decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                (View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
         }
     }
 

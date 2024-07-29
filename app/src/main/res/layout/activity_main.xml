@@ -13,8 +13,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="24dp"
-        android:background="#FBFBFB"
+        android:background="#f8f8f8"
         tools:context=".presentation.search.SearchActivity">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -24,9 +23,9 @@
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             android:paddingTop="48dp"
+            android:paddingBottom="6dp"
             android:paddingHorizontal="16dp"
-            android:paddingBottom="12dp"
-            android:background="#FBFBFB"
+            android:background="#f8f8f8"
             android:elevation="4dp"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,9 +34,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/searchBar"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="48dp"
                 android:background="@drawable/searchview_background"
-                android:paddingHorizontal="24dp">
+                android:layout_marginBottom="8dp"
+                android:paddingHorizontal="20dp">
                 <ImageView
                     android:id="@+id/iconSearch"
                     android:layout_width="wrap_content"
@@ -54,8 +54,8 @@
                     android:text="@={viewModel.searchText}"
                     android:paddingStart="16dp"
                     android:background="@null"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/iconSearch"
+                    app:layout_constraintBottom_toBottomOf="@+id/iconSearch"
                     app:layout_constraintStart_toEndOf="@+id/iconSearch"/>
 
                 <ImageButton
@@ -74,13 +74,11 @@
                 android:id="@+id/recyclerLog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:paddingHorizontal="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/searchBar">
             </androidx.recyclerview.widget.RecyclerView>
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
 
         <TextView
