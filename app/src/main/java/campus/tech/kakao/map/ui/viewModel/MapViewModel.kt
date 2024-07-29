@@ -1,6 +1,5 @@
 package campus.tech.kakao.map.ui.viewModel
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,13 +10,12 @@ import campus.tech.kakao.map.data.model.RecentSearchWord
 import campus.tech.kakao.map.data.repository.MapRepository
 import com.kakao.vectormap.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MapViewModel @Inject constructor(@ApplicationContext context: Context, private val repository: MapRepository) : ViewModel() {
+class MapViewModel @Inject constructor(private val repository: MapRepository) : ViewModel() {
 
     private val _places: MutableLiveData<List<Place>> = MutableLiveData<List<Place>>()
     val places: LiveData<List<Place>> get()= _places
@@ -78,10 +76,6 @@ class MapViewModel @Inject constructor(@ApplicationContext context: Context, pri
             Log.d("prefs", "savePos: ${Thread.currentThread().name}")
             repository.savePos(LatLng.from(latitude.toDouble(), longitude.toDouble()))
         }
-    }
-
-    fun getSearchHistory(): List<RecentSearchWord> {
-        return searchHistoryData.value ?: emptyList()
     }
 
     fun insertSearch(search: String) {
