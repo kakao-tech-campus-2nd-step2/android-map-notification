@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import campus.tech.kakao.map.R
+import campus.tech.kakao.map.domain.vo.ServiceState
 import campus.tech.kakao.map.presenter.view.MapActivity
 
 @BindingAdapter("visibleGone")
@@ -18,4 +19,9 @@ fun setErrorTest(view: TextView, type: ErrorEnum){
         ErrorEnum.MAP_LOAD_ERROR -> view.resources.getString(R.string.map_error)
         else -> view.resources.getString(R.string.else_error)
     }
+}
+
+@BindingAdapter("splashErrorVisible")
+fun isError(view: TextView, serviceState: ServiceState){
+    view.visibility = if(serviceState == ServiceState.ON_SERVICE) View.GONE else View.VISIBLE
 }
