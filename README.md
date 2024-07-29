@@ -6,7 +6,11 @@
 
 - 실행 영상
   
-![week5_2](https://github.com/user-attachments/assets/8f1d5e09-d3f0-4578-ab3b-9b6a8d8c81c0)
+![week6_1](https://github.com/user-attachments/assets/69e03c8f-851a-4d65-89fb-cb556d7b1d61)
+
+- 서비스 비활성화 상태 화면
+
+![splash_error](https://github.com/user-attachments/assets/692f95a0-077e-484d-b840-85036e72252f)
 
 - 인증 에러시 화면
   
