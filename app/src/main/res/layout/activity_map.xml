@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.MapActivity">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="campus.tech.kakao.map.viewmodel.MapViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/searchLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@color/white"
+            android:elevation="4dp"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+
+            <EditText
+                android:id="@+id/etMapSearch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/enterKeywords"
+                android:padding="8dp"
+                android:focusable="false"
+                android:background="@color/white"
+                android:text="@={viewModel.keyword}" />
+
+            <ImageView
+                android:id="@+id/ivMapsearch"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/search_24px"
+                android:contentDescription="@string/searchImage"
+                android:onClick="@{() -> viewModel.clearMapItems()}" />
+
+        </LinearLayout>
+
+        <com.kakao.vectormap.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <include
+            android:id="@+id/errorLayout"
+            layout="@layout/error_layout"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
