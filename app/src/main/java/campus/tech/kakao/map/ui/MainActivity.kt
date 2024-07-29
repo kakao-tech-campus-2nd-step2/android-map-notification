@@ -24,9 +24,6 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var db: AppDatabase
-
-    @Inject
     lateinit var searchSave: SaveHelper
 
     private val viewModel: MainViewModel by viewModels()
@@ -49,12 +46,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 adapter.updateProfiles(profiles)
                 mainBinding.tvNoResult.visibility = View.GONE
-
-                lifecycleScope.launch {
-                    withContext(Dispatchers.IO) {
-                        db.profileDao().insertAll(*profiles.toTypedArray())
-                    }
-                }
             }
         })
 
