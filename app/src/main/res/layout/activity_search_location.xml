@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="campus.tech.kakao.map.ui.search.SearchLocationViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        tools:context=".ui.search.SearchLocationActivity">
+
+        <EditText
+            android:id="@+id/searchInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:afterTextChanged="@{(s)->viewModel.searchLocation(String.valueOf(s))}"
+            android:hint="@string/SearchHint"
+            android:text="@{viewModel.searchInput}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/removeSearchInputButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="6dp"
+            android:src="@drawable/round_close_24"
+            app:layout_constraintBottom_toBottomOf="@id/searchInputEditText"
+            app:layout_constraintEnd_toEndOf="@id/searchInputEditText"
+            app:layout_constraintTop_toTopOf="@id/searchInputEditText" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchHistoryRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:isVisible="@{viewModel.history.size > 0}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/searchResultRecyclerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchInputEditText"
+            tools:listitem="@layout/item_history" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchResultRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchHistoryRecyclerView"
+            tools:listitem="@layout/item_location" />
+
+        <TextView
+            android:id="@+id/emptyResultTextView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/EmptyResult"
+            android:textSize="18sp"
+            app:isVisible="@{viewModel.location == null ? false : viewModel.location.size == 0}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchHistoryRecyclerView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
