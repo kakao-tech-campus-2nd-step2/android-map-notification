@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.presenter.view
+package campus.tech.kakao.map.presenter.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import campus.tech.kakao.map.R
+import campus.tech.kakao.map.presenter.view.SplashActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
