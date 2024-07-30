@@ -3,11 +3,9 @@ package campus.tech.kakao.map.ui.search
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import campus.tech.kakao.map.di.IoDispatcher
 import campus.tech.kakao.map.domain.model.PlaceDomain
 import campus.tech.kakao.map.domain.usecase.GetPlacesByCategoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +20,6 @@ class PlaceViewModel
 @Inject
 constructor(
     private val getPlacesByCategoryUseCase: GetPlacesByCategoryUseCase,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) :
     ViewModel() {
     private val _searchResults = MutableStateFlow<List<PlaceDomain>>(emptyList())
@@ -35,7 +32,7 @@ constructor(
     private val _totalPageCount = MutableStateFlow<Int>(0)
 
     init {
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             _categoryInput
                 .debounce(300)
                 .collectLatest { category ->
@@ -50,7 +47,7 @@ constructor(
         categoryInput: String,
         totalPageCount: Int,
     ) {
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             try {
                 val places = getPlacesByCategoryUseCase(categoryInput, totalPageCount)
                 _searchResults.emit(places)
