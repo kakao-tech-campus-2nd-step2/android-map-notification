@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 .DS_Store
 ### Android template
+=======
+<<<<<<< HEAD
+=======
+.DS_Store
+### Android template
+>>>>>>> origin/step0
+>>>>>>> upstream/step0
 # Gradle files
 .gradle/
 build/
@@ -33,5 +41,16 @@ google-services.json
 
 # Android Profiling
 *.hprof
+<<<<<<< HEAD
 /keyStore
 /app/release
+=======
+<<<<<<< HEAD
+
+# Mac OS
+.DS_Store
+=======
+/keyStore
+/app/release
+>>>>>>> origin/step0
+>>>>>>> upstream/step0

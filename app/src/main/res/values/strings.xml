@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Map</string>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    <string name="search_hint">검색어를 입력해주세요.</string>
+=======
+>>>>>>> origin/step0
+>>>>>>> upstream/step0
 </resources>
