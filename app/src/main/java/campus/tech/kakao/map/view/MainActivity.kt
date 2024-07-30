@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = viewModel
 
-
+        bottomSheetManager = BottomSheetManager(this, bottomSheet)
         initialize()    //초기화하기
         observeViewModel()  //LiveData 관찰
         initializeMapView() //MapView 초기화
@@ -81,7 +81,6 @@ class MainActivity : AppCompatActivity() {
 
         getSharedPreferences()
 
-        val bottomSheetManager = BottomSheetManager(this, bottomSheet)
         bottomSheetManager.setBottomSheetText(mainLocation)
 
         searchPlaceLauncher = registerForActivityResult(

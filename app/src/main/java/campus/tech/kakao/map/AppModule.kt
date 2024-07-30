@@ -3,6 +3,7 @@ package campus.tech.kakao.map
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import campus.tech.kakao.map.model.database.AppDatabase
 import campus.tech.kakao.map.model.database.DatabaseManager
 import campus.tech.kakao.map.model.database.SavedSearchDao
@@ -30,7 +31,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
-        return AppDatabase.getDatabase(context)
+        return Room.databaseBuilder(
+            context.applicationContext,
+            AppDatabase::class.java,
+            "app_database"
+        ).build()
     }
 
     @Provides
