@@ -70,6 +70,8 @@ dependencies {
     implementation("androidx.test:core-ktx:1.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
     implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.activity:activity:1.8.0")
+    implementation("androidx.test.espresso:espresso-contrib:3.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-compiler:2.48.1")
