@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Map</string>
+    <string name="on_Service">ON_SERVICE</string>
+    <string name="on_Pause">ON_PAUSE</string>
 </resources>
