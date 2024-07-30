@@ -72,6 +72,7 @@ dependencies {
     implementation("androidx.activity:activity:1.8.0")
     implementation("com.google.firebase:firebase-config-ktx:22.0.0")
     implementation("com.google.firebase:firebase-common-ktx:21.0.0")
+    implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
     androidTestImplementation("androidx.test:core:1.5.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk-android:1.13.11")
