@@ -1,1 +1,4 @@
-# android-map-notification
+# [카카오 테크 캠퍼스] STEP 2 미션 : 카카오맵 클론 코딩
+
+## 0단계
+- 5주차 코드 가져오기
