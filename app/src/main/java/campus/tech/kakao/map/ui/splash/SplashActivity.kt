@@ -14,7 +14,6 @@ import campus.tech.kakao.map.databinding.ActivitySplashBinding
 import campus.tech.kakao.map.ui.map.MapActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -85,11 +84,8 @@ class SplashActivity : AppCompatActivity() {
      * MapActivity로 이동하는 함수.
      */
     private fun navigateToMapActivity() {
-        lifecycleScope.launch {
-            delay(600)
-            val intent = Intent(this@SplashActivity, MapActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+        val intent = Intent(this@SplashActivity, MapActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
