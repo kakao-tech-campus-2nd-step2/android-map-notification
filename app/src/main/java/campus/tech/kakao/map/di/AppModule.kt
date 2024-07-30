@@ -5,6 +5,7 @@ import androidx.room.Room
 import campus.tech.kakao.map.database.AppDatabase
 import campus.tech.kakao.map.database.MapItemDao
 import campus.tech.kakao.map.repository.MapItemRepository
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,5 +39,11 @@ object AppModule {
         @ApplicationContext context: Context
     ): MapItemRepository {
         return MapItemRepository(mapItemDao, context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig {
+        return FirebaseRemoteConfig.getInstance()
     }
 }
