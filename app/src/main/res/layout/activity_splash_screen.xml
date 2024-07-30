@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="campus.tech.kakao.map.viewmodel.SplashScreenViewModel" />
+        <import type="android.view.View"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.SplashScreenActivity">
+
+        <ImageView
+            android:id="@+id/ivMap"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/map"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/splashscreenmapicon" />
+
+        <TextView
+            android:id="@+id/tvServiceMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.serviceMessage}"
+            android:textColor="#999999"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="center"
+            android:layout_marginBottom="50dp"
+            android:visibility="@{viewModel.serviceState.equals(`ON_SERVICE`) ? View.GONE : View.VISIBLE}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
