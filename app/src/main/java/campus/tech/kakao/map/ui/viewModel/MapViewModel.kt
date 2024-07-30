@@ -30,17 +30,15 @@ class MapViewModel @Inject constructor(private val repository: MapRepository) : 
     }
 
     fun searchPlaces(search: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             Log.d("search", "search: ${Thread.currentThread().name}")
             if (search.isEmpty()) {
                 _places.value = mutableListOf()
                 return@launch
             }
-            repository.searchPlaces(search) { placeList ->
-                _places.value = placeList
+                _places.postValue(repository.searchPlaces(search).getOrDefault(emptyList()))
                 Log.d("search", "search2: ${Thread.currentThread().name}")
             }
-        }
     }
 
     fun searchRoomPlaces(search: String) {

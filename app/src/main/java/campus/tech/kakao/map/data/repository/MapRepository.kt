@@ -33,43 +33,34 @@ class MapRepository @Inject constructor(
     /**
      * 카카오 REST API 관련
      */
-    suspend fun searchPlaces(search: String, onPlaceResponse: (List<Place>) -> Unit) {
-        RetrofitClient.retrofitService.requestPlaces(query = search).enqueue(object :
-            Callback<SearchResponse> {
-            override fun onResponse(
-                call: Call<SearchResponse>,
-                response: Response<SearchResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    val responseList = mutableListOf<Place>()
-                    body?.documents?.forEach {
-                        val category = it.categoryName.split(" \u003e ").last()
-                        responseList.add(Place(it.placeName, it.addressName, category, it.x, it.y))
-                    }
-                    Log.d("search", "search3: ${Thread.currentThread().name}")
-                    onPlaceResponse(responseList)
-                } else {
-                    onPlaceResponse(emptyList())
+    suspend fun searchPlaces(search: String): Result<List<Place>> {
+        return try {
+            val response = RetrofitClient.retrofitService.requestPlaces(query = search)
+            if (response.documents != null) {
+                val responseList = mutableListOf<Place>()
+                response.documents.forEach {
+                    val category = it.categoryName.split(" \u003e ").last()
+                    responseList.add(Place(it.placeName, it.addressName, category, it.x, it.y))
                 }
+                Log.d("search", "search3: ${Thread.currentThread().name}")
+                Result.success(responseList)
+            } else {
+                return Result.success(emptyList())
             }
-
-            override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                println("error: $t")
-                onPlaceResponse(emptyList())
-            }
-        })
-    }
-
-    private fun dbFileExists(dbName: String): Boolean {
-        val dbFile = context.getDatabasePath("$dbName")
-        return dbFile.exists()
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
 
     /**
      * Local DB 관련 - Room
      */
+    private fun dbFileExists(dbName: String): Boolean {
+        val dbFile = context.getDatabasePath("$dbName")
+        return dbFile.exists()
+    }
+
     suspend fun insertRoomInitialData() {
         if (!dbFileExists(DATABASE_NAME)) {
             val places = mutableListOf<DBPlace>()
@@ -81,7 +72,7 @@ class MapRepository @Inject constructor(
                 places.add(pharmacy)
             }
             localRoom.placeDao().insertAll(*places.toTypedArray())
-            Log.d("search2", "initalData: ${Thread.currentThread().name}")
+            Log.d("search2", "initialData: ${Thread.currentThread().name}")
         }
     }
 
@@ -108,7 +99,6 @@ class MapRepository @Inject constructor(
     override suspend fun insertAll(vararg dbPlace: DBPlace) = placeDao.insertAll(*dbPlace)
 
     override suspend fun delete(dbPlace: DBPlace) = placeDao.delete(dbPlace)
-
 
 
     /**
