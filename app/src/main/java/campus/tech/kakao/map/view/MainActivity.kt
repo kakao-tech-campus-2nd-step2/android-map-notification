@@ -22,6 +22,7 @@ import campus.tech.kakao.map.model.data.KAKAO_LATITUDE
 import campus.tech.kakao.map.model.data.KAKAO_LONGITUDE
 import campus.tech.kakao.map.model.data.Location
 import campus.tech.kakao.map.util.BottomSheetManager
+import campus.tech.kakao.map.view.SearchPlaceActivity.Companion.INTENT_EXTRA_LOCATION
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.KakaoMapSdk
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             ActivityResultContracts.StartActivityForResult()
         ) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                mainLocation = result.data?.getParcelableExtra("location") ?: Location()
+                mainLocation = result.data?.getParcelableExtra(INTENT_EXTRA_LOCATION ) ?: Location()
                 bottomSheetManager.setBottomSheetText(mainLocation)
                 updateCamera()
                 addMarker(kakaoMap, mainLocation)
