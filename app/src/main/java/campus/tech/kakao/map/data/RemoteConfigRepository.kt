@@ -35,7 +35,7 @@ constructor(val remoteConfig: FirebaseRemoteConfig): ConfigRepository {
         remoteConfig.setConfigSettingsAsync(configSettings)
     }
 
-    suspend fun getRemoteResult(): Result<ConfigData> {
+    suspend fun getFetchedRemoteResult(): Result<ConfigData> {
         return withContext(Dispatchers.IO){
             try {
                 remoteConfig.fetchAndActivate().await()

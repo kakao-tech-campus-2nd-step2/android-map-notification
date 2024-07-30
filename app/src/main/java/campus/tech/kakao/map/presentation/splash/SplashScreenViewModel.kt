@@ -32,7 +32,7 @@ constructor(private val repository: RemoteConfigRepository): ViewModel() {
         _remoteConfigState.value = RemoteConfigState.Loading
 
         viewModelScope.launch {
-            val fetchedResult = repository.getRemoteResult()
+            val fetchedResult = repository.getFetchedRemoteResult()
 
             fetchedResult.fold(
                 onSuccess = { data ->
