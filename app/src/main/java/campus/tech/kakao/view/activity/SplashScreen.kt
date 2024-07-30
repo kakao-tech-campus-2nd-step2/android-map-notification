@@ -20,6 +20,10 @@ class SplashScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupSplashScreen()
+    }
+
+    private fun setupSplashScreen() {
         viewModel = ViewModelProvider(this).get(SplashViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash_screen)
         binding.viewModel = viewModel
@@ -35,11 +39,19 @@ class SplashScreen : AppCompatActivity() {
 
         viewModel.navigateToMain.observe(this, Observer { shouldNavigate ->
             if (shouldNavigate) {
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
+                navigateToMainActivity()
             } else {
-                binding.messageTextView.text = viewModel.serviceMessage.value
+                displayServiceMessage()
             }
         })
+    }
+
+    private fun navigateToMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
+    private fun displayServiceMessage() {
+        binding.messageTextView.text = viewModel.serviceMessage.value
     }
 }
