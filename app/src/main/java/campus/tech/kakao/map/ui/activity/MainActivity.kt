@@ -193,5 +193,5 @@ class MainActivity : AppCompatActivity() {
         binding.mapView.pause()
     }
 
-    
+
 }
