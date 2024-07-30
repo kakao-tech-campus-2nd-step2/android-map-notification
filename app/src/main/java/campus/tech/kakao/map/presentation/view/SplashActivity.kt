@@ -1,5 +1,6 @@
 package campus.tech.kakao.map.presentation.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -22,6 +23,20 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        observeViewModel()
+    }
 
+    private fun observeViewModel() {
+
+        splashViewModel.serviceState.observe(this) { state ->
+            if (state == "ON_SERVICE") {
+                val intent = Intent(this, MapActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+        splashViewModel.serviceMessage.observe(this) { message ->
+            binding.serviceMessageTextView.text = message
+        }
     }
 }
