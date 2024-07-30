@@ -20,7 +20,7 @@ abstract class PlacesRoomDB: RoomDatabase() {
         fun getDatabase(context: Context): PlacesRoomDB {
             return Instance ?: synchronized(this) {
                 Room.databaseBuilder(
-                    context.applicationContext,
+                    context,
                     PlacesRoomDB::class.java, DATABASE_NAME
                 ).build().also { Instance = it }
             }

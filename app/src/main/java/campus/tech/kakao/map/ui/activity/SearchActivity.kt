@@ -26,7 +26,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var placesAdapter: PlacesAdapter
     private lateinit var searchHistoryAdapter: SearchHistoryAdapter
 
-    private val viewModel: MapViewModel by viewModels ()
+    private val viewModel: MapViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,12 +62,9 @@ class SearchActivity : AppCompatActivity() {
     private fun setUpPlacesAdapter() {
         placesAdapter = PlacesAdapter { item: Place ->
             val itemName = item.name
-            lifecycleScope.launch {
-                viewModel.insertSearch(itemName)
-                viewModel.savePos(item.longitude, item.latitude)
-                Log.d("prefs", "lifecycle: ${Thread.currentThread().name}")
-            }
-            Log.d("prefs", "lifecycle2: ${Thread.currentThread().name}")
+            viewModel.insertSearch(itemName)
+            viewModel.savePos(item.longitude, item.latitude)
+            Log.d("prefs", "placesAdapter: ${Thread.currentThread().name}")
             goToSearch(item)
         }
         binding.placesRView.adapter = placesAdapter
@@ -81,7 +78,7 @@ class SearchActivity : AppCompatActivity() {
             binding.textView.visibility =
                 if (placesAdapter.itemCount <= 0) View.VISIBLE else View.GONE
         })
-        
+
         viewModel.searchHistoryData.observe(this, Observer { searchHistoryData ->
             searchHistoryAdapter.submitList(searchHistoryData.toList())
             binding.searchHistory.isVisible = searchHistoryData.isNotEmpty()
@@ -89,7 +86,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun goToSearch(place: Place) {
-        val intent = Intent(this, MainActivity::class.java).apply {
+        val intent = Intent().apply {
             putExtra("place", place)
         }
         Log.d("intent", "Intent is: $intent")

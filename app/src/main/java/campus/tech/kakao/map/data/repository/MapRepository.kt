@@ -25,7 +25,7 @@ class MapRepository @Inject constructor(
     private val dataStoreManager: DataStoreManager,
     private val placeDao: PlaceDao,
     private val localRoom: PlacesRoomDB
-) : LocalDBRepoImpl {
+) : LocalDBRepo {
 
     var searchHistoryList = ArrayList<RecentSearchWord>()
 
@@ -81,8 +81,8 @@ class MapRepository @Inject constructor(
                 places.add(pharmacy)
             }
             localRoom.placeDao().insertAll(*places.toTypedArray())
+            Log.d("search2", "initalData: ${Thread.currentThread().name}")
         }
-        Log.d("search2", "insetSearch: ${Thread.currentThread().name}")
     }
 
     private fun DBPlace.toPlace(): Place {

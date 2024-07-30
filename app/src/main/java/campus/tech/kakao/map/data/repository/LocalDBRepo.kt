@@ -2,7 +2,7 @@ package campus.tech.kakao.map.data.repository
 
 import campus.tech.kakao.map.data.model.DBPlace
 
-interface LocalDBRepoImpl {
+interface LocalDBRepo {
 
     suspend fun getAllPlaces(): List<DBPlace>
 

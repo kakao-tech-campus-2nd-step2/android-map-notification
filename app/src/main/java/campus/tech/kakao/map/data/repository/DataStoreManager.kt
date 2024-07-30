@@ -25,14 +25,12 @@ class DataStoreManager @Inject constructor(private val dataStore: DataStore<Pref
     }
 
     suspend fun getSearchHistory(): ArrayList<RecentSearchWord> {
-        try {
+        kotlin.runCatching {
             Log.d("datastore", "getSH: ${Thread.currentThread().name}")
             val preferences = dataStore.data.first()
             val json = preferences[SEARCH_HISTORY_KEY] ?: "[]"
             return GsonBuilder().create().fromJson(
                 json, object : TypeToken<ArrayList<RecentSearchWord>>() {}.type)
-        } catch (e: NoSuchElementException) {
-
         }
         return arrayListOf()
     }
@@ -47,13 +45,11 @@ class DataStoreManager @Inject constructor(private val dataStore: DataStore<Pref
 
 
     suspend fun getLastPos(): LatLng? {
-        try {
+        kotlin.runCatching {
             Log.d("datastore", "getLastPos: ${Thread.currentThread().name}")
             val preferences = dataStore.data.first()
             val json = preferences[LAST_POSITION_KEY] ?: return null
             return GsonBuilder().create().fromJson(json, LatLng::class.java)
-        } catch (e: NoSuchElementException) {
-
         }
         return null
     }
