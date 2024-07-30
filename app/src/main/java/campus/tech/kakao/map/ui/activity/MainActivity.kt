@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
         val cameraUpdate = CameraUpdateFactory.newCenterPosition(latLng, 15)
         Log.d("MainAct State", "Intent is: $intent")
         Log.d("kakaomap", "moveCamera: $kakaoMap")
-        kakaoMap?.moveCamera(cameraUpdate, CameraAnimation.from(500, true, true))
+        kakaoMap.moveCamera(cameraUpdate, CameraAnimation.from(500, true, true))
     }
 
     private fun makeLabelStyle() {
@@ -151,11 +151,11 @@ class MainActivity : AppCompatActivity() {
             override fun onSlide(p0: View, p1: Float) {
                 if (p1 > 0.5) {
                     if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED;
+                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                     }
                 } else if (p1 > 0) {
                     if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HALF_EXPANDED) {
-                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED;
+                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
                     }
                 }
             }
@@ -193,7 +193,5 @@ class MainActivity : AppCompatActivity() {
         binding.mapView.pause()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-    }
+    
 }

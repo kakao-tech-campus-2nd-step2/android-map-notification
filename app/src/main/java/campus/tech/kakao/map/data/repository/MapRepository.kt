@@ -8,20 +8,17 @@ import campus.tech.kakao.map.data.model.DBPlace
 import campus.tech.kakao.map.data.model.DBPlace.Companion.DATABASE_NAME
 import campus.tech.kakao.map.data.model.Place
 import campus.tech.kakao.map.data.model.RecentSearchWord
-import campus.tech.kakao.map.data.network.api.RetrofitClient
-import campus.tech.kakao.map.data.network.dto.SearchResponse
+import campus.tech.kakao.map.data.network.api.RetrofitService
 import com.kakao.vectormap.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class MapRepository @Inject constructor(
     private val context: Context,
+    private val retrofitService: RetrofitService,
     private val dataStoreManager: DataStoreManager,
     private val placeDao: PlaceDao,
     private val localRoom: PlacesRoomDB
@@ -35,7 +32,7 @@ class MapRepository @Inject constructor(
      */
     suspend fun searchPlaces(search: String): Result<List<Place>> {
         return try {
-            val response = RetrofitClient.retrofitService.requestPlaces(query = search)
+            val response = retrofitService.requestPlaces(query = search)
             if (response.documents != null) {
                 val responseList = mutableListOf<Place>()
                 response.documents.forEach {
@@ -45,7 +42,7 @@ class MapRepository @Inject constructor(
                 Log.d("search", "search3: ${Thread.currentThread().name}")
                 Result.success(responseList)
             } else {
-                return Result.success(emptyList())
+                Result.success(emptyList())
             }
         } catch (e: Exception) {
             Result.failure(e)

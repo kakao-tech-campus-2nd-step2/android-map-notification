@@ -80,8 +80,9 @@ class SearchActivity : AppCompatActivity() {
         })
 
         viewModel.searchHistoryData.observe(this, Observer { searchHistoryData ->
-            searchHistoryAdapter.submitList(searchHistoryData.toList())
-            binding.searchHistory.isVisible = searchHistoryData.isNotEmpty()
+            searchHistoryAdapter.submitList(searchHistoryData.toList()) {
+                binding.searchHistory.isVisible = searchHistoryData.isNotEmpty()
+            }
         })
     }
 

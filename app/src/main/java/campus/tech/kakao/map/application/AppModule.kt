@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import campus.tech.kakao.map.data.dao.PlaceDao
 import campus.tech.kakao.map.data.database.PlacesRoomDB
+import campus.tech.kakao.map.data.network.api.RetrofitService
 import campus.tech.kakao.map.data.repository.DataStoreManager
 import campus.tech.kakao.map.data.repository.MapRepository
 import dagger.Module
@@ -13,6 +14,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -25,11 +29,12 @@ object AppModule {
     @Singleton
     fun provideMapRepository(
         @ApplicationContext context: Context,
+        retrofitService: RetrofitService,
         dataStoreManager: DataStoreManager,
         placeDao: PlaceDao,
         placesRoomDB: PlacesRoomDB
     ): MapRepository {
-        return MapRepository(context, dataStoreManager, placeDao, placesRoomDB)
+        return MapRepository(context, retrofitService, dataStoreManager, placeDao, placesRoomDB)
     }
 
     @Provides
@@ -40,7 +45,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePlacesDatabase (@ApplicationContext context: Context): PlacesRoomDB {
+    fun providePlacesDatabase(@ApplicationContext context: Context): PlacesRoomDB {
         return PlacesRoomDB.getDatabase(context)
     }
 
@@ -54,6 +59,21 @@ object AppModule {
     @Singleton
     fun provideDataStoreManager(dataStore: DataStore<Preferences>): DataStoreManager {
         return DataStoreManager(dataStore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://dapi.kakao.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofitService(retrofit: Retrofit): RetrofitService {
+        return retrofit.create(RetrofitService::class.java)
     }
 
 }
