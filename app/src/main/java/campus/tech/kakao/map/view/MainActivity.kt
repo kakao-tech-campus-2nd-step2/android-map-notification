@@ -42,10 +42,8 @@ class MainActivity : AppCompatActivity() {
     private var mapView: MapView? = null
     private var kakaoMap: KakaoMap? = null
     private val bottomSheet: LinearLayout by lazy { findViewById<LinearLayout>(R.id.bottom_sheet) }
-
+    private lateinit var bottomSheetManager : BottomSheetManager
     private lateinit var searchPlaceLauncher: ActivityResultLauncher<Intent>
-
-
     private var mainLocation: Location = Location("kakao", "주소") //위도, 경도는 기본값(카카오판교)
     private var cameraUpdate = CameraUpdateFactory.newCenterPosition(
         LatLng.from(
@@ -54,23 +52,38 @@ class MainActivity : AppCompatActivity() {
         )
     )
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = viewModel
 
+
+        initialize()    //초기화하기
+        observeViewModel()  //LiveData 관찰
+        initializeMapView() //MapView 초기화
+
+    }   //onCreate
+
+    override fun onResume() {
+        super.onResume()
+        mapView?.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView?.pause()
+    }
+
+    private fun initialize(){
         val appKey = BuildConfig.KAKAO_API_KEY
         KakaoMapSdk.init(this, appKey)
 
-        getSharedPreferences()  //sharedPreference에서 값을 불러와 mainLocation에 저장
+        getSharedPreferences()
 
-        //bottomSheet 초기화
         val bottomSheetManager = BottomSheetManager(this, bottomSheet)
         bottomSheetManager.setBottomSheetText(mainLocation)
 
-        // ActivityResultLauncher 초기화
         searchPlaceLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result: ActivityResult ->
@@ -79,11 +92,13 @@ class MainActivity : AppCompatActivity() {
                 bottomSheetManager.setBottomSheetText(mainLocation)
                 updateCamera()
                 addMarker(kakaoMap, mainLocation)
-                Log.d("seyoung","ActivityResult API")
+                Log.d("seyoung", "ActivityResult API")
             }
         }
+    }
 
-        //SearchPlaceActivity로 이동
+    private fun observeViewModel() {
+        // SearchPlaceActivity로 이동
         viewModel.isIntent.observe(this, Observer {
             if (it) {
                 val intent = Intent(this@MainActivity, SearchPlaceActivity::class.java)
@@ -91,22 +106,23 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        //mainLocation 최신화
+        // mainLocation 최신화
         viewModel.location.observe(this, Observer { location ->
             mainLocation = location
             bottomSheetManager.setBottomSheetText(mainLocation)
             updateCamera()
             addMarker(kakaoMap, mainLocation)
-            Log.d("seyoung","observe 로직")
         })
+    }
 
-
+    private fun initializeMapView() {
         mapView = binding.mapView
         mapView?.start(
             object : MapLifeCycleCallback() {
                 override fun onMapDestroy() {
                     // 지도 API가 정상적으로 종료될 때 호출
                 }
+
                 override fun onMapError(error: Exception) {
                     // 인증 실패 및 지도 사용 중 에러가 발생할 때 호출
                     val intent = Intent(this@MainActivity, MapErrorActivity::class.java)
@@ -119,22 +135,12 @@ class MainActivity : AppCompatActivity() {
                     // 정상적으로 인증이 완료되었을 때 호출
                     // KakaoMap 객체를 얻어 옵니다.
                     kakaoMap = map
-                    //카메라 업데이트
+                    // 카메라 업데이트
                     updateCamera()
                     addMarker(map, mainLocation)
                 }
             }
-        )  //mapView.start
-    }   //onCreate
-
-    override fun onResume() {
-        super.onResume()
-        mapView?.resume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mapView?.pause()
+        )  // mapView.start
     }
 
     //카메라(화면) 움직이기

@@ -62,7 +62,7 @@ class MyRepository @Inject constructor(
     // Place item 클릭하면 호출, 아이템 삽입
     suspend fun insertSavedSearch(savedSearch: SavedSearch) {
 
-        val existingSearch = savedSearchDao.getById(savedSearch.id)
+        val existingSearch = savedSearchDao.getByName(savedSearch.name)
         if (existingSearch == null) {
             savedSearchDao.insert(savedSearch)
         } else {

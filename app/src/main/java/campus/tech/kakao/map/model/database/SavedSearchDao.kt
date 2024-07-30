@@ -18,7 +18,7 @@ interface SavedSearchDao {
     @Query("SELECT * FROM saved_searches")
     suspend fun getAll(): List<SavedSearch>
 
-    @Query("SELECT * FROM saved_searches WHERE id = :id LIMIT 1")
-    suspend fun getById(id: Int): SavedSearch?
+    @Query("SELECT * FROM saved_searches WHERE name = :name LIMIT 1")
+    suspend fun getByName(name: String): SavedSearch?
 
 }
