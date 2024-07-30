@@ -61,6 +61,7 @@ android {
 fun getApiKey(key: String): String = gradleLocalProperties(rootDir, providers).getProperty(key)
 
 dependencies {
+    implementation("androidx.activity:activity:1.8.0")
     val lifecycle_version = "2.8.3"
 
     implementation("androidx.core:core-ktx:1.13.1")
