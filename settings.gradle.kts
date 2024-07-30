@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "android-map-notification"
 include(":app")
+include(":app")
