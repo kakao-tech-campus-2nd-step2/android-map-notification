@@ -16,8 +16,8 @@
         android:theme="@style/Theme.Map"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.map.MapActivity"
-            android:exported="true">
+            android:name=".presentation.splash.SplashScreenActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,13 +25,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".presentation.map.MapActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
             android:name=".presentation.search.SearchViewModel"
             android:exported="false" />
         <activity
             android:name=".presentation.search.SearchActivity"
-            android:exported="false"/>
-
-
+            android:exported="false" />
     </application>
 
 </manifest>

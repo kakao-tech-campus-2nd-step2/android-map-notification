@@ -5,7 +5,9 @@ import campus.tech.kakao.map.PlaceApplication
 import campus.tech.kakao.map.data.*
 import campus.tech.kakao.map.data.dao.PlaceDao
 import campus.tech.kakao.map.data.net.KakaoApi
+import campus.tech.kakao.map.domain.repository.ConfigRepository
 import campus.tech.kakao.map.domain.repository.PlaceRepository
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,5 +35,11 @@ object ViewModelModule {
     @Provides
     fun provideLastVisitedPlaceManager(@ApplicationContext context: Context): LastVisitedPlaceManager{
         return LastVisitedPlaceManager(context)
+    }
+
+    // SearchViewModel
+    @Provides
+    fun provideRemoteConfigRepository(remoteConfig: FirebaseRemoteConfig):RemoteConfigRepository{
+        return RemoteConfigRepository(remoteConfig)
     }
 }

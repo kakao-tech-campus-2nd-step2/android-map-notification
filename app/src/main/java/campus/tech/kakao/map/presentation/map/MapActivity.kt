@@ -3,20 +3,14 @@ package campus.tech.kakao.map.presentation.map
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowInsetsController
-import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import campus.tech.kakao.map.PlaceApplication
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityMapBinding
@@ -26,7 +20,6 @@ import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapLifeCycleCallback
-import com.kakao.vectormap.MapView
 import com.kakao.vectormap.camera.CameraUpdateFactory
 import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
@@ -156,7 +149,7 @@ class MapActivity : AppCompatActivity() {
         kakaoMap.moveCamera(cameraUpdate)
 
         val styles = kakaoMap.labelManager?.addLabelStyles(
-            LabelStyles.from(LabelStyle.from(R.drawable.icon_location3))
+            LabelStyles.from(LabelStyle.from(R.drawable.icon_location4))
         )
         val options = LabelOptions.from(
             LatLng.from(place.yPos.toDouble(), place.xPos.toDouble())

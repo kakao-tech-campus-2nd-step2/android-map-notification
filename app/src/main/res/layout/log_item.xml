@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         android:padding="4dp">
 
         <TextView
@@ -18,9 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{place.place}"
-            android:textStyle="bold"
-            android:textColor="#8B8B8B"
-            android:layout_marginLeft="4dp"
+            android:textSize="14sp"
+            android:textColor="#666666"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnLogDel"
@@ -30,9 +30,10 @@
             android:id="@+id/btnLogDel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:src="@drawable/icon_cancel"
             android:layout_marginTop="2dp"
+            android:paddingLeft="6dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/icon_cancel2"
             app:layout_constraintBottom_toBottomOf="@id/tvLog"
             app:layout_constraintStart_toEndOf="@id/tvLog"
             app:layout_constraintTop_toTopOf="@id/tvLog" />

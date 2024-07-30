@@ -1,6 +1,7 @@
 package campus.tech.kakao.map.di
 
 import campus.tech.kakao.map.data.net.KakaoApi
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,5 +27,11 @@ object NetworkModule {
     @Provides
     fun provideKakaoApi(retrofit: Retrofit): KakaoApi {
         return retrofit.create(KakaoApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideConfigInstance(): FirebaseRemoteConfig {
+        return FirebaseRemoteConfig.getInstance()
     }
 }
