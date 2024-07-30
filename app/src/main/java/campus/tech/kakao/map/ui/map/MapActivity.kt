@@ -28,8 +28,10 @@ import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -94,11 +96,9 @@ class MapActivity : AppCompatActivity() {
                 } else {
                     data?.getParcelableExtra(EXTRA_LOCATION)
                 }
-
             if (newLocation != null) {
                 saveLocationAndWaitForUpdate(newLocation)
             }
-            startMapView()
         }
     }
 
@@ -112,7 +112,12 @@ class MapActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 locationViewModel.saveLocation(newLocation)
                 locationViewModel.location
-                    .first { it == newLocation }
+                    .filter { it == newLocation }
+                    .take(1)
+                    .collectLatest {
+                        startMapView()
+                        cancel()
+                    }
             }
         }
     }

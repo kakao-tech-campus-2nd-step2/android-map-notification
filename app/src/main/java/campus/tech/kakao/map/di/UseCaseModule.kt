@@ -1,11 +1,14 @@
 package campus.tech.kakao.map.di
 
+import campus.tech.kakao.map.domain.repository.FirebaseRemoteConfigRepository
 import campus.tech.kakao.map.domain.repository.LocationRepository
 import campus.tech.kakao.map.domain.repository.PlaceRepository
 import campus.tech.kakao.map.domain.repository.SavedSearchWordRepository
 import campus.tech.kakao.map.domain.usecase.DeleteSearchWordByIdUseCase
+import campus.tech.kakao.map.domain.usecase.FetchRemoteConfigUseCase
 import campus.tech.kakao.map.domain.usecase.GetAllSearchWordsUseCase
 import campus.tech.kakao.map.domain.usecase.GetPlacesByCategoryUseCase
+import campus.tech.kakao.map.domain.usecase.GetRemoteConfigUseCase
 import campus.tech.kakao.map.domain.usecase.InsertOrUpdateSearchWordUseCase
 import campus.tech.kakao.map.domain.usecase.LoadLocationUseCase
 import campus.tech.kakao.map.domain.usecase.SaveLocationUseCase
@@ -65,5 +68,21 @@ object UseCaseModule {
         locationRepository: LocationRepository,
     ): LoadLocationUseCase {
         return LoadLocationUseCase(locationRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideFetchRemoteConfigUseCase(
+        firebaseRemoteConfigRepository: FirebaseRemoteConfigRepository,
+    ): FetchRemoteConfigUseCase {
+        return FetchRemoteConfigUseCase(firebaseRemoteConfigRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetRemoteConfigUseCase(
+        firebaseRemoteConfigRepository: FirebaseRemoteConfigRepository,
+    ): GetRemoteConfigUseCase {
+        return GetRemoteConfigUseCase(firebaseRemoteConfigRepository)
     }
 }
