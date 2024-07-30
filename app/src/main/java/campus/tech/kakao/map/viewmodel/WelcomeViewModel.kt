@@ -18,7 +18,7 @@ class WelcomeViewModel @Inject constructor(
 
     init {
         activateRemoteConfig()
-        getCurrentServiceStateConfigValues()
+        updateCurrentServiceStateConfigValues()
     }
 
     // 앱 첫 설치시 한번만 실행
@@ -37,11 +37,9 @@ class WelcomeViewModel @Inject constructor(
     }
 
     // 앱 설치 이후
-    private fun getCurrentServiceStateConfigValues() {
+    private fun updateCurrentServiceStateConfigValues() {
         _serviceState.value = remoteConfigManager.getServiceState()
     }
 
-    fun getCurrentServiceMsgConfigValues() {
-        _serviceMessage.value = remoteConfigManager.getServiceMessage()
-    }
+    fun getCurrentServiceMsgConfigValues(): String = remoteConfigManager.getServiceMessage()
 }

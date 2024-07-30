@@ -34,11 +34,14 @@ class WelcomeActivity : AppCompatActivity() {
             when(state) {
                 RemoteConfigManager.REMOTE_ON_SERVICE -> {
                     lifecycleScope.launch {
+                        binding.serverMsg.text = ""
                         delayBeforeMoveMapView()
                         runOnUiThread { moveMapView() }
                     }
                 }
-                else -> {welcomeViewModel.getCurrentServiceMsgConfigValues()}
+                else -> {
+                    binding.serverMsg.text = welcomeViewModel.getCurrentServiceMsgConfigValues()
+                }
             }
         }
     }
