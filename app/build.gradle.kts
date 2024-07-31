@@ -14,6 +14,7 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -98,5 +99,10 @@ dependencies {
     testImplementation("androidx.test.ext:junit:1.1.5")
     implementation("androidx.fragment:fragment-ktx:1.3.6")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
-}
 
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-config-ktx:22.0.0")
+    implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
+}
