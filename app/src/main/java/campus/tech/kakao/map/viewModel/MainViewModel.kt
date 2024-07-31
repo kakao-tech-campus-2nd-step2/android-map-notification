@@ -1,4 +1,4 @@
-package campus.tech.kakao.map
+package campus.tech.kakao.map.viewModel
 
 import android.app.Application
 import android.view.View
@@ -85,8 +85,8 @@ class MainViewModel @Inject constructor(
 
 	fun getMapInfo(){
 		_mapInfo.value = listOf()
-		val latitude = mapPosition.getPreferences(LATITUDE,INIT_LATITUDE)
-		val longitude = mapPosition.getPreferences(LONGITUDE,INIT_LONGITUDE)
+		val latitude = mapPosition.getPreferences(LATITUDE, INIT_LATITUDE)
+		val longitude = mapPosition.getPreferences(LONGITUDE, INIT_LONGITUDE)
 		val placeName = mapPosition.getPreferences(PLACE_NAME,"")
 		val addressName = mapPosition.getPreferences(ADDRESS_NAME,"")
 		_mapInfo.value = listOf(latitude, longitude, placeName, addressName)

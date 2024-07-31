@@ -8,6 +8,7 @@ import campus.tech.kakao.map.dto.MapPositionPreferences
 import campus.tech.kakao.map.dto.SearchWord
 import campus.tech.kakao.map.dto.SearchWordDao
 import campus.tech.kakao.map.url.RetrofitData
+import campus.tech.kakao.map.viewModel.MainViewModel
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

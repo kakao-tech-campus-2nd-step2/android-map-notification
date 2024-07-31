@@ -10,7 +10,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import campus.tech.kakao.map.MainViewModel
+import campus.tech.kakao.map.viewModel.MainViewModel
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityMapBinding
 import campus.tech.kakao.map.databinding.BottomSheetBinding
