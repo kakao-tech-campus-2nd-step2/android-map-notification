@@ -41,18 +41,20 @@ constructor( private val repository: PlaceRepository) : ViewModel() {
     fun clearSearch() {
         searchText.value = ""
     }
-    
+
+    // control Place
     private suspend fun getPlaces(keyword: String): List<Place> {
+        return withContext(Dispatchers.IO) {
+            val resultPlaces = mutableListOf<Place>()
 
-        val resultPlaces = mutableListOf<Place>()
+            for (page in 1..3) {
+                val places = getPlacesByPage(keyword, page)
+                resultPlaces.addAll(places)
+            }
 
-        for(page in 1..3){
-            val places = getPlacesByPage(keyword,page)
-            resultPlaces.addAll(places)
+            repository.updatePlaces(resultPlaces)
+            resultPlaces
         }
-
-        repository.updatePlaces(resultPlaces)
-        return resultPlaces
     }
     private suspend fun getPlacesByPage(keyword: String, page: Int): List<Place> {
         return repository.getPlaces(keyword, page)
@@ -62,6 +64,7 @@ constructor( private val repository: PlaceRepository) : ViewModel() {
         return repository.getPlaceById(id)
     }
 
+    // control Log
     private suspend fun getLogs(): List<Place> {
         return repository.getLogs()
     }
