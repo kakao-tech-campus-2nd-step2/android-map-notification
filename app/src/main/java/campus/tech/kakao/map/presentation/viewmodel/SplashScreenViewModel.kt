@@ -8,8 +8,13 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SplashScreenViewModel : ViewModel() {
+@HiltViewModel
+class SplashScreenViewModel @Inject constructor(
+    private val remoteConfig: FirebaseRemoteConfig
+) : ViewModel() {
 
     private val _serviceState = MutableLiveData<String>()
     val serviceState: LiveData<String> get() = _serviceState
@@ -17,17 +22,11 @@ class SplashScreenViewModel : ViewModel() {
     private val _serviceMessage = MutableLiveData<String>()
     val serviceMessage: LiveData<String> get() = _serviceMessage
 
-    init{
+    init {
         fetchFirebaseValues()
     }
 
     private fun fetchFirebaseValues() {
-        val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
-        val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 0
-        }
-        remoteConfig.setConfigSettingsAsync(configSettings)
-
         remoteConfig.fetchAndActivate().addOnCompleteListener {
             if (it.isSuccessful) {
                 _serviceState.value = remoteConfig.getString("serviceState")
