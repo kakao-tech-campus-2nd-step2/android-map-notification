@@ -1,11 +1,15 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
+fun getApiKey(key: String): String = gradleLocalProperties(rootDir, providers).getProperty(key)
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jlleitschuh.gradle.ktlint")
     id("kotlin-parcelize")
     id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -20,7 +24,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        resValue("string", "kakao_api_key", getApiKey("KAKAO_API_KEY"))
+        buildConfigField("String", "KAKAO_REST_API_KEY", getApiKey("KAKAO_REST_API_KEY"))
+
     }
+
 
     buildTypes {
         release {
@@ -42,6 +50,7 @@ android {
     buildFeatures {
         dataBinding = true
         buildConfig = true
+        viewBinding = true
     }
 }
 
@@ -64,10 +73,6 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.48.1")
     implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("androidx.room:room-ktx:2.6.1")
-    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-config-ktx:22.0.0")
-    implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
     testImplementation("androidx.room:room-testing:2.6.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk-android:1.13.11")
@@ -82,4 +87,12 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.6.1")
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.48.1")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.48.1")
+
+
+    implementation("com.kakao.sdk:v2-all:2.20.3")
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+
+    implementation("com.google.firebase:firebase-config-ktx:22.0.0")
+    implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
 }
