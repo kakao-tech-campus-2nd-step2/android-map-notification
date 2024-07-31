@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -20,6 +22,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "KAKAO_API_KEY", getApiKey("KAKAO_API_KEY"))
+        buildConfigField("String", "KAKAO_REST_API_KEY", getApiKey("KAKAO_REST_API_KEY"))
+        ndk {
+            abiFilters.add("arm64-v8a")
+            abiFilters.add("armeabi-v7a")
+            abiFilters.add("x86")
+            abiFilters.add("x86_64")
+        }
     }
 
     buildTypes {
@@ -43,10 +53,17 @@ android {
         dataBinding = true
         buildConfig = true
     }
+    testOptions {
+        animationsDisabled = true
+    }
 }
 
 dependencies {
-
+    val fragment_version = "1.8.1"
+    debugImplementation("androidx.fragment:fragment-testing-manifest:$fragment_version")
+    debugImplementation("androidx.fragment:fragment-testing:$fragment_version")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.fragment:fragment-ktx:1.5.6")
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
@@ -58,8 +75,11 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("androidx.test:core-ktx:1.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.3")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
+    implementation("com.kakao.sdk:v2-all:2.20.3")
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-compiler:2.48.1")
     implementation("androidx.activity:activity-ktx:1.9.0")
@@ -75,11 +95,15 @@ dependencies {
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("org.robolectric:robolectric:4.11.1")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("com.google.dagger:hilt-android-testing:2.48.1")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     androidTestImplementation("androidx.test:rules:1.6.1")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.6.1")
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.48.1")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.48.1")
+    kaptTest("com.google.dagger:hilt-android-compiler:2.48.1")
 }
+fun getApiKey(key: String): String = gradleLocalProperties(rootDir, providers).getProperty(key)
