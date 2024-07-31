@@ -18,14 +18,15 @@ class SplashViewModel @Inject constructor(
     private val getRemoteConfigUseCase: GetRemoteConfigUseCase
 ) : ViewModel() {
     private val _serviceState = MutableLiveData<String>()
-    val serviceState: MutableLiveData<String> get() = _serviceState
+     val serviceState: LiveData<String> get() = _serviceState
 
     private val _serviceMessage = MutableLiveData<String>()
-    val serviceMessage: MutableLiveData<String> get() = _serviceMessage
+     val serviceMessage: LiveData<String> get() = _serviceMessage
 
-    // serviceState 값의 변화로 화면 이동을 하니 스플래시 스크린 확인이 어려워서 추가함
+
     private val _navigationEvent = MutableLiveData<Boolean>()
-    val navigationEvent: LiveData<Boolean> get() = _navigationEvent
+     val navigationEvent: LiveData<Boolean> get() = _navigationEvent
+
 
     val DEFAULT_STRING = "️"
 
@@ -33,18 +34,24 @@ class SplashViewModel @Inject constructor(
         fetchRemoteConfig()
     }
 
-    private fun fetchRemoteConfig() {
+    fun fetchRemoteConfig() {
         viewModelScope.launch {
             // 스플래시 화면 확인을 위해 넣은 딜레이
             delay(2000)
-            getRemoteConfigUseCase("serviceState").observeForever { state ->
-                _serviceState.value = state
-                if (state != "ON_SERVICE") {
-                    getRemoteConfigUseCase("serviceMessage").observeForever { message ->
-                        _serviceMessage.value = message
+            runBlocking {
+                getRemoteConfigUseCase("serviceState").observeForever { state ->
+                    _serviceState.value = state
+                    if (state != "ON_SERVICE") {
+                        runBlocking {
+                            getRemoteConfigUseCase("serviceMessage").observeForever { message ->
+                                _serviceMessage.value = message
+                                _navigationEvent.value = false
+                            }
+                        }
+                    } else {
+                        _serviceMessage.value = DEFAULT_STRING
+                        _navigationEvent.value = true
                     }
-                } else {
-                    _serviceMessage.value = DEFAULT_STRING
                 }
             }
         }

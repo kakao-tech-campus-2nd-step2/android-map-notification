@@ -4,5 +4,5 @@ import androidx.lifecycle.LiveData
 
 
 interface GetRemoteConfigUseCase {
-    operator fun invoke(key: String) : LiveData<String>
+    suspend operator fun invoke(key: String) : LiveData<String>
 }

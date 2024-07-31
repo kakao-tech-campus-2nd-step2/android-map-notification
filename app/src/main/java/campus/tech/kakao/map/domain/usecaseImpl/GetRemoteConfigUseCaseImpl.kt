@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetRemoteConfigUseCaseImpl @Inject constructor(
     private val remoteConfigRepository: RemoteConfigRepository
 ) : GetRemoteConfigUseCase {
-    override fun invoke(key: String): LiveData<String> {
+    override suspend fun invoke(key: String): LiveData<String> {
         return remoteConfigRepository.getConfig(key)
     }
 }

@@ -28,13 +28,15 @@ class SplashActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
 
-        splashViewModel.serviceState.observe(this) { state ->
-            if (state == "ON_SERVICE") {
+        splashViewModel.navigationEvent.observe(this) {event ->
+            if (event) {
                 val intent = Intent(this, MapActivity::class.java)
                 startActivity(intent)
                 finish()
             }
+
         }
+
         splashViewModel.serviceMessage.observe(this) { message ->
             binding.serviceMessageTextView.text = message
         }
