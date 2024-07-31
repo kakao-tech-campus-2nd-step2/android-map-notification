@@ -41,6 +41,12 @@ Search result list
 - Using `RecyclerView` to implement about search result list
 - It scrolls vertically
 
+**Service**
+
+When Firebase server send message
+- If App is in the background, notification is generated using FCM defaults
+- If App is in the foreground, custom notification is generated
+
 ## Function List
 
 **Splash Screen**
@@ -50,6 +56,10 @@ Display Splash Screen
 - Using `Firebase’s RemoteConfig` to set parameter
 - When serviceState is ON_SERVICE, Switching screen to **Kakao map**
 - When serviceState is not ON_SERVICE, display serviceMessage on the bottom and not switching screen
+
+Ask Permission
+
+- Request POST_NOTIFICATIONS permission
 
 **Kakao map**
 
@@ -92,3 +102,9 @@ Search result list
 - There are at least 15 search results
 - Search results have search word as categories
 - Selected item is added to the saved search word list, and display location on the kakao map
+
+**Service**
+
+Call initial screen
+
+- When touching notification window
