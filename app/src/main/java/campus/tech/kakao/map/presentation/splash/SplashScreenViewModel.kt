@@ -29,7 +29,6 @@ constructor(private val repository: RemoteConfigRepository): ViewModel() {
     }
 
     private fun fetchAndActiveRemoteConfig(){
-
         viewModelScope.launch {
             val fetchedResult = repository.getFetchedRemoteResult()
 

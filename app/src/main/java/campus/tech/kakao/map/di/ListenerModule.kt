@@ -3,12 +3,11 @@ package campus.tech.kakao.map.di
 import android.app.Activity
 import campus.tech.kakao.map.domain.model.Place
 import campus.tech.kakao.map.presentation.search.SearchActivity
-import campus.tech.kakao.map.presentation.search.SearchActivityListener
+import campus.tech.kakao.map.presentation.search.SearchActivityRecyclerviewListener
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 
 @Module
@@ -17,10 +16,11 @@ class ListenerModule {
 
     @Provides
     @ActivityScoped
-    fun provideSearchActivityListener(activity: Activity): SearchActivityListener{
+    fun provideSearchActivityRecyclerviewListener(activity: Activity)
+    : SearchActivityRecyclerviewListener {
         val searchActivity = activity as SearchActivity
 
-        return object : SearchActivityListener{
+        return object : SearchActivityRecyclerviewListener {
             override fun onPlaceClick(place: Place) {
                 searchActivity.handlePlaceClick(place)
             }

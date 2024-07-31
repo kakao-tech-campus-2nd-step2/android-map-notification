@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import campus.tech.kakao.map.util.DiffUtilCallback
 import campus.tech.kakao.map.domain.model.Place
 import campus.tech.kakao.map.databinding.ListItemBinding
-import campus.tech.kakao.map.presentation.search.SearchActivityListener
+import campus.tech.kakao.map.presentation.search.SearchActivityRecyclerviewListener
 
 
 class SearchedPlaceAdapter(
-    private val listener: SearchActivityListener
+    private val listener: SearchActivityRecyclerviewListener
 ): ListAdapter<Place, SearchedPlaceAdapter.LocationViewHolder>(DiffUtilCallback()) {
 
     inner class LocationViewHolder(private val binding: ListItemBinding )

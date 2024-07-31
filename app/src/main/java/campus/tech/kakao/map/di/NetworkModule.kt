@@ -15,6 +15,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
     private const val BASE_URL = "https://dapi.kakao.com/"
+
     @Singleton
     @Provides
     fun provideRetrofit(): Retrofit {

@@ -35,5 +35,4 @@ constructor(val remoteConfig: FirebaseRemoteConfig): ConfigRepository {
             }
         }
     }
-
 }

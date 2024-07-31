@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
-    @Inject lateinit var listener: SearchActivityListener
+    @Inject lateinit var listener: SearchActivityRecyclerviewListener
     private lateinit var binding: ActivityMainBinding
     private val searchedPlaceAdapter by lazy { SearchedPlaceAdapter(listener)}
     private val logAdapter by lazy { LogAdapter(listener) }

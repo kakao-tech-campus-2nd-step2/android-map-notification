@@ -14,7 +14,7 @@ import campus.tech.kakao.map.databinding.ActivitySplashScreenBinding
 import campus.tech.kakao.map.presentation.splash.RemoteConfigState.*
 import campus.tech.kakao.map.presentation.map.MapActivity
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.qualifiers.ApplicationContext
+
 
 @AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity() {
