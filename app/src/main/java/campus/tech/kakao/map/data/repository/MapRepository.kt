@@ -9,6 +9,8 @@ import campus.tech.kakao.map.data.model.DBPlace.Companion.DATABASE_NAME
 import campus.tech.kakao.map.data.model.Place
 import campus.tech.kakao.map.data.model.RecentSearchWord
 import campus.tech.kakao.map.data.network.api.RetrofitService
+import campus.tech.kakao.map.data.remote.ConfigService
+import campus.tech.kakao.map.data.vo.Config
 import com.kakao.vectormap.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,6 +20,7 @@ import javax.inject.Singleton
 @Singleton
 class MapRepository @Inject constructor(
     private val context: Context,
+    private val configService: ConfigService,
     private val retrofitService: RetrofitService,
     private val dataStoreManager: DataStoreManager,
     private val placeDao: PlaceDao,
@@ -25,6 +28,12 @@ class MapRepository @Inject constructor(
 ) : LocalDBRepo {
 
     var searchHistoryList = ArrayList<RecentSearchWord>()
+    lateinit var config: Config
+
+    suspend fun getConfig(): Config {
+        config = configService.getConfig()
+        return config
+    }
 
 
     /**
