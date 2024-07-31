@@ -1,15 +1,20 @@
 package campus.tech.kakao.map.view.map
 
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
+import android.view.animation.AnticipateInterpolator
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Observer
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityMapBinding
 import campus.tech.kakao.map.databinding.ErrorMapBinding
@@ -17,16 +22,17 @@ import campus.tech.kakao.map.databinding.MapBottomSheetBinding
 import campus.tech.kakao.map.model.Location
 import campus.tech.kakao.map.view.search.MainActivity
 import campus.tech.kakao.map.viewmodel.LocationViewModel
+import campus.tech.kakao.map.viewmodel.RemoteConfigViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapLifeCycleCallback
-import com.kakao.vectormap.MapView
 import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
 import dagger.hilt.android.AndroidEntryPoint
+import campus.tech.kakao.map.model.RemoteConfig
 
 @AndroidEntryPoint
 class MapActivity : AppCompatActivity() {
@@ -36,7 +42,7 @@ class MapActivity : AppCompatActivity() {
     private lateinit var activityMapBinding: ActivityMapBinding
     private lateinit var errorMapBinding: ErrorMapBinding
     private lateinit var mapBottomSheetBinding: MapBottomSheetBinding
-
+    private lateinit var splashScreen: SplashScreen
     companion object{
         private const val DEFAULT_LONGITUDE = 127.115587
         private const val DEFAULT_LATITUDE = 37.406960
@@ -50,9 +56,10 @@ class MapActivity : AppCompatActivity() {
         errorMapBinding = ErrorMapBinding.inflate(layoutInflater)
         mapBottomSheetBinding = activityMapBinding.mapBottomSheet
         bottomSheetBehavior = BottomSheetBehavior.from(mapBottomSheetBinding.bottomSheetLayout)
-
-        setupEditText()
         setupMapView()
+        setupEditText()
+    }
+    private fun updateConfigs(remoteConfig: RemoteConfig) {
     }
 
     override fun onResume() {

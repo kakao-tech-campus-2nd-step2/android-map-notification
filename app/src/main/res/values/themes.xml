@@ -5,5 +5,13 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <!--SplashTheme-->
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/map_icon2</item>
+<!--        postSplashScreenTheme는 splash가 끝난 후 사용될 테마를 지정해준다.-->
+        <item name="postSplashScreenTheme">@style/Theme.Map</item>
+    </style>
+
     <style name="Theme.Map" parent="Base.Theme.Map" />
 </resources>
