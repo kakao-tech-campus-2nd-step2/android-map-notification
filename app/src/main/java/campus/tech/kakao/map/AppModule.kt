@@ -8,6 +8,8 @@ import campus.tech.kakao.map.repository.MapRepository
 import campus.tech.kakao.map.repository.MapRepositoryImpl
 import campus.tech.kakao.map.repository.SearchRepository
 import campus.tech.kakao.map.repository.SearchRepositoryImpl
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -83,4 +85,16 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideSavePlaceDao(db: AppDatabase) = db.savePlaceDao()
+
+    @Provides
+    @Singleton
+    fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig {
+        val remoteConfig = FirebaseRemoteConfig.getInstance()
+        val configSettings = FirebaseRemoteConfigSettings.Builder()
+            .setMinimumFetchIntervalInSeconds(0)
+            .build()
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        return remoteConfig
+    }
+
 }
