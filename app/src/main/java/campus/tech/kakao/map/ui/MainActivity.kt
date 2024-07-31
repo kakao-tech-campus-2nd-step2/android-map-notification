@@ -1,13 +1,23 @@
 package campus.tech.kakao.map.ui
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.data.Keyword
 import campus.tech.kakao.map.databinding.ActivityMainBinding
@@ -41,6 +51,8 @@ class MainActivity : AppCompatActivity() {
 
         Log.d("MainActivity", "onCreate called")
 
+        askNotificationPermission()
+
         initializeKakaoSdk()
         initializeMapView()
         setSearchBoxClickListener()
@@ -51,6 +63,50 @@ class MainActivity : AppCompatActivity() {
         binding.errorLayout.visibility = View.GONE
 
         observeViewModel()
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+        } else {
+        }
+    }
+
+    private fun askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                showNotificationPermissionDialog()
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    private fun showNotificationPermissionDialog() {
+        AlertDialog.Builder(this).apply {
+            setTitle(getString(R.string.ask_notification_permission_dialog_title))
+            setMessage(
+                String.format(
+                    "다양한 알림 소식을 받기 위해 권한을 허용하시겠어요?\n(알림 에서 %s의 알림 권한을 허용해주세요.)",
+                    getString(R.string.app_name)
+                )
+            )
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            setNegativeButton(getString(R.string.deny_notification_permission)) { _, _ -> }
+            show()
+        }
     }
 
     private fun initializeKakaoSdk() {
