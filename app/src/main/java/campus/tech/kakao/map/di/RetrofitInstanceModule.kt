@@ -1,7 +1,9 @@
-package campus.tech.kakao.map
+package campus.tech.kakao.map.di
 
 import android.os.Looper
 import android.widget.Toast
+import campus.tech.kakao.map.App
+import campus.tech.kakao.map.BuildConfig
 import campus.tech.kakao.map.model.datasource.KakaoAPI
 import dagger.Module
 import dagger.Provides

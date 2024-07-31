@@ -1,4 +1,4 @@
-package campus.tech.kakao.map
+package campus.tech.kakao.map.di
 
 import campus.tech.kakao.map.model.repository.DefaultLocationRepository
 import campus.tech.kakao.map.model.repository.DefaultSavedLocationRepository
@@ -7,7 +7,6 @@ import campus.tech.kakao.map.model.repository.SavedLocationRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
