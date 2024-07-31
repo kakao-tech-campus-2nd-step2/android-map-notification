@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,7 +7,7 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
+//    id("com.google.gms.google-services")
 }
 
 android {
@@ -19,7 +21,10 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "campus.tech.kakao.map.CustomTestRunner"
+
+        resValue("string", "kakao_api_key", getApiKey("KAKAO_API_KEY"))
+        buildConfigField("String", "KAKAO_REST_API_KEY", getApiKey("KAKAO_REST_API_KEY"))
     }
 
     buildTypes {
@@ -38,12 +43,13 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-
     buildFeatures {
         dataBinding = true
         buildConfig = true
     }
 }
+
+fun getApiKey(key: String): String = gradleLocalProperties(rootDir, providers).getProperty(key)
 
 dependencies {
 
@@ -59,6 +65,7 @@ dependencies {
     implementation("androidx.test:core-ktx:1.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
     implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.activity:activity:1.8.0")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-compiler:2.48.1")
@@ -75,6 +82,8 @@ dependencies {
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("org.robolectric:robolectric:4.11.1")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("com.google.dagger:hilt-android-testing:2.48.1")
+    kaptTest("com.google.dagger:hilt-android-compiler:2.48.1")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
