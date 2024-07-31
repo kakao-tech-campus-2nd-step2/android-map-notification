@@ -22,7 +22,6 @@ class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupBinding()
-        welcomeViewModel.processRemoteConfig()
         observeServiceStateChanges()
     }
 

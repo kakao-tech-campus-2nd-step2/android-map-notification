@@ -18,7 +18,11 @@ class WelcomeViewModel @Inject constructor(
     private val _serviceMessage = MutableLiveData<String>()
     val serviceMessage: LiveData<String> get() = _serviceMessage
 
-    fun processRemoteConfig() {
+    init {
+        processRemoteConfig()
+    }
+
+    private fun processRemoteConfig() {
         viewModelScope.launch {
             val success = remoteConfigManager.fetchAndActivateConfig()
             if (success) {
