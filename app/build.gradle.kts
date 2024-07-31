@@ -62,6 +62,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("com.kakao.maps.open:android:2.9.5")
+    implementation("com.kakao.sdk:v2-all:2.20.3")
     implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("androidx.test:core-ktx:1.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
