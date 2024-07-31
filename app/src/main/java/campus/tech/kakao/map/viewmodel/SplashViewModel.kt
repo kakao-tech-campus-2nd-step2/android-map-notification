@@ -29,8 +29,8 @@ class SplashViewModel @Inject constructor(private val remoteConfig: FirebaseRemo
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
         remoteConfig.setDefaultsAsync(mapOf(
-            "serviceState" to "OFF_SERVICE",
-            "serviceMessage" to "서버 점검 중 입니다. 나중에 다시 시도해 주세요."
+            SERVICE_STATE_KEY to OFF_SERVICE,
+            SERVICE_MESSAGE_KEY to DEFAULT_SERVICE_MESSAGE
         ))
     }
 
@@ -40,10 +40,18 @@ class SplashViewModel @Inject constructor(private val remoteConfig: FirebaseRemo
             val message = remoteConfig.getString("serviceMessage")
 
             when (state) {
-                "ON_SERVICE" -> _navigateToMain.value = true
+                ON_SERVICE -> _navigateToMain.value = true
                 else -> _serviceMessage.value = message
             }
         }
+    }
+
+    companion object {
+        const val SERVICE_STATE_KEY = "serviceState"
+        const val SERVICE_MESSAGE_KEY = "serviceMessage"
+        const val OFF_SERVICE = "OFF_SERVICE"
+        const val ON_SERVICE = "ON_SERVICE"
+        const val DEFAULT_SERVICE_MESSAGE = "서버 점검 중 입니다. 나중에 다시 시도해 주세요."
     }
 
 
