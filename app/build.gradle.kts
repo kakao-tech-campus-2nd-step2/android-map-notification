@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -20,6 +22,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        resValue("string", "kakao_api_key", getApiKey("KAKAO_API_KEY"))
+        buildConfigField("String", "KAKAO_REST_API_KEY", getApiKey("KAKAO_REST_API_KEY"))
     }
 
     buildTypes {
@@ -42,6 +47,7 @@ android {
     buildFeatures {
         dataBinding = true
         buildConfig = true
+        viewBinding = true
     }
 }
 
@@ -64,6 +70,9 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.48.1")
     implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.test.espresso:espresso-contrib:3.6.1")  //이전 프로젝트 존재
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")  //이전 프로젝트 존재
+    implementation("com.kakao.sdk:v2-all:2.20.3")  //추가, 이전 프로젝트 존재
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-config-ktx:22.0.0")
@@ -83,3 +92,4 @@ dependencies {
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.48.1")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.48.1")
 }
+fun getApiKey(key: String): String = gradleLocalProperties(rootDir, providers).getProperty(key)
