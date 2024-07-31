@@ -1,8 +1,10 @@
 package campus.tech.kakao.map.di
 
 import campus.tech.kakao.map.model.repository.DefaultLocationRepository
+import campus.tech.kakao.map.model.repository.DefaultRemoteConfigRepository
 import campus.tech.kakao.map.model.repository.DefaultSavedLocationRepository
 import campus.tech.kakao.map.model.repository.LocationRepository
+import campus.tech.kakao.map.model.repository.RemoteConfigRepository
 import campus.tech.kakao.map.model.repository.SavedLocationRepository
 import dagger.Binds
 import dagger.Module
@@ -20,4 +22,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindDefaultSavedLocationRepository(impl: DefaultSavedLocationRepository) : SavedLocationRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindDefaultRemoteConfigRepository(impl: DefaultRemoteConfigRepository) : RemoteConfigRepository
 }

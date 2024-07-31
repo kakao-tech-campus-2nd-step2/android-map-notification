@@ -1,6 +1,6 @@
 package campus.tech.kakao.map.model
 
-data class ServiceInfo(
+data class RemoteConfig(
     val serviceState: String,
     val serviceMessage: String
 )

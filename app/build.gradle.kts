@@ -28,6 +28,7 @@ android {
         buildConfigField("String", "KAKAO_REST_API_KEY", getApiKey("KAKAO_REST_API_KEY"))
         buildConfigField("String", "BASE_URL", getApiKey("BASE_URL"))
         buildConfigField("String", "SERVICE_STATE", getApiKey("SERVICE_STATE"))
+        buildConfigField("String", "SERVICE_MESSAGE", getApiKey("SERVICE_MESSAGE"))
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

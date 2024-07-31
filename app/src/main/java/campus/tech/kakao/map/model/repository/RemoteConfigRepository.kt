@@ -1,9 +1,8 @@
 package campus.tech.kakao.map.model.repository
 
-import campus.tech.kakao.map.model.ServiceInfo
+import campus.tech.kakao.map.model.RemoteConfig
+
 
 interface RemoteConfigRepository {
-    fun initConfigs()
-
-    fun getServiceInfo(): ServiceInfo
+    fun getRemoteConfig(): RemoteConfig
 }
