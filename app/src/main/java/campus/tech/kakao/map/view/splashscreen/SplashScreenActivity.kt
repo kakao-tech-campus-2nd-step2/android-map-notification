@@ -2,8 +2,6 @@ package campus.tech.kakao.map.view.splashscreen
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -15,6 +13,7 @@ import campus.tech.kakao.map.databinding.ActivitySplashScreenBinding
 import campus.tech.kakao.map.view.kakaomap.KakaoMapActivity
 import campus.tech.kakao.map.viewmodel.splashscreen.SplashScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -35,12 +34,10 @@ class SplashScreenActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.serviceState.collect { service ->
                     if (service.state == "ON_SERVICE") {
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            val intent =
-                                Intent(this@SplashScreenActivity, KakaoMapActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }, 2000)
+                        delay(2000)
+                        val intent = Intent(this@SplashScreenActivity, KakaoMapActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     }
                     binding.service = service
                 }
