@@ -1,6 +1,6 @@
 package campus.tech.kakao.map.repository.splashscreen
 
-import campus.tech.kakao.map.model.splashscreen.Service
+import campus.tech.kakao.map.model.splashscreen.ServiceState
 import campus.tech.kakao.map.model.splashscreen.ServiceRemoteConfig.SERVICE_MESSAGE
 import campus.tech.kakao.map.model.splashscreen.ServiceRemoteConfig.SERVICE_STATE
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -13,12 +13,12 @@ class FirebaseRepository @Inject constructor(
     private val remoteConfig: FirebaseRemoteConfig
 ) {
 
-    suspend fun getService(): Service {
-        val service = Service("", "")
+    suspend fun getService(): ServiceState {
+        val serviceState = ServiceState("", "")
         remoteConfig.fetchAndActivate().await()
-        service.state = remoteConfig.getString(SERVICE_STATE)
-        if (service.state != ON_SERIVCE)
-            service.msg = remoteConfig.getString(SERVICE_MESSAGE)
-        return service
+        serviceState.state = remoteConfig.getString(SERVICE_STATE)
+        if (serviceState.state != ON_SERIVCE)
+            serviceState.msg = remoteConfig.getString(SERVICE_MESSAGE)
+        return serviceState
     }
 }

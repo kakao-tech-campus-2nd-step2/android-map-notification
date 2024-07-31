@@ -1,6 +1,6 @@
 package campus.tech.kakao.map.model.splashscreen
 
-data class Service(
+data class ServiceState(
     var state: String,
     var msg: String
 )

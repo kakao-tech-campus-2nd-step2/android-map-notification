@@ -33,7 +33,7 @@ class SplashScreenActivity : AppCompatActivity() {
     private fun displaySplashScreen() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.service.collect { service ->
+                viewModel.serviceState.collect { service ->
                     if (service.state == "ON_SERVICE") {
                         Handler(Looper.getMainLooper()).postDelayed({
                             val intent =
