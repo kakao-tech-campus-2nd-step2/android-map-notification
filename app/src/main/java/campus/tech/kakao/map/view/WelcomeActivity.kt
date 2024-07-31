@@ -22,8 +22,8 @@ class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupBinding()
+        welcomeViewModel.processRemoteConfig()
         observeServiceStateChanges()
-        //observeServiceMsgChanges()
     }
 
     private fun setupBinding() {
@@ -43,11 +43,6 @@ class WelcomeActivity : AppCompatActivity() {
                 }
                 else -> { Log.d("arieum", "$state") }
             }
-        }
-    }
-     private fun observeServiceMsgChanges(){
-        welcomeViewModel.serviceMessage.observe(this){
-            binding.serverMsg.text = it
         }
     }
     private suspend fun delayBeforeMoveMapView(){ delay(1000L) }
