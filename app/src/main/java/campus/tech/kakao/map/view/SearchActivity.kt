@@ -23,7 +23,7 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
 
     // ViewModel을 Lazy하게 제공받기
     private val searchViewModel: SearchViewModel by viewModels()
-    private val keywordViewModel: KeywordViewModel by viewModels()
+    val keywordViewModel: KeywordViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
