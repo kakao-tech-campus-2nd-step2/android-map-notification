@@ -17,22 +17,12 @@ import javax.inject.Inject
 class RemoteConfigRepository
 @Inject
 constructor(val remoteConfig: FirebaseRemoteConfig): ConfigRepository {
-    init {
-        setRemoteConfig()
-    }
 
     override fun getData(): ConfigData {
         return ConfigData(
             serviceState = remoteConfig.getString("serviceState"),
             serviceMessage = remoteConfig.getString("serviceMessage")
         )
-    }
-
-    fun setRemoteConfig() {
-        val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 0
-        }
-        remoteConfig.setConfigSettingsAsync(configSettings)
     }
 
     suspend fun getFetchedRemoteResult(): Result<ConfigData> {

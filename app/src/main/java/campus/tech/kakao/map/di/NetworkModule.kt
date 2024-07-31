@@ -2,6 +2,7 @@ package campus.tech.kakao.map.di
 
 import campus.tech.kakao.map.data.net.KakaoApi
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,6 +33,13 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideConfigInstance(): FirebaseRemoteConfig {
-        return FirebaseRemoteConfig.getInstance()
+        val firebaseInstance = FirebaseRemoteConfig.getInstance()
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 0
+        }
+
+        firebaseInstance.setConfigSettingsAsync(configSettings)
+
+        return firebaseInstance
     }
 }
