@@ -7,6 +7,7 @@ import campus.tech.kakao.map.data.db.DataBase
 import campus.tech.kakao.map.data.db.SearchHistoryDao
 import campus.tech.kakao.map.data.remote.api.KakaoLocalApi
 import campus.tech.kakao.map.repository.KakaoRepository
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,5 +63,11 @@ object AppModule {
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences("lastLatLng", Context.MODE_PRIVATE)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoteConfig(): FirebaseRemoteConfig {
+        return FirebaseRemoteConfig.getInstance()
     }
 }
