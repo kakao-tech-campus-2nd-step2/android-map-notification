@@ -10,8 +10,6 @@ interface PlaceRepository {
     suspend fun getFavoriteById(id: Int) : Place?
     suspend fun deleteFavorite(id : Int) : List<Place>
     suspend fun searchPlaceRemote(name : String) : List<Place>
-    fun getPlaceByNameHTTP(name : String) : List<Place>
-
     fun getSavedPlaceId() : Int
     fun savePlaceId(id : Int)
 }

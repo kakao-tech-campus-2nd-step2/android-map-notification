@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.runner.AndroidJUnitRunner
 import campus.tech.kakao.map.data.datasource.Local.DB.RoomDB
-import campus.tech.kakao.map.data.datasource.Remote.HttpUrlConnect
 import campus.tech.kakao.map.data.datasource.Remote.RemoteService
 import campus.tech.kakao.map.data.datasource.Remote.RetrofitService
 import campus.tech.kakao.map.data.PlaceRepositoryImpl

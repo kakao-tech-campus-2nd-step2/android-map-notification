@@ -1,17 +1,14 @@
 package campus.tech.kakao.map.data
 
-import android.content.Context
 import android.content.SharedPreferences
 import campus.tech.kakao.map.data.datasource.Local.Entity.FavoriteEntity
 import campus.tech.kakao.map.data.datasource.Local.Entity.PlaceEntity
 import campus.tech.kakao.map.data.datasource.Local.Entity.toVO
 import campus.tech.kakao.map.data.datasource.Local.DB.RoomDB
-import campus.tech.kakao.map.data.datasource.Remote.RemoteService
 import campus.tech.kakao.map.data.datasource.Remote.Response.toVO
 import campus.tech.kakao.map.data.datasource.Remote.RetrofitService
 import campus.tech.kakao.map.domain.PlaceRepository
 import campus.tech.kakao.map.domain.vo.Place
-import campus.tech.kakao.map.presenter.view.MapActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -19,7 +16,6 @@ import javax.inject.Inject
 class PlaceRepositoryImpl @Inject constructor(
     private val roomDB: RoomDB,
     private val retrofitService: RetrofitService,
-    private val httpUrlConnect: RemoteService,
     private val sharedPreference: SharedPreferences
 ) : PlaceRepository {
 
@@ -62,10 +58,6 @@ class PlaceRepositoryImpl @Inject constructor(
     override suspend fun searchPlaceRemote(name: String) : List<Place> = withContext(Dispatchers.IO){
         getPlaceByNameRemote(name)
     }
-
-    override fun getPlaceByNameHTTP(name : String) : List<Place> =
-        httpUrlConnect.getPlaceResponse(name).map{ it.toVO()}
-
 
     private suspend fun getPlaceByNameRemote(name: String): List<Place> =
         withContext(Dispatchers.IO) {
