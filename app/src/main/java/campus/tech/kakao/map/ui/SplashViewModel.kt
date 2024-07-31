@@ -1,6 +1,8 @@
 package campus.tech.kakao.map.ui
 
 import android.app.Application
+import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +19,15 @@ class SplashViewModel(application: Application) : AndroidViewModel(application) 
 
     init {
         remoteConfigValues()
+    }
+
+    fun handleIntent(intent: Intent) {
+        if (intent.action == Intent.ACTION_VIEW) {
+            val data: Uri? = intent.data
+            data?.let {
+                // Process the URI if needed
+            }
+        }
     }
 
     private fun remoteConfigValues() {
