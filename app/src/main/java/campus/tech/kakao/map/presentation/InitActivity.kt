@@ -4,42 +4,47 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityInitBinding
+import campus.tech.kakao.map.domain.model.RemoteConfig
+import campus.tech.kakao.map.presentation.viewmodel.InitViewModel
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class InitActivity : AppCompatActivity() {
-    private val TAG = "InitActivity"
+    private val TAG = "sumin"
+    private val viewModel: InitViewModel by viewModels()
     private lateinit var binding: ActivityInitBinding
-    private lateinit var remoteConfig: FirebaseRemoteConfig
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityInitBinding>(this, R.layout.activity_init)
-        remoteConfig = Firebase.remoteConfig
-        val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 0
-        }
-        remoteConfig.setConfigSettingsAsync(configSettings)
-        remoteConfig.fetchAndActivate()
-            .addOnCompleteListener {task ->
-                if (task.isSuccessful) {
-                    if (isServiceAvailable(remoteConfig)) {
-                        val mapIntent = Intent(this, MapActivity::class.java)
-                        startActivity(mapIntent)
-                    } else {
-                        binding.serviceMessage.text = getServiceMessage(remoteConfig)
-                    }
-                }
-            }
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_init)
+        observeViewModel()
     }
-    private fun isServiceAvailable(remoteConfig: FirebaseRemoteConfig): Boolean = getServiceState(remoteConfig) == "ON_SERVICE"
-    private fun getServiceState(remoteConfig: FirebaseRemoteConfig): String = remoteConfig.getString("serviceState")
-    private fun getServiceMessage(remoteConfig: FirebaseRemoteConfig): String = remoteConfig.getString("serviceMessage")
+
+    private fun observeViewModel() {
+        viewModel.updateRemoteConfig()
+        viewModel.remoteConfig.observe(this) {
+            startServiceIfAvailable(it)
+        }
+    }
+
+    private fun startServiceIfAvailable(remoteConfig: RemoteConfig) {
+        if (isServiceAvailable(remoteConfig)) {
+            val mapIntent = Intent(this, MapActivity::class.java)
+            startActivity(mapIntent)
+        } else {
+            binding.serviceMessage.text = remoteConfig.serviceMessage
+        }
+    }
+
+    private fun isServiceAvailable(remoteConfig: RemoteConfig): Boolean = remoteConfig.serviceState == "ON_SERVICE"
 }
