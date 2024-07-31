@@ -21,6 +21,13 @@ class RemoteConfigViewModel @Inject constructor(
     init {
         _remoteConfigLiveData.value = remoteConfigRepository.getRemoteConfig()
     }
+    fun isOnService(): Boolean {
+        return _remoteConfigLiveData.value?.serviceState.equals("ON_SERVICE")
+    }
+
+    fun getServiceMessage(): String{
+        return _remoteConfigLiveData.value?.serviceMessage.toString()
+    }
 
 
 }

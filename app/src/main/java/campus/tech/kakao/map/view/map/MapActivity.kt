@@ -37,7 +37,6 @@ import campus.tech.kakao.map.model.RemoteConfig
 @AndroidEntryPoint
 class MapActivity : AppCompatActivity() {
     private val locationViewModel: LocationViewModel by viewModels()
-    private val remoteConfigViewModel: RemoteConfigViewModel by viewModels()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private lateinit var activityMapBinding: ActivityMapBinding
@@ -50,45 +49,17 @@ class MapActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        splashScreen = installSplashScreen()
-        startSplash()
         super.onCreate(savedInstanceState)
-
         activityMapBinding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(activityMapBinding.root)
 
         errorMapBinding = ErrorMapBinding.inflate(layoutInflater)
         mapBottomSheetBinding = activityMapBinding.mapBottomSheet
         bottomSheetBehavior = BottomSheetBehavior.from(mapBottomSheetBinding.bottomSheetLayout)
-
+        setupMapView()
         setupEditText()
-        remoteConfigViewModel.remoteConfigLiveData.observe(this, Observer {
-            updateConfigs(it)
-        })
-    }
-
-    // splash의 애니메이션 설정
-    private fun startSplash() {
-        splashScreen.setOnExitAnimationListener { splashScreenView ->
-            val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, 5f, 1f)
-            val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 5f, 1f)
-
-            ObjectAnimator.ofPropertyValuesHolder(splashScreenView.iconView, scaleX, scaleY).run {
-                interpolator = AnticipateInterpolator()
-                duration = 1000L
-                doOnEnd {
-                    splashScreenView.remove()
-                }
-                start()
-            }
-        }
     }
     private fun updateConfigs(remoteConfig: RemoteConfig) {
-        if(remoteConfig.serviceState == "ON_SERVICE"){
-            setupMapView()
-        } else{
-            remoteConfig.serviceMessage
-        }
     }
 
     override fun onResume() {
