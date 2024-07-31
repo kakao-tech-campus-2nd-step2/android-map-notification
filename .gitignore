@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 .DS_Store
 ### Android template
+=======
+<<<<<<< HEAD
+.DS_Store
+### Android template
+=======
+>>>>>>> rocation/modify_step_2
+>>>>>>> refactoring/step_2
 # Gradle files
 .gradle/
 build/
@@ -33,5 +41,16 @@ google-services.json
 
 # Android Profiling
 *.hprof
+<<<<<<< HEAD
 /keyStore
 /app/release
+=======
+<<<<<<< HEAD
+/keyStore
+/app/release
+=======
+
+# Mac OS
+.DS_Store
+>>>>>>> rocation/modify_step_2
+>>>>>>> refactoring/step_2
