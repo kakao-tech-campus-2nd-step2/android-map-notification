@@ -4,18 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivitySplashScreenBinding
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import campus.tech.kakao.map.presentation.viewmodel.SplashScreenViewModel
 
 class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
+    private val splashScreenViewModel: SplashScreenViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash_screen)
@@ -23,32 +22,29 @@ class SplashScreenActivity : AppCompatActivity() {
 
         binding.serviceMessage.visibility = View.GONE
 
-        val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
-        val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 0
-        }
-        remoteConfig.setConfigSettingsAsync(configSettings)
-
-
-        fetchValues()
+        observeFirebaseValues()
     }
 
-    private fun fetchValues() {
-        Firebase.remoteConfig.fetchAndActivate().addOnCompleteListener {
-            if (it.isSuccessful) {
-                val serviceState = Firebase.remoteConfig.getString("serviceState")
-                val serviceMessage = Firebase.remoteConfig.getString("serviceMessage")
-                Log.d("testt", "state: $serviceState")
-                Log.d("testt", "serviceMessage: $serviceMessage")
-                if (serviceState == "ON_SERVICE") {
-                    val intent = Intent(this, KakaoMapViewActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    binding.serviceMessage.visibility = View.VISIBLE
-                    binding.serviceMessage.text = serviceMessage
-                }
-            }
+    private fun observeFirebaseValues() {
+        splashScreenViewModel.serviceState.observe(this) { serviceState ->
+            handleServiceState(serviceState)
+        }
+
+        splashScreenViewModel.serviceMessage.observe(this) { serviceMessage ->
+            Log.d("testt", "serviceMessage: $serviceMessage")
+            binding.serviceMessage.text = serviceMessage
+        }
+    }
+
+    private fun handleServiceState(serviceState: String){
+        if (serviceState == "ON_SERVICE") {
+            Log.d("testt", "state: $serviceState")
+            val intent = Intent(this, KakaoMapViewActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            Log.d("testt", "state: $serviceState")
+            binding.serviceMessage.visibility = View.VISIBLE
         }
     }
 }
