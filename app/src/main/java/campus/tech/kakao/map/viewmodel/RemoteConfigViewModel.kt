@@ -17,7 +17,6 @@ class RemoteConfigViewModel @Inject constructor(
     private val _remoteConfigLiveData = MutableLiveData<RemoteConfig>()
     val remoteConfigLiveData: LiveData<RemoteConfig> get() = _remoteConfigLiveData
 
-
     init {
         _remoteConfigLiveData.value = remoteConfigRepository.getRemoteConfig()
     }

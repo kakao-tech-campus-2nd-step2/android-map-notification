@@ -33,8 +33,12 @@ class SplashActivity : AppCompatActivity() {
         activitySplashBinding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(activitySplashBinding.root)
 
+        setupSplashScreen()
+    }
+
+    private fun setupSplashScreen() {
         val isOnService = remoteConfigViewModel.isOnService()
-        Log.d("jieun", "isOnService: "+isOnService)
+        Log.d("jieun", "isOnService: " + isOnService)
         if (isOnService) {
             Handler(Looper.getMainLooper()).postDelayed({
                 // 일정 시간이 지나면 MapActivity로 이동
@@ -43,13 +47,10 @@ class SplashActivity : AppCompatActivity() {
                 finish()
 
             }, 1000)
-        } else{
+        } else {
             activitySplashBinding.serverErrorMessage.visibility = View.VISIBLE
-            activitySplashBinding.serverErrorMessage.text = remoteConfigViewModel.getServiceMessage()
+            activitySplashBinding.serverErrorMessage.text =
+                remoteConfigViewModel.getServiceMessage()
         }
-
-        remoteConfigViewModel.remoteConfigLiveData.observe(this, Observer{
-
-        })
     }
 }
