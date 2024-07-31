@@ -1,5 +1,6 @@
 package campus.tech.kakao.map.data.remote
 
+import android.util.Log
 import campus.tech.kakao.map.data.vo.Config
 import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -20,6 +21,7 @@ class ConfigService {
 
     suspend fun getConfig(): Config {
         remoteConfig.fetchAndActivate().await()
+        Log.d("config", Thread.currentThread().name)
         return Config(
             remoteConfig.getString(SERVICE_STATE),
             remoteConfig.getString(SERVICE_MESSAGE)
