@@ -1,12 +1,15 @@
 package campus.tech.kakao.map
 
 import android.app.Application
+import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.view.View
 import com.kakao.vectormap.KakaoMapSdk
 import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 
 @HiltAndroidApp
@@ -14,7 +17,6 @@ class PlaceApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        appInstance = this
 
         initKakaoMapSdk()
     }
@@ -24,11 +26,9 @@ class PlaceApplication: Application() {
         KakaoMapSdk.init(this, key)
     }
     companion object {
-        @Volatile
-        private lateinit var appInstance: PlaceApplication
-        fun isNetworkActive(): Boolean {
+        fun isNetworkActive(@ApplicationContext context: Context): Boolean {
             val connectivityManager: ConnectivityManager =
-                appInstance.getSystemService(ConnectivityManager::class.java)
+                context.getSystemService(ConnectivityManager::class.java)
             val network: Network = connectivityManager.activeNetwork ?: return false
             val actNetwork: NetworkCapabilities =
                 connectivityManager.getNetworkCapabilities(network) ?: return false

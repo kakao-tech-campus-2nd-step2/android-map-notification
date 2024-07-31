@@ -11,7 +11,7 @@ open class PlaceLocalDataRepository @Inject constructor(
     private val placeDao: PlaceDao,
 ) : PlaceRepository {
 
-    override suspend fun getPlaces(placeName: String): List<Place> {
+    override suspend fun getPlaces(placeName: String, page: Int): List<Place> {
         return placeDao.getPlaces(placeName).map { it.toPlace() }
     }
 

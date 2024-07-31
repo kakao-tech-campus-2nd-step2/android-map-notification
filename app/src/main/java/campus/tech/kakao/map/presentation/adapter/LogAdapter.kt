@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import campus.tech.kakao.map.util.DiffUtilCallback
 import campus.tech.kakao.map.databinding.LogItemBinding
 import campus.tech.kakao.map.domain.model.Place
+import campus.tech.kakao.map.presentation.search.SearchActivityListener
 
 class LogAdapter(
-    private val onRemoveLog: (String) -> Unit
+    private val listener: SearchActivityListener
 )
     : ListAdapter<Place, LogAdapter.LogViewHolder>(DiffUtilCallback()) {
     inner class LogViewHolder(private val binding: LogItemBinding)
@@ -17,7 +18,7 @@ class LogAdapter(
         fun bind(place: Place){
             binding.place = place
             binding.btnLogDel.setOnClickListener {
-                onRemoveLog(place.id)
+                listener.onLogDelBtnClick(place.id)
             }
         }
     }

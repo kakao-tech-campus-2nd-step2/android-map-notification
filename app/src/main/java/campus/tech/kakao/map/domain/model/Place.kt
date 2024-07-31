@@ -5,10 +5,10 @@ import java.io.Serializable
 
 
 data class Place(
-    @SerializedName("id") var id: String,
-    @SerializedName("place_name") var place: String,
-    @SerializedName("address_name") var address: String,
+    @SerializedName("id") val id: String,
+    @SerializedName("place_name") val place: String,
+    @SerializedName("address_name") val address: String,
     @SerializedName("category_name")var category: String,
-    @SerializedName("x") var xPos: String,
-    @SerializedName("y") var yPos: String
+    @SerializedName("x") val xPos: String,
+    @SerializedName("y") val yPos: String
 ): Serializable

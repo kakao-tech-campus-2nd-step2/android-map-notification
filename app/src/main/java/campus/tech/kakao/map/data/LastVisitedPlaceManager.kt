@@ -1,12 +1,12 @@
 package campus.tech.kakao.map.data
 
 import android.content.Context
+import android.content.SharedPreferences
 import campus.tech.kakao.map.domain.model.Place
 import javax.inject.Inject
 
-class LastVisitedPlaceManager @Inject constructor(context: Context) {
-
-    private val sharedPreferences = context.getSharedPreferences("LastVisitedPlace", Context.MODE_PRIVATE)
+class LastVisitedPlaceManager
+@Inject constructor(private val sharedPreferences: SharedPreferences) {
 
     fun saveLastVisitedPlace(place: Place) {
         val editor = sharedPreferences.edit()

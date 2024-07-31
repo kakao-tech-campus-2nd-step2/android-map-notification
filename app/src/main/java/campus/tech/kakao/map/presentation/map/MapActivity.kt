@@ -103,7 +103,7 @@ class MapActivity : AppCompatActivity() {
     }
 
     private fun isNetworkAvailable(): Boolean {
-        return PlaceApplication.isNetworkActive()
+        return PlaceApplication.isNetworkActive(this)
     }
 
     private fun initMapPage(){
