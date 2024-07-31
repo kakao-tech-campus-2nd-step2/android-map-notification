@@ -5,6 +5,9 @@
 
     <data>
         <variable
+            name="view"
+            type="campus.tech.kakao.map.view.WelcomeActivity" />
+        <variable
             name="viewModel"
             type="campus.tech.kakao.map.viewmodel.WelcomeViewModel" />
     </data>
@@ -30,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="200dp"
+            android:text="@{viewModel.serviceMessage}"
             app:layout_constraintTop_toTopOf="@+id/welcome_img"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

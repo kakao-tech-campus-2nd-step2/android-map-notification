@@ -18,7 +18,6 @@ object RemoteConfigManager {
             minimumFetchIntervalInSeconds = 0
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
-        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
     }
     fun processRemoteConfig(onComplete: (Boolean) -> Unit) {
         remoteConfig.fetchAndActivate()

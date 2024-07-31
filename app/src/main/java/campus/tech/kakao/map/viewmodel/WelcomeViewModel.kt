@@ -18,28 +18,19 @@ class WelcomeViewModel @Inject constructor(
 
     init {
         activateRemoteConfig()
-        updateCurrentServiceStateConfigValues()
     }
 
-    // 앱 첫 설치시 한번만 실행
     private fun activateRemoteConfig() {
         remoteConfigManager.processRemoteConfig { isSuccess ->
             val setServiceState = remoteConfigManager.getServiceState()
-            val setServiceMessage = remoteConfigManager.getServiceMessage()
+
             if (isSuccess) {
                 _serviceState.value = setServiceState
                 when (setServiceState) {
-                    remoteConfigManager.REMOTE_ON_SERVICE -> {}
-                    else -> { _serviceMessage.value = setServiceMessage }
+                    remoteConfigManager.REMOTE_ON_SERVICE -> { _serviceMessage.value = "" }
+                    else -> { _serviceMessage.value = remoteConfigManager.getServiceMessage() }
                 }
             }
         }
     }
-
-    // 앱 설치 이후
-    private fun updateCurrentServiceStateConfigValues() {
-        _serviceState.value = remoteConfigManager.getServiceState()
-    }
-
-    fun getCurrentServiceMsgConfigValues(): String = remoteConfigManager.getServiceMessage()
 }

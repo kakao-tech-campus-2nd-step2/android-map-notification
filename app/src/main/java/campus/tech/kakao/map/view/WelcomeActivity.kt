@@ -2,6 +2,7 @@ package campus.tech.kakao.map.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -22,6 +23,7 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupBinding()
         observeServiceStateChanges()
+        //observeServiceMsgChanges()
     }
 
     private fun setupBinding() {
@@ -33,19 +35,22 @@ class WelcomeActivity : AppCompatActivity() {
         welcomeViewModel.serviceState.observe(this){ state ->
             when(state) {
                 RemoteConfigManager.REMOTE_ON_SERVICE -> {
+                    Log.d("arieum", "$state")
                     lifecycleScope.launch {
-                        binding.serverMsg.text = ""
                         delayBeforeMoveMapView()
                         runOnUiThread { moveMapView() }
                     }
                 }
-                else -> {
-                    binding.serverMsg.text = welcomeViewModel.getCurrentServiceMsgConfigValues()
-                }
+                else -> { Log.d("arieum", "$state") }
             }
         }
     }
-    private suspend fun delayBeforeMoveMapView(){ delay(2000L) }
+     private fun observeServiceMsgChanges(){
+        welcomeViewModel.serviceMessage.observe(this){
+            binding.serverMsg.text = it
+        }
+    }
+    private suspend fun delayBeforeMoveMapView(){ delay(1000L) }
     private fun moveMapView() {
         val intent = Intent(this@WelcomeActivity, MapViewActivity::class.java)
         startActivity(intent)
