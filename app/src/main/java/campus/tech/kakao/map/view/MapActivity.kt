@@ -1,4 +1,4 @@
-package campus.tech.kakao.map
+package campus.tech.kakao.map.view
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -10,6 +10,8 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import campus.tech.kakao.map.MainViewModel
+import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityMapBinding
 import campus.tech.kakao.map.databinding.BottomSheetBinding
 import campus.tech.kakao.map.databinding.MapErrorBinding
@@ -84,7 +86,6 @@ class MapActivity : AppCompatActivity() {
 		initBottomSheet()
 		documentClickedObserve()
 	}
-
 	private fun onSearchBarClicked(){
 		val fragmentManager = supportFragmentManager
 		val searchFragment = SearchFragment()
