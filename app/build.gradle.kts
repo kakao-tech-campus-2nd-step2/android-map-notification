@@ -100,4 +100,8 @@ dependencies {
 
     implementation("com.google.firebase:firebase-config-ktx:22.0.0")
     implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
+    // splash
+    implementation("androidx.core:core-splashscreen:1.0.0-rc01")
+
+
 }

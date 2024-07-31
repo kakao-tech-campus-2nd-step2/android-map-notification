@@ -1,13 +1,19 @@
 package campus.tech.kakao.map.view.map
 
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AnticipateInterpolator
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityMapBinding
@@ -37,14 +43,17 @@ class MapActivity : AppCompatActivity() {
     private lateinit var activityMapBinding: ActivityMapBinding
     private lateinit var errorMapBinding: ErrorMapBinding
     private lateinit var mapBottomSheetBinding: MapBottomSheetBinding
-
+    private lateinit var splashScreen: SplashScreen
     companion object{
         private const val DEFAULT_LONGITUDE = 127.115587
         private const val DEFAULT_LATITUDE = 37.406960
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        splashScreen = installSplashScreen()
+        startSplash()
         super.onCreate(savedInstanceState)
+
         activityMapBinding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(activityMapBinding.root)
 
@@ -56,6 +65,23 @@ class MapActivity : AppCompatActivity() {
         remoteConfigViewModel.remoteConfigLiveData.observe(this, Observer {
             updateConfigs(it)
         })
+    }
+
+    // splash의 애니메이션 설정
+    private fun startSplash() {
+        splashScreen.setOnExitAnimationListener { splashScreenView ->
+            val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, 5f, 1f)
+            val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 5f, 1f)
+
+            ObjectAnimator.ofPropertyValuesHolder(splashScreenView.iconView, scaleX, scaleY).run {
+                interpolator = AnticipateInterpolator()
+                duration = 1000L
+                doOnEnd {
+                    splashScreenView.remove()
+                }
+                start()
+            }
+        }
     }
     private fun updateConfigs(remoteConfig: RemoteConfig) {
         if(remoteConfig.serviceState == "ON_SERVICE"){
