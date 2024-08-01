@@ -13,7 +13,9 @@ import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivitySplashBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
     private val splashViewModel: SplashViewModel by viewModels()

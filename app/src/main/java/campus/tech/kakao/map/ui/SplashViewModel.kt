@@ -8,8 +8,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SplashViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class SplashViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val _serviceState = MutableLiveData<String>()
     val serviceState: LiveData<String> = _serviceState
