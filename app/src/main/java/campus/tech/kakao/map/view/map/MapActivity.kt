@@ -2,19 +2,29 @@ package campus.tech.kakao.map.view.map
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.view.animation.AnticipateInterpolator
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.doOnEnd
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
+import campus.tech.kakao.map.BuildConfig
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityMapBinding
 import campus.tech.kakao.map.databinding.ErrorMapBinding
@@ -43,7 +53,8 @@ class MapActivity : AppCompatActivity() {
     private lateinit var errorMapBinding: ErrorMapBinding
     private lateinit var mapBottomSheetBinding: MapBottomSheetBinding
     private lateinit var splashScreen: SplashScreen
-    companion object{
+
+    companion object {
         private const val DEFAULT_LONGITUDE = 127.115587
         private const val DEFAULT_LATITUDE = 37.406960
     }
@@ -58,7 +69,14 @@ class MapActivity : AppCompatActivity() {
         bottomSheetBehavior = BottomSheetBehavior.from(mapBottomSheetBinding.bottomSheetLayout)
         setupMapView()
         setupEditText()
+
+        createChannel(
+            BuildConfig.CHANNEL_ID,
+            BuildConfig.CHANNEL_NAME
+        )
+        askNotificationPermission()
     }
+
     private fun updateConfigs(remoteConfig: RemoteConfig) {
     }
 
@@ -97,7 +115,7 @@ class MapActivity : AppCompatActivity() {
                     showLabel(location, kakaoMap)
                     showBottomSheet(location)
                     locationViewModel.addLastLocation(location)
-                } else{
+                } else {
                     hideBottomSheet()
                 }
             }
@@ -105,7 +123,7 @@ class MapActivity : AppCompatActivity() {
             override fun getPosition(): LatLng {
                 if (location != null) {
                     return LatLng.from(location.latitude, location.longitude)
-                } else{
+                } else {
                     return LatLng.from(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
                 }
 
@@ -117,7 +135,8 @@ class MapActivity : AppCompatActivity() {
     private fun showErrorMessage(error: Exception) {
         runOnUiThread {
             setContentView(errorMapBinding.root)
-            errorMapBinding.errorMessageTextView.text = "지도 인증을 실패했습니다.\n다시 시도해주세요.\n\n" + error.message
+            errorMapBinding.errorMessageTextView.text =
+                "지도 인증을 실패했습니다.\n다시 시도해주세요.\n\n" + error.message
         }
     }
 
@@ -145,14 +164,17 @@ class MapActivity : AppCompatActivity() {
     private fun showBottomSheet(location: Location) {
         mapBottomSheetBinding.bottomSheetLayout.visibility = View.VISIBLE
         mapBottomSheetBinding.bottomSheetTitle.text = location.title
-        Log.d("jieun", "mapBottomSheetBinding.bottomSheetTitle.text:"+mapBottomSheetBinding.bottomSheetTitle.text)
+        Log.d(
+            "jieun",
+            "mapBottomSheetBinding.bottomSheetTitle.text:" + mapBottomSheetBinding.bottomSheetTitle.text
+        )
         mapBottomSheetBinding.bottomSheetAddress.text = location.address
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun getLocation(): Location? {
         var location = getLocationByIntent()
-        if(location == null) {
+        if (location == null) {
             location = locationViewModel.getLastLocation()
         }
         return location
@@ -161,10 +183,84 @@ class MapActivity : AppCompatActivity() {
 
     private fun getLocationByIntent(): Location? {
         if (intent.hasExtra("location")) {
-            val location = intent.getParcelableExtra("location", Location::class.java) // API 레벨 오류, 실행에는 문제없다.
-            Log.d("jieun","getLocationByIntent location "+location.toString())
+            val location =
+                intent.getParcelableExtra("location", Location::class.java) // API 레벨 오류, 실행에는 문제없다.
+            Log.d("jieun", "getLocationByIntent location " + location.toString())
             return location
         }
         return null
     }
+
+    // 6주차
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
+                // 권한 요청 이유를 설명하는 UI를 표시
+                showNotificationPermissionDialog()
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    private fun showNotificationPermissionDialog() {
+        AlertDialog.Builder(this@MapActivity).apply {
+            setTitle("알림 권한 요청")
+            setMessage(
+                String.format(
+                    "다양한 알림 소식을 받기 위해 권한을 허용하시겠어요?\n(알림 에서 %s의 알림 권한을 허용해주세요.)",
+                    getString(R.string.app_name)
+                )
+            )
+            setPositiveButton("네") { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            setNegativeButton("아니요") { _, _ -> }
+            show()
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // FCM SDK (and your app) can post notifications.
+        } else {
+            // TODO: Inform user that that your app will not show notifications.
+        }
+    }
+
+    private fun createChannel(channelId: String, channelName: String) {
+        // TODO: Step 1.6 START create a channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+            val notificationChannel = NotificationChannel(
+                channelId,
+                channelName,
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                setShowBadge(false)
+            }
+
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(true)
+            notificationChannel.description = "커피 이벤트 홍보"
+
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+    }
+
 }
