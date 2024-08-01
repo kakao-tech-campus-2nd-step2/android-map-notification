@@ -15,3 +15,4 @@
 2. spalshViewModel로 Remote Config의 serviceState와 serviceMessage를 불러온다.
 3. serviceState == ON_SERVICE인 경우 MainActivity로 넘어가 기존의 앱의 지도화면이 뜨며 앱이 실행된다.
 4. serviceState != ON_SERVICE인 경우 serviceMessage를 표시하고 해당 화면에서 작동이 끝난다.
+
