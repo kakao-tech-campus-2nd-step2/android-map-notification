@@ -23,15 +23,16 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_api_key" />
 
-        <activity
-            android:name=".ui.MainActivity"
+        <activity android:name=".ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity android:name=".ui.MainActivity"
+            android:exported="true"/>
 
         <activity android:name=".ui.SearchActivity" />
     </application>
