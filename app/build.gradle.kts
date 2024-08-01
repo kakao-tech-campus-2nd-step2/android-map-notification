@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,7 +7,7 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
+    //id("com.google.gms.google-services")
 }
 
 android {
@@ -13,6 +15,14 @@ android {
     compileSdk = 34
 
     defaultConfig {
+
+        ndk {
+            abiFilters.add("arm64-v8a")
+            abiFilters.add("armeabi-v7a")
+            abiFilters.add("x86")
+            abiFilters.add("x86_64")
+        }
+
         applicationId = "campus.tech.kakao.map"
         minSdk = 26
         targetSdk = 34
@@ -20,6 +30,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        resValue("string", "kakao_api_key", getApiKey("KAKAO_API_KEY"))
+        buildConfigField("String", "KAKAO_REST_API_KEY", getApiKey("KAKAO_REST_API_KEY"))
     }
 
     buildTypes {
@@ -45,6 +58,8 @@ android {
     }
 }
 
+fun getApiKey(key: String): String = gradleLocalProperties(rootDir, providers).getProperty(key)
+
 dependencies {
 
     implementation("androidx.core:core-ktx:1.13.1")
@@ -64,10 +79,10 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.48.1")
     implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("androidx.room:room-ktx:2.6.1")
-    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-config-ktx:22.0.0")
-    implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
+    //implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    //implementation("com.google.firebase:firebase-analytics-ktx")
+    //implementation("com.google.firebase:firebase-config-ktx:22.0.0")
+    //implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
     testImplementation("androidx.room:room-testing:2.6.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk-android:1.13.11")
