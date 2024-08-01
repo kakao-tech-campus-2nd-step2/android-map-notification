@@ -11,4 +11,7 @@
     <string name="askNotificationPermissionDialogTitle">알림 권환 요청</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
+
+    <string name="notificationChannelName">custom_notification_channel</string>
+    <string name="notificationChannelDescription">custom notification channel</string>
 </resources>
