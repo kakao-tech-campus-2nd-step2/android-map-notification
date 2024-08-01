@@ -5,14 +5,18 @@ import campus.tech.kakao.map.domain.PlaceRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 abstract class PlaceRepositoryModule {
     @Binds
-    @Singleton
+    @ViewModelScoped
     abstract fun bindPlaceRepository(
         impl: PlaceRepositoryImpl
     ) : PlaceRepository
