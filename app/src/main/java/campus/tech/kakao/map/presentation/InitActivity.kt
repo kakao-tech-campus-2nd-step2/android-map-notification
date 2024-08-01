@@ -14,6 +14,8 @@ import campus.tech.kakao.map.databinding.ActivityInitBinding
 import campus.tech.kakao.map.domain.model.RemoteConfig
 import campus.tech.kakao.map.presentation.viewmodel.InitViewModel
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
@@ -28,6 +30,14 @@ class InitActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_init)
         observeViewModel()
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            if (!it.isSuccessful) {
+                Log.w(TAG,"Fetching FCM registration token failed", it.exception)
+                return@addOnCompleteListener
+            }
+            val token = it.result
+            Log.d(TAG, token)
+        }
     }
 
     private fun observeViewModel() {

@@ -4,7 +4,7 @@
 - [x] serviceState값이 ON_SERVICE 인 경우 지도 화면으로 전환
 - [x] serviceState값이 ON_SERVICE가 아닌 경우 serviceMessage 값을 화면에 표시하고 유지
 ## 2단계 요구 사항
-- [ ] FCM 설정
+- [x] FCM 설정
 - [ ] 테스트 메시지 수신하기
   - [ ] 백그라운드에서 FCM 기본값 알림 발생
   - [ ] 포그라운드에서 커스텀 알림 발생
