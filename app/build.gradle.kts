@@ -29,6 +29,8 @@ android {
         buildConfigField("String", "BASE_URL", getApiKey("BASE_URL"))
         buildConfigField("String", "SERVICE_STATE", getApiKey("SERVICE_STATE"))
         buildConfigField("String", "SERVICE_MESSAGE", getApiKey("SERVICE_MESSAGE"))
+        buildConfigField("String", "CHANNEL_ID", getApiKey("CHANNEL_ID"))
+        buildConfigField("String", "CHANNEL_NAME", getApiKey("CHANNEL_NAME"))
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
