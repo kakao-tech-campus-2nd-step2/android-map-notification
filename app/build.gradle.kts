@@ -83,6 +83,7 @@ dependencies {
     implementation(libs.firebase.analytics.ktx)
     implementation(libs.firebase.config.ktx)
     implementation(libs.firebase.messaging.ktx)
+    implementation(libs.core.splashscreen)
     testImplementation(libs.room.testing)
     testImplementation(libs.junit)
     testImplementation(libs.mockk)

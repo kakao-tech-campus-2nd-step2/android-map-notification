@@ -6,11 +6,19 @@
 
 - 실행 영상
   
-![week5_2](https://github.com/user-attachments/assets/8f1d5e09-d3f0-4578-ab3b-9b6a8d8c81c0)
+![week6_1](https://github.com/user-attachments/assets/69e03c8f-851a-4d65-89fb-cb556d7b1d61)
 
-- 인증 에러시 화면
-  
-![week4_1](https://github.com/user-attachments/assets/7c9bc6f0-c163-4058-83cc-1299120c7230)
+## 푸시 알림
+
+앱 실행 중 알림               백그라운드 알림
+
+![week6_noti_fore](https://github.com/user-attachments/assets/ec18e78b-fe9e-490d-9a10-bc2f31aad907) ![week6_noti_back](https://github.com/user-attachments/assets/ae65f018-877d-438e-8067-ce8296d4c00b)
+
+## 에러 화면
+
+서비스 비활성화 상태 화면          인증 에러시 화면
+
+![splash_error](https://github.com/user-attachments/assets/692f95a0-077e-484d-b840-85036e72252f) ![week4_1](https://github.com/user-attachments/assets/7c9bc6f0-c163-4058-83cc-1299120c7230)
 
 ## flow chart
 
@@ -46,3 +54,18 @@
 
 9. 카카오지도 onMapError() 호출 시 에러 화면을 보여준다.
 
+### step1(Splash Screen)
+
+1. 초기 진입 화면을 추가한다.
+
+2. 매개변수 serviceState 값이 ON_SERVICE일 때만 초기 진입 화면이 지도 화면으로 넘어간다.
+
+3. 매개변수 serviceState 값이 ON_SERVICE이 아닌 경우에는 serviceMessage 값을 초기 진입 화면 하단에 표시하고 지도 화면으로 진입하지 않는다.
+
+### step2(푸시 알림)
+
+1. Firebase Cloud Message로 테스트 메시지를 보낸다.
+    - 앱이 백그라운드 상태일 경우 FCM 기본 값을 사용하여 Notification을 발생한다.
+    - 앱이 포그라운드 상태일 경우 커스텀 Notification을 발생한다.
+
+2. Notification 창을 터치하면 초기 진입 화면이 호출된다.

@@ -29,10 +29,10 @@ class PlaceViewModelTest {
 
     @Before
     fun setup() {
-        getPlacesByCategoryUseCase = mockk()
-        viewModel = PlaceViewModel(getPlacesByCategoryUseCase, testDispatcher)
-
         Dispatchers.setMain(testDispatcher)
+        getPlacesByCategoryUseCase = mockk()
+        viewModel = PlaceViewModel(getPlacesByCategoryUseCase)
+
         mockLogClass()
     }
 

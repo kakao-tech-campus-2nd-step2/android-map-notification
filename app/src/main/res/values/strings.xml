@@ -8,4 +8,17 @@
     <string name="bottom_sheet_place_name">부산대 컴공관</string>
     <string name="bottom_sheet_place_address">부산광역시 금정구 부산대학로 63번길 2</string>
     <string name="map_error_description">지도 인증을 실패했습니다.\n다시 시도해 주세요.</string>
+    <string name="yes">허용</string>
+    <string name="deny_notification_permission">허용 안함</string>
+    <string name="fcm_channel_description">fcm chennel description</string>
+    <string name="notification_content">앱이 실행중입니다.</string>
+    <string name="notification_big_text">앱이 실행 중일 때는 포그라운드 알림이 발생합니다.</string>
+    <string name="map_destroy_log">onMapDestroy called</string>
+    <string name="map_error_log">onMapError: %1$s</string>
+    <string name="map_ready_log">onMapReady called</string>
+    <string name="notification_permission_granted_log">알림 권한이 허용되었습니다. FCM SDK 및 앱에서 알림을 게시할 수 있습니다.</string>
+    <string name="notification_permission_denied_log">알림 권한이 거부되었습니다. 앱에서 알림을 표시하지 않습니다.</string>
+    <string name="notification_permission_already_granted">알림 권한이 이미 허용되어 있습니다.</string>
+    <string name="notification_permission_request_message">다양한 알림 소식을 받기 위해 권한을 허용하시겠어요?\n(알림 설정에서 %1$s의 알림 권한을 허용해주세요.)</string>
+
 </resources>
