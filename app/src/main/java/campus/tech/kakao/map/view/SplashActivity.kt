@@ -5,51 +5,53 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivitySplashBinding
+import campus.tech.kakao.map.viewmodel.SplashActivityViewModel
+import campus.tech.kakao.map.viewmodel.SplashUIState
 import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.get
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
+import kotlinx.coroutines.launch
 
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val viewModel : SplashActivityViewModel by viewModels()
         val binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
-        val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 0 // 개발용
-        }
-        remoteConfig.setConfigSettingsAsync(configSettings)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.splashUiState.collect { uiState ->
+                    when(uiState){
+                        is SplashUIState.Loading -> {}
+                        is SplashUIState.OnService -> {
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                val mainIntent = Intent(this@SplashActivity, MapActivity::class.java)
+                                startActivity(mainIntent)
+                                finish()
+                            }, 2000)
+                        }
 
-        remoteConfig
-            .fetchAndActivate().addOnCompleteListener(this){ task ->
-            if (task.isSuccessful) {
-                val state = remoteConfig.getString("serviceState")
-                if(state == "ON_SERVICE") {
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        val mainIntent = Intent(this@SplashActivity, MapActivity::class.java)
-                        startActivity(mainIntent)
-                        finish()
-                    }, 2000)
-                }else {
-                    Log.d("testtt","state : $state")
-                    binding.serviceMessage.isVisible = true
-                    binding.serviceMessage.text = remoteConfig.getString("serviceMessage")
-
+                        is SplashUIState.OffService -> {
+                            binding.serviceMessage.isVisible = true
+                        }
+                    }
                 }
-            } else {
-                binding.serviceMessage.isVisible = true
-                binding.serviceMessage.text = "알수없는 오류가 발생하였습니다."
-                Log.d("errorFirebase", "err")
             }
         }
+
     }
 }
 

@@ -9,6 +9,10 @@ import campus.tech.kakao.map.utilities.Constants
 import campus.tech.kakao.map.data.SavedPlaceDao
 import campus.tech.kakao.map.data.SavedPlaceDatabase
 import campus.tech.kakao.map.utilities.PlaceContract
+import com.google.firebase.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,6 +44,8 @@ class LocalDataSourceModule {
     fun provideDataStore(@ApplicationContext context: Context) : DataStore<Preferences>{
         return context.dataStore
     }
+
+
 
 
 }
