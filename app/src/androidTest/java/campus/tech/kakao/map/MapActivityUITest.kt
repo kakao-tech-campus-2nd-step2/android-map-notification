@@ -6,8 +6,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import campus.tech.kakao.map.view.MapActivity
-import org.junit.Rule
-import org.junit.Test
 
 
 class MapActivityUITest {
