@@ -36,11 +36,11 @@
         </activity>
         <activity
             android:name=".presentation.SearchActivity"
-            android:exported="true"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".presentation.MapActivity"
-            android:exported="true"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize" >
         </activity>
     </application>
