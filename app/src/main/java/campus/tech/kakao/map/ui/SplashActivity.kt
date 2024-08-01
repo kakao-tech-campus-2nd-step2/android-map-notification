@@ -2,7 +2,6 @@ package campus.tech.kakao.map.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import campus.tech.kakao.map.R
@@ -12,7 +11,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
 
-class LoadingActivity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity() {
     private lateinit var loadingBinding: LoadingLayoutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
