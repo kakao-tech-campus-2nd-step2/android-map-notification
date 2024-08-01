@@ -66,6 +66,10 @@ class SplashViewModelTest {
         splashViewModel.serviceMessage.observeForever(serviceMessageObserver)
         splashViewModel.serviceState.observeForever(serviceStateObserver)
         splashViewModel.navigationEvent.observeForever(navigationEventObserver)
+
+        every { navigationEventObserver.onChanged(any()) } answers {}
+        every { serviceStateObserver.onChanged(any()) } answers {}
+        every { serviceMessageObserver.onChanged(any()) } answers {}
     }
 
     @After()
@@ -105,22 +109,43 @@ class SplashViewModelTest {
 
     @Test
     fun `만약 ON_SERVICE 라면 맵 이동 이벤트 발생`() = runTest(UnconfinedTestDispatcher()) {
-        every { navigationEventObserver.onChanged(any()) } answers {}
-        every { serviceStateObserver.onChanged(any()) } answers {}
-        every { serviceMessageObserver.onChanged(any()) } answers {}
         // Mocking 응답 설정
-        coEvery { getRemoteConfigUseCase("serviceState") } returns MutableLiveData<String>("ON_SERVICE")
+        coEvery { getRemoteConfigUseCase("serviceState") } returns ("ON_SERVICE")
 
-        var navigationEvent = splashViewModel.navigationEvent.value
+        splashViewModel.fetchRemoteConfig()
+        advanceUntilIdle()
 
-        // ViewModel의 fetchRemoteConfig 호출
-        runBlocking {
-            splashViewModel.fetchRemoteConfig()
-            advanceUntilIdle()
-        }
-        navigationEvent = splashViewModel.navigationEvent.getOrAwaitValue()
+        var navigationEvent = splashViewModel.navigationEvent.getOrAwaitValue()
 
         assertEquals(true, navigationEvent)
+    }
+
+    @Test
+    fun `만약 ON_SERVICE 아니라면 맵 이동 이벤트 발생안함`() = runTest(UnconfinedTestDispatcher()) {
+        // Mocking 응답 설정
+        coEvery { getRemoteConfigUseCase("serviceState") } returns ("OFF_SERVICE")
+        coEvery { getRemoteConfigUseCase("serviceMessage") } returns ("서비스가 종료되었습니다.")
+
+        splashViewModel.fetchRemoteConfig()
+        advanceUntilIdle()
+
+        var navigationEvent = splashViewModel.navigationEvent.getOrAwaitValue()
+
+        assertEquals(false, navigationEvent)
+    }
+
+    @Test
+    fun `만약 ON_SERVICE 아니라면 서비스메시지_세팅되는지`() = runTest(UnconfinedTestDispatcher()) {
+        // Mocking 응답 설정
+        coEvery { getRemoteConfigUseCase("serviceState") } returns ("OFF_SERVICE")
+        coEvery { getRemoteConfigUseCase("serviceMessage") } returns ("서비스 종료")
+
+        splashViewModel.fetchRemoteConfig()
+        advanceUntilIdle()
+
+        var serviceMessage = splashViewModel.serviceMessage.getOrAwaitValue()
+
+        assertEquals("서비스 종료", serviceMessage)
     }
 
 

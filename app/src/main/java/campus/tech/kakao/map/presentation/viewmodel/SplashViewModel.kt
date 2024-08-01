@@ -36,26 +36,14 @@ class SplashViewModel @Inject constructor(
 
     fun fetchRemoteConfig() {
         viewModelScope.launch {
-            // 스플래시 화면 확인을 위해 넣은 딜레이
-            delay(2000)
-            runBlocking {
-                getRemoteConfigUseCase("serviceState").observeForever { state ->
-                    _serviceState.value = state
-                    if (state != "ON_SERVICE") {
-                        runBlocking {
-                            getRemoteConfigUseCase("serviceMessage").observeForever { message ->
-                                _serviceMessage.value = message
-                                _navigationEvent.value = false
-                            }
-                        }
-                    } else {
+                _serviceState.value = getRemoteConfigUseCase("serviceState")
+                if (_serviceState.value != "ON_SERVICE") {
+                    _serviceMessage.value = getRemoteConfigUseCase("serviceMessage")
+                    _navigationEvent.value = false
+                } else {
                         _serviceMessage.value = DEFAULT_STRING
                         _navigationEvent.value = true
-                    }
                 }
-            }
         }
     }
-
-
 }
