@@ -13,3 +13,10 @@
   - 초기 진입 화면에서 지도 화면으로 이동
 - `serviceState` != `ON_SERVICE`
   - `serviceMessage` 값을 초기 진입 화면 하단에 표시 + 지도 화면으로 이동 X
+
+### 2단계 - 푸시 알림
+- Firebase의 Cloud Messaging 설정
+- 테스트 메시지 전송
+  - 백그라운드 상태 -> FCM 기본 값을 사용해 Notification 발생
+  - 포그라운드 상태 -> Custom Notification 발생
+- Notification 창 선택 시 초기 진입 화면 호출
