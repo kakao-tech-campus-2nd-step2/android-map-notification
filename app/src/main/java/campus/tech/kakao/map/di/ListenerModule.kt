@@ -12,7 +12,7 @@ import dagger.hilt.android.scopes.ActivityScoped
 
 @Module
 @InstallIn(ActivityComponent::class)
-class ListenerModule {
+object ListenerModule {
 
     @Provides
     @ActivityScoped
