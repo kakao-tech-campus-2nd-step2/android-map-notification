@@ -15,4 +15,7 @@
     <string name="errorMessage">지도 인증을 실패했습니다.\n다시 시도해 주세요.\n</string>
     <string name="errorType">어떤 에러</string>
     <string name="retryBtn">Retry</string>
+    <string name="ask_notification_permission_dialog_title">권한요청</string>
+    <string name="yes">허용</string>
+    <string name="deny_notification_permission">허용 안 함</string>
 </resources>
