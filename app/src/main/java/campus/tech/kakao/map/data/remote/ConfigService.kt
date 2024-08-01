@@ -10,8 +10,8 @@ import kotlinx.coroutines.tasks.await
 
 class ConfigService {
 
-    val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
-    val configSettings = remoteConfigSettings {
+    private val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
+    private val configSettings = remoteConfigSettings {
         minimumFetchIntervalInSeconds = 0 // 개발용
     }
 

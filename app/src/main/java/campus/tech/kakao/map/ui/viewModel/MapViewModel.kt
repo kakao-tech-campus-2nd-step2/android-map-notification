@@ -33,6 +33,7 @@ class MapViewModel @Inject constructor(private val repository: MapRepository) : 
         setLocalDB()
         getConfig()
     }
+
     fun getConfig() {
         viewModelScope.launch(Dispatchers.IO) {
             val fireDbConfig = repository.getConfig()

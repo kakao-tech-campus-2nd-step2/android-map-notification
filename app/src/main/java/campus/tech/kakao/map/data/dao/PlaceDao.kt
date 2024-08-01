@@ -14,10 +14,7 @@ interface PlaceDao {
     suspend fun getAllPlaces(): List<DBPlace>
 
     @Insert
-    suspend fun insertAll(vararg dbPlace: DBPlace) {
-        Log.d("search2", "insetAll: ${Thread.currentThread().name}")
-        // 워커 스레드에서 실행됨
-    }
+    suspend fun insertAll(vararg dbPlace: DBPlace)
 
     @Delete
     suspend fun delete(dbPlace: DBPlace)

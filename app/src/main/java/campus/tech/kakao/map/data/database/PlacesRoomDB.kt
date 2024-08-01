@@ -14,16 +14,12 @@ abstract class PlacesRoomDB: RoomDatabase() {
 
 
     companion object {
-        @Volatile
-        private var Instance: PlacesRoomDB? = null
 
         fun getDatabase(context: Context): PlacesRoomDB {
-            return Instance ?: synchronized(this) {
-                Room.databaseBuilder(
+            return Room.databaseBuilder(
                     context,
                     PlacesRoomDB::class.java, DATABASE_NAME
-                ).build().also { Instance = it }
-            }
+                ).build()
         }
     }
 
