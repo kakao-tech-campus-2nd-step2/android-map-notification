@@ -12,6 +12,7 @@ class MessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-
+        Log.d("message", message.from.toString())
+        message.notification?.let { Log.d("message", it.body.toString()) }
     }
 }
