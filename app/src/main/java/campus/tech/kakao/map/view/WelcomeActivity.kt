@@ -23,6 +23,7 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupBinding()
         observeServiceStateChanges()
+        setForegroundNotification()
     }
 
     private fun setupBinding() {
@@ -34,13 +35,13 @@ class WelcomeActivity : AppCompatActivity() {
         welcomeViewModel.serviceState.observe(this){ state ->
             when(state) {
                 RemoteConfigManager.REMOTE_ON_SERVICE -> {
-                    Log.d("arieum", "$state")
+                    Log.d("arieum", state)
                     lifecycleScope.launch {
                         delayBeforeMoveMapView()
                         runOnUiThread { moveMapView() }
                     }
                 }
-                else -> { Log.d("arieum", "$state") }
+                else -> { Log.d("arieum", state) }
             }
         }
     }
@@ -48,5 +49,9 @@ class WelcomeActivity : AppCompatActivity() {
     private fun moveMapView() {
         val intent = Intent(this@WelcomeActivity, MapViewActivity::class.java)
         startActivity(intent)
+    }
+    private fun setForegroundNotification() {
+        welcomeViewModel.createNotificationChannel(this)
+        welcomeViewModel.sendForegroundNotification(this)
     }
 }
