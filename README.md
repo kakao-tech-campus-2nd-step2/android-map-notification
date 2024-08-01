@@ -14,6 +14,7 @@
 **2. Notification 발생**
 - 앱이 백그라운드 상태일 때 FCM 기본 값으로 Notification 발생
 - 앱이 포그라운드 상태일 때 커스텀 Notification 발생
+- Notification 창을 터치하면 초기 진입 화면 호출
 
 
 ## 실행
