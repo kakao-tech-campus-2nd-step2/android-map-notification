@@ -1,8 +1,16 @@
 package campus.tech.kakao.map.view
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import campus.tech.kakao.map.R
@@ -16,6 +24,15 @@ import kotlinx.coroutines.launch
 
 class SplashScreen : AppCompatActivity() {
 	var serviceMessage:String = ""
+	private val requestPermissionLauncher = registerForActivityResult(
+		ActivityResultContracts.RequestPermission(),
+	) { isGranted: Boolean ->
+		if (isGranted) {
+			getRemoteConfig()
+		} else {
+			getRemoteConfig()
+		}
+	}
 	private lateinit var splashScreenBinding: ActivitySplashScreenBinding
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -23,7 +40,8 @@ class SplashScreen : AppCompatActivity() {
 		splashScreenBinding.splash = this
 		installSplashScreen()
 		setContentView(splashScreenBinding.root)
-		getRemoteConfig()
+		askNotificationPermission()
+
 	}
 
 	private fun moveMap(sec: Int) {
@@ -51,4 +69,53 @@ class SplashScreen : AppCompatActivity() {
 				}
 			}
 	}
+
+
+
+	private fun askNotificationPermission() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			if (ContextCompat.checkSelfPermission(
+					this,
+					android.Manifest.permission.POST_NOTIFICATIONS
+				) ==
+				PackageManager.PERMISSION_GRANTED
+			) {
+				getRemoteConfig()
+			} else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
+				showNotificationPermissionDialog()
+			} else {
+				requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+
+			}
+		}
+	}
+
+	private fun showNotificationPermissionDialog() {
+		AlertDialog.Builder(this@SplashScreen).apply {
+			setTitle(getString(R.string.ask_notification_permission_dialog_title))
+			setMessage(
+				String.format(
+					"다양한 알림 소식을 받기 위해 권한을 허용하시겠어요?\n(설정에서 %s의 알림 권한을 허용해주세요.)",
+					getString(R.string.app_name)
+				)
+			)
+			setPositiveButton(getString(R.string.yes)) { _, _ ->
+				val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+				val uri = Uri.fromParts("package", packageName, null)
+				intent.data = uri
+				startActivity(intent)
+				getRemoteConfig()
+			}
+			setNegativeButton(getString(R.string.deny_notification_permission)) { _, _ ->
+				getRemoteConfig()
+			}
+			show()
+		}
+	}
+
+	override fun onRestart() {
+		getRemoteConfig()
+		super.onRestart()
+	}
+
 }

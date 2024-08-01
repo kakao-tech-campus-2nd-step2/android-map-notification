@@ -12,4 +12,7 @@
     <string name="serviceState">serviceState</string>
     <string name="serviceState_default">ON_SERVICE</string>
     <string name="serviceMessage">serviceMessage</string>
+    <string name="ask_notification_permission_dialog_title">notification 요청</string>
+    <string name="yes">yes</string>
+    <string name="deny_notification_permission">no</string>
 </resources>
