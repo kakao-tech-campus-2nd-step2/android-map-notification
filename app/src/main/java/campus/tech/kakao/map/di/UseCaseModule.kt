@@ -2,8 +2,10 @@ package campus.tech.kakao.map.di
 
 import campus.tech.kakao.map.domain.repository.HistoryRepository
 import campus.tech.kakao.map.domain.repository.LastLocationRepository
+import campus.tech.kakao.map.domain.repository.RemoteConfigRepository
 import campus.tech.kakao.map.domain.repository.SearchLocationRepository
 import campus.tech.kakao.map.domain.usecase.GetHistoryUseCase
+import campus.tech.kakao.map.domain.usecase.GetServiceInformationUseCase
 import campus.tech.kakao.map.domain.usecase.LoadLastLocationUseCase
 import campus.tech.kakao.map.domain.usecase.RemoveHistoryUseCase
 import campus.tech.kakao.map.domain.usecase.SaveLastLocationUseCase
@@ -47,4 +49,9 @@ object UseCaseModule {
     @Singleton
     fun provideSearchLocationUseCase(searchLocationRepository: SearchLocationRepository) =
         SearchLocationUseCase(searchLocationRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetServiceInformationUseCase(remoteConfigRepository: RemoteConfigRepository) =
+        GetServiceInformationUseCase(remoteConfigRepository)
 }

@@ -6,8 +6,10 @@ import campus.tech.kakao.map.data.history.HistoryRepositoryImpl
 import campus.tech.kakao.map.data.last_location.LastLocationRepositoryImpl
 import campus.tech.kakao.map.data.local_search.LocalSearchService
 import campus.tech.kakao.map.data.local_search.SearchLocationRepositoryImpl
+import campus.tech.kakao.map.data.remote_config.RemoteConfigRepositoryImpl
 import campus.tech.kakao.map.domain.repository.HistoryRepository
 import campus.tech.kakao.map.domain.repository.LastLocationRepository
+import campus.tech.kakao.map.domain.repository.RemoteConfigRepository
 import campus.tech.kakao.map.domain.repository.SearchLocationRepository
 import dagger.Module
 import dagger.Provides
@@ -36,6 +38,10 @@ object RepositoryModule {
     fun provideSearchLocationRepository(localSearchService: LocalSearchService): SearchLocationRepository =
         SearchLocationRepositoryImpl(localSearchService)
 
+    @Provides
+    @Singleton
+    fun provideRemoteConfigRepository(): RemoteConfigRepository =
+        RemoteConfigRepositoryImpl()
 
     @Provides
     @Singleton
