@@ -8,13 +8,17 @@
   
 ![week6_1](https://github.com/user-attachments/assets/69e03c8f-851a-4d65-89fb-cb556d7b1d61)
 
-- 서비스 비활성화 상태 화면
+## 푸시 알림
 
-![splash_error](https://github.com/user-attachments/assets/692f95a0-077e-484d-b840-85036e72252f)
+앱 실행 중 알림               백그라운드 알림
 
-- 인증 에러시 화면
-  
-![week4_1](https://github.com/user-attachments/assets/7c9bc6f0-c163-4058-83cc-1299120c7230)
+![week6_noti_fore](https://github.com/user-attachments/assets/ec18e78b-fe9e-490d-9a10-bc2f31aad907) ![week6_noti_back](https://github.com/user-attachments/assets/ae65f018-877d-438e-8067-ce8296d4c00b)
+
+## 에러 화면
+
+서비스 비활성화 상태 화면          인증 에러시 화면
+
+![splash_error](https://github.com/user-attachments/assets/692f95a0-077e-484d-b840-85036e72252f) ![week4_1](https://github.com/user-attachments/assets/7c9bc6f0-c163-4058-83cc-1299120c7230)
 
 ## flow chart
 
