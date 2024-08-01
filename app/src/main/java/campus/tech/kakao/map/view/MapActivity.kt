@@ -52,6 +52,16 @@ class MapActivity : AppCompatActivity() {
         observeViewModel()
         initializeMap()
         askNotificationPermission()
+//        FirebaseMessaging.getInstance().token
+//            .addOnCompleteListener(OnCompleteListener { task ->
+//                if (!task.isSuccessful) {
+//                    return@OnCompleteListener
+//                }
+//
+//                // Get new FCM registration token
+//                val token = task.result
+//                Log.d("testt", "FCM Registration token: $token")
+//            })
     }
 
     override fun onResume() {
