@@ -7,11 +7,13 @@ import campus.tech.kakao.map.domain.usecaseImpl.RemoveSearchQueryUseCaseImpl
 import campus.tech.kakao.map.domain.usecaseImpl.SaveLastPlaceUseCaseImpl
 import campus.tech.kakao.map.domain.usecaseImpl.SaveSearchQueryUseCaseImpl
 import campus.tech.kakao.map.domain.usecase.GetLastPlaceUseCase
+import campus.tech.kakao.map.domain.usecase.GetRemoteConfigUseCase
 import campus.tech.kakao.map.domain.usecase.GetSearchHistoryUseCase
 import campus.tech.kakao.map.domain.usecase.GetSearchPlacesUseCase
 import campus.tech.kakao.map.domain.usecase.RemoveSearchQueryUseCase
 import campus.tech.kakao.map.domain.usecase.SaveLastPlaceUseCase
 import campus.tech.kakao.map.domain.usecase.SaveSearchQueryUseCase
+import campus.tech.kakao.map.domain.usecaseImpl.GetRemoteConfigUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -51,4 +53,9 @@ abstract class UsecaseModule {
     abstract fun bindRemoveSearchQueryUseCase(
         impl: RemoveSearchQueryUseCaseImpl
     ): RemoveSearchQueryUseCase
+
+    @Binds
+    abstract fun bindGetRemoteConfigUseCase(
+        impl: GetRemoteConfigUseCaseImpl
+    ): GetRemoteConfigUseCase
 }
