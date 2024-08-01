@@ -1,5 +1,6 @@
 package campus.tech.kakao.map.utility
 
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
@@ -14,6 +15,11 @@ import campus.tech.kakao.map.ui.SplashActivity
 
 class MapFirebaseMessagingService : FirebaseMessagingService() {
 
+    override fun onCreate() {
+        super.onCreate()
+        createNotificationChannel()
+    }
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         Log.d(TAG, "From: ${remoteMessage.from}")
@@ -22,11 +28,21 @@ class MapFirebaseMessagingService : FirebaseMessagingService() {
             Log.d(TAG, "Message Notification Body: ${it.body}")
             showNotification(it.title, it.body)
         }
+        if (remoteMessage.data.isNotEmpty()) {
+            Log.d(TAG, "Message data payload: ${remoteMessage.data}")
+            handleDataMessage(remoteMessage.data)
+        }
     }
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d(TAG, "Refreshed token: $token")
+    }
+
+    private fun handleDataMessage(data: Map<String, String>) {
+        val title = data["title"]
+        val message = data["message"]
+        showNotification(title, message)
     }
 
     private fun showNotification(title: String?, message: String?) {
@@ -50,6 +66,19 @@ class MapFirebaseMessagingService : FirebaseMessagingService() {
 
         val notificationManager = getSystemService(NotificationManager::class.java)
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Default Channel"
+            val descriptionText = "Default channel for notifications"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     companion object {
