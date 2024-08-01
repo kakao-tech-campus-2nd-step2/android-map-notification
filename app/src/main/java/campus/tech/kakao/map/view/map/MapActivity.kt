@@ -15,6 +15,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.view.animation.AnticipateInterpolator
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -235,16 +236,15 @@ class MapActivity : AppCompatActivity() {
         ActivityResultContracts.RequestPermission(),
     ) { isGranted: Boolean ->
         if (isGranted) {
-            // FCM SDK (and your app) can post notifications.
+            Toast.makeText(this, "알림이 허용되었습니다.", Toast.LENGTH_SHORT)
         } else {
-            // TODO: Inform user that that your app will not show notifications.
+            Toast.makeText(this, "알림이 거부되었습니다.", Toast.LENGTH_SHORT)
         }
     }
 
     private fun createChannel(channelId: String, channelName: String) {
         // TODO: Step 1.6 START create a channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create channel to show notifications.
             val notificationChannel = NotificationChannel(
                 channelId,
                 channelName,
@@ -262,5 +262,4 @@ class MapActivity : AppCompatActivity() {
             notificationManager.createNotificationChannel(notificationChannel)
         }
     }
-
 }
