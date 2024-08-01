@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import campus.tech.kakao.map.data.model.Place
 import campus.tech.kakao.map.data.model.RecentSearchWord
-import campus.tech.kakao.map.data.repository.MapRepository
+import campus.tech.kakao.map.ui.activity.repository.MapRepository
 import campus.tech.kakao.map.data.vo.Config
 import com.kakao.vectormap.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel

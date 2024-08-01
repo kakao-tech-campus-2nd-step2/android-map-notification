@@ -8,14 +8,14 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import org.junit.Rule
 import org.junit.Test
-import campus.tech.kakao.map.ui.activity.MainActivity
+import campus.tech.kakao.map.ui.activity.MapActivity
 import campus.tech.kakao.map.ui.adapter.PlacesAdapter
 
 
 class MainUITest {
 
     @get:Rule
-    val activityRule = ActivityScenarioRule(MainActivity::class.java)
+    val activityRule = ActivityScenarioRule(MapActivity::class.java)
 
     @Test
     fun 장소_목록으로_전환_확인() {

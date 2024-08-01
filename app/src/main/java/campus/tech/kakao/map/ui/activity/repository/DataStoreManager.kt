@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.data.repository
+package campus.tech.kakao.map.ui.activity.repository
 
 import android.util.Log
 import androidx.datastore.core.DataStore

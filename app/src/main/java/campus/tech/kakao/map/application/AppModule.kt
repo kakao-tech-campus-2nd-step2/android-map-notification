@@ -8,8 +8,8 @@ import campus.tech.kakao.map.data.dao.PlaceDao
 import campus.tech.kakao.map.data.database.PlacesRoomDB
 import campus.tech.kakao.map.data.network.api.RetrofitService
 import campus.tech.kakao.map.data.remote.ConfigService
-import campus.tech.kakao.map.data.repository.DataStoreManager
-import campus.tech.kakao.map.data.repository.MapRepository
+import campus.tech.kakao.map.ui.activity.repository.DataStoreManager
+import campus.tech.kakao.map.ui.activity.repository.MapRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
