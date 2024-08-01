@@ -1,6 +1,7 @@
 package campus.tech.kakao.map.presentation
 
 import android.content.Intent
+
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -30,10 +31,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class InitActivity : AppCompatActivity() {
-    private val TAG = "sumin"
+    private val TAG = "InitActivity"
     private val viewModel: InitViewModel by viewModels()
     private lateinit var binding: ActivityInitBinding
-
+  
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_init)
