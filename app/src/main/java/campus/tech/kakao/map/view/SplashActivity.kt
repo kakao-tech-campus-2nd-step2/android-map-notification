@@ -41,6 +41,8 @@ class SplashActivity : AppCompatActivity() {
                 }else {
                     Log.d("testtt","state : $state")
                     binding.serviceMessage.isVisible = true
+                    binding.serviceMessage.text = remoteConfig.getString("serviceMessage")
+
                 }
             } else {
                 binding.serviceMessage.isVisible = true
