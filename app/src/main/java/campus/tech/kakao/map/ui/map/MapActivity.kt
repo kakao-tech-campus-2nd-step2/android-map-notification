@@ -1,15 +1,22 @@
 package campus.tech.kakao.map.ui.map
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -40,6 +47,16 @@ class MapActivity : AppCompatActivity() {
     private lateinit var searchActivityResultLauncher: ActivityResultLauncher<Intent>
 
     private val locationViewModel: LocationViewModel by viewModels()
+    private val TAG = "MapActivity"
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            Log.i(TAG, getString(R.string.notification_permission_granted_log))
+        } else {
+            Log.i(TAG, getString(R.string.notification_permission_denied_log))
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +67,7 @@ class MapActivity : AppCompatActivity() {
         startMapView()
         setSearchBoxClickListener()
         setSearchActivityResultLauncher()
+        askNotificationPermission()
     }
 
     /**
@@ -250,7 +268,7 @@ class MapActivity : AppCompatActivity() {
      * Kakao 지도 API 준비가 완료되었을 때 호출되는 로깅 함수.
      */
     private fun logMapReady() {
-        Log.d("MapActivity", "onMapReady called")
+        Log.d("MapActivity", getString(R.string.map_destroy_log))
     }
 
     @Override
@@ -281,6 +299,47 @@ class MapActivity : AppCompatActivity() {
                     binding.bottomSheetPlaceAddressTextView.text = location.address
                 }
             }
+        }
+    }
+
+    /**
+     * 알림 권한 요청 함수.
+     */
+    private fun askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                Log.i(TAG, getString(R.string.notification_permission_already_granted))
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                showNotificationPermissionDialog()
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    /**
+     * 알림 권한 요청 이유를 설명하는 다이얼로그 표시 함수.
+     */
+    private fun showNotificationPermissionDialog() {
+        AlertDialog.Builder(this).apply {
+            setMessage(
+                getString(
+                    R.string.notification_permission_request_message,
+                    getString(R.string.app_name),
+                ),
+            )
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            setNegativeButton(getString(R.string.deny_notification_permission)) { _, _ -> }
+            show()
         }
     }
 }
