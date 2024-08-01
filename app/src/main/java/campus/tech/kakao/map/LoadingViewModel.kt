@@ -22,7 +22,6 @@ class LoadingViewModel @Inject constructor(
     val serviceMessage: LiveData<String> get() = _serviceMessage
 
     init{
-        //updateRemoteConfig()
         updateServiceState()
         updateServiceMessage()
     }
@@ -31,8 +30,6 @@ class LoadingViewModel @Inject constructor(
         remoteConfig.fetchAndActivate()
             .addOnCompleteListener() { task ->
                 if (task.isSuccessful) {
-                    //getServiceState()
-                    //getServiceMessage()
                     _serviceState.postValue(remoteConfig.getString("serviceState"))
                 }
             }
@@ -46,13 +43,4 @@ class LoadingViewModel @Inject constructor(
                 }
             }
     }
-
-    private fun getServiceState() {
-        _serviceState.postValue(remoteConfig.getString("serviceState"))
-    }
-
-    private fun getServiceMessage() {
-        _serviceMessage.postValue(remoteConfig.getString("serviceMessage"))
-    }
-
 }
