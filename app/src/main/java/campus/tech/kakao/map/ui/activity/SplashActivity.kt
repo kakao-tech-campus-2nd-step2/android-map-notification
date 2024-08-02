@@ -48,7 +48,7 @@ class SplashActivity : AppCompatActivity() {
 
         viewModel.config.observe(this) {
             if (it.serviceState == ConfigService.ServiceState.ON_SERVICE) {
-                Thread.sleep(1000)
+                Thread.sleep(5000)
                 startActivity(Intent(this, MapActivity::class.java))
                 finish()
             } else {
