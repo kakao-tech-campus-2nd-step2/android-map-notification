@@ -1,13 +1,18 @@
 package campus.tech.kakao.map.ui
 
 import android.app.Application
+import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SplashViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class SplashViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val _serviceState = MutableLiveData<String>()
     val serviceState: LiveData<String> = _serviceState
@@ -17,6 +22,15 @@ class SplashViewModel(application: Application) : AndroidViewModel(application) 
 
     init {
         remoteConfigValues()
+    }
+
+    fun handleIntent(intent: Intent) {
+        if (intent.action == Intent.ACTION_VIEW) {
+            val data: Uri? = intent.data
+            data?.let {
+                // Process the URI if needed
+            }
+        }
     }
 
     private fun remoteConfigValues() {

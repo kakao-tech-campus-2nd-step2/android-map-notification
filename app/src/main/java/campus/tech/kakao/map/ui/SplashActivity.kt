@@ -11,7 +11,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivitySplashBinding
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
     private val splashViewModel: SplashViewModel by viewModels()
@@ -34,5 +38,18 @@ class SplashActivity : AppCompatActivity() {
         splashViewModel.serviceMessage.observe(this, Observer { message ->
             Log.d("SplashActivity", "serviceMessage: $message")
         })
+        getFcmToken()
+        splashViewModel.handleIntent(intent)
+    }
+    private fun getFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("SplashActivity", "Fetching FCM registration token failed", task.exception)
+                return@addOnCompleteListener
+            }
+
+            val token = task.result
+            Log.d("SplashActivity", "FCM registration token: $token")
+        }
     }
 }

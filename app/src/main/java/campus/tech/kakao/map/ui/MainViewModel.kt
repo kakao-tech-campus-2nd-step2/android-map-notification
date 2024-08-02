@@ -57,10 +57,8 @@ class MainViewModel @Inject constructor(
                 val profilesList = documents.map { it.toProfile() }
                 _profiles.value = profilesList
 
-                viewModelScope.launch {
-                    withContext(Dispatchers.IO) {
+                viewModelScope.launch (Dispatchers.IO){
                         db.profileDao().insertAll(*profilesList.toTypedArray())
-                    }
                 }
             }
         } ?: run {
