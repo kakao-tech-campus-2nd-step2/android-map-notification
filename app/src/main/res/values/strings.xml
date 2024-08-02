@@ -3,7 +3,7 @@
 
     <string name="error_message">지도 인증을 실패 했습니다. \n다시 시도해 주세요.</string>
 
-
-
+    <string name="fcm_channel_description">fcm channel</string>
+    <string name="msg_token_fmt">fcm channel</string>
 
 </resources>
