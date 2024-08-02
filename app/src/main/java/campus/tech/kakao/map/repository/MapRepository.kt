@@ -1,11 +1,11 @@
 package campus.tech.kakao.map.repository
 
-import android.content.Context
-import campus.tech.kakao.map.base.MyApplication
+import android.content.SharedPreferences
+import javax.inject.Inject
 
-class MapRepository(private val application: MyApplication): MapRepositoryInterface {
-    private val sharedPreferences = application.getSharedPreferences("LastLocation", Context.MODE_PRIVATE)
-
+class MapRepository @Inject constructor(
+    private val sharedPreferences: SharedPreferences
+): MapRepositoryInterface {
     override fun getLastLocation(): Pair<Double, Double>? {
         val x = sharedPreferences.getString("PLACE_X", null)
         val y = sharedPreferences.getString("PLACE_Y", null)
