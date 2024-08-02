@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -15,7 +16,13 @@ import campus.tech.kakao.map.R
 import campus.tech.kakao.map.data.remote.ConfigService
 import campus.tech.kakao.map.databinding.ActivitySplashBinding
 import campus.tech.kakao.map.ui.viewModel.MapViewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.concurrent.CountDownLatch
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
@@ -28,6 +35,16 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         askNotificationPermission()
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("fcm", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+            // Get new FCM registration token
+            val token = task.result
+            Log.d("fcm", "$token")
+        })
 
         viewModel.config.observe(this) {
             if (it.serviceState == ConfigService.ServiceState.ON_SERVICE) {

@@ -41,8 +41,8 @@ class NotificationService(val context: Context) {
             CHANNEL_ID
         )
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("[중요] 포그라운드 알림")
-            .setContentText("앱이 실행 중입니다.")
+            .setContentTitle(title)
+            .setContentText(content)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setStyle(
