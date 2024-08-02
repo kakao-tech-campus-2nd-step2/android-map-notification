@@ -1,13 +1,6 @@
-<<<<<<< HEAD
 .DS_Store
 ### Android template
-=======
-<<<<<<< HEAD
-.DS_Store
-### Android template
-=======
->>>>>>> arieum-from-old
->>>>>>> arieum-from-old
+
 # Gradle files
 .gradle/
 build/
@@ -41,16 +34,8 @@ google-services.json
 
 # Android Profiling
 *.hprof
-<<<<<<< HEAD
 /keyStore
 /app/release
-=======
-<<<<<<< HEAD
-/keyStore
-/app/release
-=======
 
 # Mac OS
 .DS_Store
->>>>>>> arieum-from-old
->>>>>>> arieum-from-old
