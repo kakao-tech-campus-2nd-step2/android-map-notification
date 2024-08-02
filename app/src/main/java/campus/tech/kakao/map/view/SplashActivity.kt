@@ -23,8 +23,8 @@ class SplashActivity : AppCompatActivity() {
 
                     if (serviceState) {
                         startActivity(Intent(this, MainActivity::class.java))
+                        finish()
                     } else {
-                        // Handle service unavailable state
                         Log.e("SplashActivity", "Service is unavailable: $serviceMessage")
                     }
                 } else {
