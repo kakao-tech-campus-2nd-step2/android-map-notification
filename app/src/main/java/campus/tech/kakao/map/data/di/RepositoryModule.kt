@@ -45,8 +45,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideMapRepository(context: Context): MapRepositoryInterface {
-        return MapRepository(context.applicationContext as MyApplication)
+    fun provideMapRepository(sharedPreferences: SharedPreferences): MapRepositoryInterface {
+        return MapRepository(sharedPreferences)
     }
 
     @Provides
