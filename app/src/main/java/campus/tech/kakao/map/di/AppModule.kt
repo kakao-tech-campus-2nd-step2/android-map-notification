@@ -21,16 +21,12 @@ object AppModule {
     @Singleton
     @Provides
     fun provideRetrofitService(): RetrofitService {
-        // RetrofitInstance.api 호출 -> RetrofitService 생성
-        Log.d("testt", "Providing RetrofitService")
         return RetrofitInstance.api
     }
 
     @Singleton
     @Provides
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
-        Log.d("testt", "Providing SharedPreferences")
-        // Module로 빼냄
         return context.getSharedPreferences("PlacePreferences", Context.MODE_PRIVATE)
     }
 

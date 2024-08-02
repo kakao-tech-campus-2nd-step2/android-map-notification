@@ -2,6 +2,8 @@
 package campus.tech.kakao.map.viewmodel
 
 import android.content.SharedPreferences
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +14,7 @@ import campus.tech.kakao.map.model.Document
 import campus.tech.kakao.map.model.PlaceData
 import campus.tech.kakao.map.model.RetrofitService
 import campus.tech.kakao.map.view.MainActivity
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,6 +25,8 @@ class PlaceViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
+
+    // search
     companion object { private const val API_KEY = "KakaoAK ${BuildConfig.KAKAO_REST_API_KEY}" }
 
     private val _places = MutableLiveData<List<Document>>()
@@ -77,6 +82,7 @@ class PlaceViewModel @Inject constructor(
         }
     }
 
+    // main
     private fun loadPlacePreferences() {
         viewModelScope.launch {
             val placeName = sharedPreferences.getString(MainActivity.EXTRA_PLACE_NAME, "Unknown Place") ?: "Unknown Place"
@@ -92,4 +98,51 @@ class PlaceViewModel @Inject constructor(
             )
         }
     }
+
+
+    // splash
+    private val _toMap = MutableLiveData<Boolean>()
+    val toMap: LiveData<Boolean> get() = _toMap
+
+    val serviceMessage = MutableLiveData<String>()
+    val image = MutableLiveData<String>()
+
+    init {
+        _toMap.value = false
+        image.value = "@drawable/ic_launcher_foreground"
+    }
+
+    // remote config
+    fun fetchRemoteConfig(remoteConfig: FirebaseRemoteConfig) {
+        remoteConfig.fetchAndActivate()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val serviceMessage = remoteConfig.getString("serviceMessage")
+                    val serviceState = remoteConfig.getString("serviceState")
+                    updateConfig(serviceState, serviceMessage)
+                } else {
+                    updateConfig(
+                        remoteConfig.getString("serviceMessage"),
+                        remoteConfig.getString("serviceState")
+                    )
+                }
+            }
+    }
+    
+    // on_service가 아니면 다른 화면, 5초후
+    private fun updateConfig(serviceState: String, serviceMessage: String) {
+        if (serviceState == "ON_SERVICE") {
+            Handler(Looper.getMainLooper()).postDelayed({
+                _toMap.value = true
+            }, 5000)
+        } else {
+            this.serviceMessage.value = serviceMessage
+            Handler(Looper.getMainLooper()).postDelayed({
+                _toMap.value = false
+            }, 5000)
+        }
+    }
+
+
+    
 }

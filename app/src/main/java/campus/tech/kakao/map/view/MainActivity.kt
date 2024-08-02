@@ -105,13 +105,17 @@ class MainActivity : AppCompatActivity() {
     private fun setCameraPosition() {
         // LiveData 관찰
         viewModel.placeData.observe(this, Observer { placeData ->
-            val cameraUpdate = CameraUpdateFactory.newCenterPosition(LatLng.from(placeData.latitude, placeData.longitude))
+            val cameraUpdate = CameraUpdateFactory.newCenterPosition(
+                LatLng.from(
+                    placeData.latitude,
+                    placeData.longitude
+                )
+            )
             kakaoMap.moveCamera(cameraUpdate)
         })
     }
 
     private fun setMarker() {
-
         // LiveData 관찰
         viewModel.placeData.observe(this, Observer { placeData ->
             val styles = LabelStyles.from(
@@ -130,7 +134,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBottomSheet() {
-
         // 데이터 로드
         viewModel.placeData.observe(this, Observer { placeData ->
             binding.bottomSheetTitle.text = placeData.placeName
