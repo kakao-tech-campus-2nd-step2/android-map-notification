@@ -14,6 +14,7 @@ import campus.tech.kakao.map.data.mapPosition.MapPositionPreferences
 import campus.tech.kakao.map.data.searchWord.SearchWord
 import campus.tech.kakao.map.data.searchWord.SearchWordDao
 import campus.tech.kakao.map.data.remote.RetrofitData
+import campus.tech.kakao.map.repository.SearchWordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,11 +23,10 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
 	application: Application, private val retrofitData: RetrofitData,
-	private val searchWordDao: SearchWordDao, private val mapPosition: MapPositionPreferences
+	private val searchWordRepository: SearchWordRepository,
+	private val mapPosition: MapPositionPreferences
 ) : AndroidViewModel(application) {
-
-	private val _wordList = MutableLiveData<List<SearchWord>>()
-	val wordList: LiveData<List<SearchWord>> get() =  _wordList
+	val wordList: LiveData<List<SearchWord>> get() = searchWordRepository.getWordList()
 
 //	private val _documentList = MutableLiveData<List<Document>>()
 //	val documentList: LiveData<List<Document>> get() = _documentList
@@ -40,28 +40,21 @@ class MainViewModel @Inject constructor(
 
 
 	fun addWord(document: Document){
-		val word = wordFromDocument(document)
+		val word = searchWordRepository.wordFromDocument(document)
 		viewModelScope.launch(Dispatchers.IO) {
-			deleteWord(word)
-			searchWordDao.insert(word)
-			loadWord()
+			searchWordRepository.addWord(word)
 		}
-
 	}
 
-	private fun wordFromDocument(document: Document): SearchWord {
-		return SearchWord(document.placeName, document.addressName, document.categoryGroupName)
-	}
 	suspend fun deleteWord(word: SearchWord){
 		viewModelScope.launch(Dispatchers.IO) {
-			searchWordDao.delete(word.name, word.address, word.type)
-			loadWord()
+			searchWordRepository.deleteWord(word)
 		}.join()
 	}
 
 	fun loadWord(){
 		viewModelScope.launch(Dispatchers.IO) {
-			_wordList.postValue(searchWordDao.getAll())
+			searchWordRepository.loadWord()
 		}
 	}
 
