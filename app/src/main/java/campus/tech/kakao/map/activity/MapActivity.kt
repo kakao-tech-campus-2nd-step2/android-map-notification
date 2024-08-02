@@ -1,12 +1,21 @@
 package campus.tech.kakao.map.activity
 
+import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityMapBinding
@@ -22,6 +31,7 @@ import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.kakao.sdk.common.util.Utility
 
 @AndroidEntryPoint
 class MapActivity : AppCompatActivity() {
@@ -34,7 +44,8 @@ class MapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
 
-        val binding : ActivityMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_map)
+        val binding: ActivityMapBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_map)
 
         val sheetBehavior = BottomSheetBehavior.from(binding.bottomSheetMap.bottomSheet)
         mapView = binding.mapView
@@ -94,6 +105,8 @@ class MapActivity : AppCompatActivity() {
             }
         })
 
+        askNotificationPermission()
+
         //val keyHash = Utility.getKeyHash(this)
         //Log.d("uin", keyHash)
     }
@@ -127,5 +140,55 @@ class MapActivity : AppCompatActivity() {
 
         // LabelLayer 에 LabelOptions 을 넣어 Label 생성하기
         layer?.addLabel(options)
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // FCM SDK (and your app) can post notifications.
+        } else {
+            // TODO: Inform user that that your app will not show notifications.
+        }
+    }
+
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                // 권한 요청 이유를 설명하는 UI를 표시
+                showNotificationPermissionDialog()
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    private fun showNotificationPermissionDialog() {
+        AlertDialog.Builder(this).apply {
+            setTitle(getString(R.string.ask_notification_permission_dialog_title))
+            setMessage(
+                String.format(
+                    "다양한 알림 소식을 받기 위해 권한을 허용하시겠어요?\n(알림 에서 %s의 알림 권한을 허용해주세요.)",
+                    getString(R.string.app_name)
+                )
+            )
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            setNegativeButton(getString(R.string.deny_notification_permission)) { _, _ -> }
+            show()
+        }
     }
 }
