@@ -77,6 +77,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-config-ktx:22.0.0")
     implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
+    implementation ("com.google.firebase:firebase-messaging-directboot:20.2.0")
     testImplementation("androidx.room:room-testing:2.6.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk-android:1.13.11")
