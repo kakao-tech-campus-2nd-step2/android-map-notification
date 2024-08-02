@@ -7,4 +7,8 @@
     <string name="fcm_default_channel_id">기본 채널값</string>
     <string name="fcm_channel_name">기본 채널</string>
     <string name="fcm_channel_description">백그라운드 상태 기본 값</string>
+
+    <string name="ask_notification_permission_dialog_title">Notification Permission</string>
+    <string name="yes">Yes</string>
+    <string name="deny_notification_permission">No</string>
 </resources>
