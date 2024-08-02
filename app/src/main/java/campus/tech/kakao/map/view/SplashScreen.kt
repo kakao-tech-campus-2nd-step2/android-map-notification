@@ -1,5 +1,8 @@
 package campus.tech.kakao.map.view
 
+import android.app.NotificationManager
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -15,7 +18,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivitySplashScreenBinding
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
@@ -41,7 +46,6 @@ class SplashScreen : AppCompatActivity() {
 		installSplashScreen()
 		setContentView(splashScreenBinding.root)
 		askNotificationPermission()
-
 	}
 
 	private fun moveMap(sec: Int) {
@@ -117,5 +121,19 @@ class SplashScreen : AppCompatActivity() {
 		getRemoteConfig()
 		super.onRestart()
 	}
+
+	private fun getFcmToken(){
+		FirebaseMessaging.getInstance().token.addOnCompleteListener(
+			OnCompleteListener {
+				if(!it.isSuccessful){
+					return@OnCompleteListener
+				}
+				val token = it.result
+				Log.d("testt", token.toString())
+			}
+		)
+	}
+
+
 
 }
