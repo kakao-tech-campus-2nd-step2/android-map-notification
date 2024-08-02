@@ -1,10 +1,12 @@
 # Android Map 클론 코딩
 ---
-카카오테크캠퍼스 2기 STEP2를 진행하면서 코틀린을 활용하여 지도 맵 클론 코딩을 진행하였습니다.
+![제목을-입력해주세요_-001](https://github.com/user-attachments/assets/5d644246-a929-49eb-9dfe-d160fb270568)
+
 
 ## 🍪프로젝트 소개
 ---
-카카오 지도 API 와 카카오 로컬 API를 활용하여 지도를 표시하고 장소를 검색할 수 있는 앱을 개발하였습니다.
+카카오테크캠퍼스 2기 STEP2를 진행하면서 코틀린을 활용하여 지도 맵 클론 코딩을 진행하였습니다.
+"영주의 맵"은 카카오 지도 API 와 카카오 로컬 API를 활용하여 지도를 표시하고 장소를 검색할 수 있는 어플리케이션입니다.
 
 ## 🗓 개발 기간
 ---
@@ -19,4 +21,6 @@
 ## 🗂 사용 라이브러리
 - Room, Retrofit, Hilt, Coroutine, LiveData, ViewModel, Glide, Google Maps, Kakao Maps, Kakao Local API
 
-## 프로젝트 구조
+## 📁 프로젝트 구조
+<img width="300" alt="스크린샷 2024-08-02 오후 2 16 40" src="https://github.com/user-attachments/assets/e41c4e37-85f5-4dc8-b594-c228d4bdfc39">
+
