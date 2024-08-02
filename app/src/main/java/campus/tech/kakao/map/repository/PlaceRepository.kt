@@ -3,7 +3,6 @@ package campus.tech.kakao.map.repository
 import android.content.SharedPreferences
 import android.util.Log
 import campus.tech.kakao.map.BuildConfig
-import campus.tech.kakao.map.R
 import campus.tech.kakao.map.data.db.entity.Place
 import campus.tech.kakao.map.data.remote.api.KakaoApiService
 import javax.inject.Inject
@@ -20,7 +19,6 @@ class PlaceRepository @Inject constructor(
             val documentList = response.documents ?: emptyList()
             documentList.map {
                 Place(
-                    img = R.drawable.location,
                     name = it.placeName,
                     location = it.addressName,
                     category = it.categoryGroupName,
