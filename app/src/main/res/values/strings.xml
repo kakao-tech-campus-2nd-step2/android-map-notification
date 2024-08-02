@@ -3,4 +3,12 @@
     <string name="hint_search">검색어를 입력해 주세요.</string>
     <string name="no_results">검색 결과가 없습니다.</string>
     <string name="item_already_selected">이미 선택된 목록입니다.</string>
+
+    <string name="fcm_default_channel_id">기본 채널값</string>
+    <string name="fcm_channel_name">기본 채널</string>
+    <string name="fcm_channel_description">백그라운드 상태 기본 값</string>
+
+    <string name="ask_notification_permission_dialog_title">Notification Permission</string>
+    <string name="yes">Yes</string>
+    <string name="deny_notification_permission">No</string>
 </resources>

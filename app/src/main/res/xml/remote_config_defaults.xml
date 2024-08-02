@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <defaultsMap>
+        <entry>
+            <key>serviceState</key>
+            <value>OFF_SERVICE</value>
+        </entry>
+        <entry>
+            <key>serviceMessage</key>
+            <value>서버 점검 중입니다.나중에 다시 시도해주세요. </value>
+        </entry>
+    </defaultsMap>
+</PreferenceScreen>
