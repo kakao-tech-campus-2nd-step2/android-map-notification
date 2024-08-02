@@ -18,4 +18,8 @@
     <string name="loadingImage">로딩 이미지</string>
     <string name="tvservicemessage">tvServiceMessage</string>
     <string name="splashscreenmapicon">splashScreenMapIcon</string>
+    <string name="fcm_channel_description">앱 알림 채널</string>
+    <string name="ask_notification_permission_dialog_title">알림 권한 요청</string>
+    <string name="yes">예</string>
+    <string name="deny_notification_permission">아니요</string>
 </resources>

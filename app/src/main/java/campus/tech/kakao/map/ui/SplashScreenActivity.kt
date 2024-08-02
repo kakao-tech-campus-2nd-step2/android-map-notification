@@ -8,10 +8,13 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivitySplashScreenBinding
 import campus.tech.kakao.map.viewmodel.SplashScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity() {
@@ -37,10 +40,11 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private fun navigateToMapActivity() {
         Log.d("SplashScreen", "Success")
-        Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, MapActivity::class.java))
+        lifecycleScope.launch {
+            delay(3000L)
+            startActivity(Intent(this@SplashScreenActivity, MapActivity::class.java))
             finish()
-        }, 3000)
+        }
     }
 
     private fun showServiceMessage() {
