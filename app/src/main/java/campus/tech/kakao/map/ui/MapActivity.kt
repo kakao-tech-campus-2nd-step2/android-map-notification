@@ -68,6 +68,7 @@ class MapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         askNotificationPermission()
 
+        // Log "notification" 을 통해 토큰 확인
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w("notification", "Fetching FCM registration token failed", task.exception)
@@ -80,7 +81,6 @@ class MapActivity : AppCompatActivity() {
             // Log and toast
             val msg = getString(R.string.msg_token_fmt, token)
             Log.d("notification", msg)
-            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
         })
 
         mapBinding = DataBindingUtil.setContentView(this, R.layout.map_layout)

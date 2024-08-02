@@ -19,7 +19,7 @@ class MapFirebaseMessagingService : FirebaseMessagingService() {
         }
 
         if (remoteMessage.notification != null) {
-            showNotification()
+            sendNotification()
         }
     }
 
@@ -32,7 +32,7 @@ class MapFirebaseMessagingService : FirebaseMessagingService() {
         Log.d("notification", "sendRegistrationTokenToServer($token)")
     }
 
-    private fun showNotification() {
+    private fun sendNotification() {
         val intent = Intent(this, SplashActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
