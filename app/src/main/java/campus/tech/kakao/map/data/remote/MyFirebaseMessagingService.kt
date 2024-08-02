@@ -50,7 +50,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             this,
             CHANNEL_ID
         )
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.kakaomap_logo)
             .setContentTitle("[중요] 포그라운드 알림")
             .setContentText("앱이 실행 중입니다.")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)

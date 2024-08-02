@@ -77,7 +77,6 @@ class SplashScreenActivity : AppCompatActivity() {
             val token = task.result
             val msg = getString(R.string.msg_token_fmt, token)
             Log.d("FCMToken", msg)
-            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
         })
     }
 }
