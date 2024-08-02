@@ -1,6 +1,7 @@
-package campus.tech.kakao.map.dto
+package campus.tech.kakao.map.data.mapPosition
 
 import android.content.Context
+import campus.tech.kakao.map.data.document.Document
 import javax.inject.Inject
 
 class MapPositionPreferences @Inject constructor(context: Context) {

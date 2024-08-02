@@ -1,20 +1,13 @@
-package campus.tech.kakao.map.url
+package campus.tech.kakao.map.data.remote
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import campus.tech.kakao.map.dto.Document
-import campus.tech.kakao.map.dto.PlaceResponse
-import campus.tech.kakao.map.url.UrlContract.AUTHORIZATION
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.suspendCancellableCoroutine
+import campus.tech.kakao.map.data.document.Document
+import campus.tech.kakao.map.data.document.PlaceResponse
+import campus.tech.kakao.map.data.remote.UrlContract.AUTHORIZATION
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 
 class RetrofitData @Inject constructor(private val retrofitService: RetrofitService) {
 	private val _documents = MutableLiveData<List<Document>>()

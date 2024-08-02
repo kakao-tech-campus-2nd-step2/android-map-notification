@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.url
+package campus.tech.kakao.map.data.remote
 
 import campus.tech.kakao.map.BuildConfig
 

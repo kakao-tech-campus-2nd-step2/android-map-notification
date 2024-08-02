@@ -3,11 +3,11 @@ package campus.tech.kakao.map
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import campus.tech.kakao.map.dto.Document
-import campus.tech.kakao.map.dto.MapPositionPreferences
-import campus.tech.kakao.map.dto.SearchWord
-import campus.tech.kakao.map.dto.SearchWordDao
-import campus.tech.kakao.map.url.RetrofitData
+import campus.tech.kakao.map.data.document.Document
+import campus.tech.kakao.map.data.mapPosition.MapPositionPreferences
+import campus.tech.kakao.map.data.searchWord.SearchWord
+import campus.tech.kakao.map.data.searchWord.SearchWordDao
+import campus.tech.kakao.map.data.remote.RetrofitData
 import campus.tech.kakao.map.viewModel.MainViewModel
 import io.mockk.coEvery
 import io.mockk.every
@@ -35,10 +35,12 @@ class FunTest {
 
 	@Before
 	fun setUp() {
-		documentList.value = listOf(Document(
+		documentList.value = listOf(
+			Document(
 			"이안아파트", "아파트",
 			"남양주", "10",
-			"10"))
+			"10")
+		)
 		context = RuntimeEnvironment.getApplication()
 		model = MainViewModel(context as Application, retrofitData, searchWordDao, mapPosition)
 		every { retrofitData.getDocuments() } returns documentList

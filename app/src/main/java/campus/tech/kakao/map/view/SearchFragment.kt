@@ -11,12 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import campus.tech.kakao.map.viewModel.MainViewModel
-import campus.tech.kakao.map.adapter.AdapterCallback
-import campus.tech.kakao.map.adapter.DocumentAdapter
-import campus.tech.kakao.map.adapter.WordAdapter
+import campus.tech.kakao.map.view.adapter.AdapterCallback
+import campus.tech.kakao.map.view.adapter.DocumentAdapter
+import campus.tech.kakao.map.view.adapter.WordAdapter
 import campus.tech.kakao.map.databinding.ActivitySearchBinding
-import campus.tech.kakao.map.dto.Document
-import campus.tech.kakao.map.dto.SearchWord
+import campus.tech.kakao.map.data.document.Document
+import campus.tech.kakao.map.data.searchWord.SearchWord
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

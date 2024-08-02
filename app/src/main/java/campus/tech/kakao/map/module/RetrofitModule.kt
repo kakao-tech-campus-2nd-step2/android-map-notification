@@ -1,8 +1,8 @@
 package campus.tech.kakao.map.module
 
-import campus.tech.kakao.map.url.RetrofitData
-import campus.tech.kakao.map.url.RetrofitService
-import campus.tech.kakao.map.url.UrlContract
+import campus.tech.kakao.map.data.remote.RetrofitData
+import campus.tech.kakao.map.data.remote.RetrofitService
+import campus.tech.kakao.map.data.remote.UrlContract
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,7 +32,7 @@ object RetrofitModule {
 
 	@Provides
 	@Singleton
-	fun provideRetrofitData(retrofitService: RetrofitService):RetrofitData{
+	fun provideRetrofitData(retrofitService: RetrofitService): RetrofitData {
 		return RetrofitData(retrofitService)
 	}
 

@@ -2,10 +2,10 @@ package campus.tech.kakao.map.module
 
 import android.content.Context
 import androidx.room.Room
-import campus.tech.kakao.map.dto.MapPositionPreferences
-import campus.tech.kakao.map.dto.SearchWordContract
-import campus.tech.kakao.map.dto.SearchWordDao
-import campus.tech.kakao.map.dto.SearchWordDatabase
+import campus.tech.kakao.map.data.mapPosition.MapPositionPreferences
+import campus.tech.kakao.map.data.searchWord.SearchWordContract
+import campus.tech.kakao.map.data.searchWord.SearchWordDao
+import campus.tech.kakao.map.data.searchWord.SearchWordDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
