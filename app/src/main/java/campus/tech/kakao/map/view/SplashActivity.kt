@@ -1,9 +1,7 @@
 package campus.tech.kakao.map.view
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -30,10 +28,7 @@ class SplashActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.navigateToMap.observe(this) {
             if (it) {
-                Log.d("testt", "d")
                 navigateToMap()
-            } else {
-                Log.d("testt", "y")
             }
         }
 
