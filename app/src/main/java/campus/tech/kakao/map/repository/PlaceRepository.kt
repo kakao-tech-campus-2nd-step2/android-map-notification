@@ -6,19 +6,14 @@ import campus.tech.kakao.map.BuildConfig
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.data.db.entity.Place
 import campus.tech.kakao.map.data.remote.api.KakaoApiService
-import campus.tech.kakao.map.data.remote.model.KakaoResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class PlaceRepository @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val kakaoApiService: KakaoApiService
 ): PlaceRepositoryInterface {
-
     override suspend fun searchPlaces(query: String): List<Place>{
-        val apiKey = "KakaoAK " + BuildConfig.KAKAO_REST_API_KEY
+        val apiKey = KAKAOAK + BuildConfig.KAKAO_REST_API_KEY
 
         return try {
             val response = kakaoApiService.getPlace(apiKey, query)
@@ -47,4 +42,7 @@ class PlaceRepository @Inject constructor(
         }
     }
 
+    companion object {
+        private const val KAKAOAK = "KakaoAK "
+    }
 }
