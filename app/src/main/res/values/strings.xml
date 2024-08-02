@@ -2,4 +2,8 @@
     <string name="app_name">Map</string>
     <string name="on_Service">ON_SERVICE</string>
     <string name="on_Pause">ON_PAUSE</string>
+    <string name="default_channel_id">default_channel</string>
+    <string name="msg_token_fmt" />
+    <string name="positive_button">OK</string>
+    <string name="negative_button">NO</string>
 </resources>
