@@ -18,4 +18,10 @@ class Constants {
         const val KEY_SERVICE_STATE = "serviceState"
         const val KEY_SERVICE_MESSAGE = "serviceMessage"
     }
+
+    object FirebaseMessage{
+        const val NOTIFICATION_ID = 1
+        const val CHANNEL_ID = "main_default_channel"
+        const val CHANNEL_NAME = "main channelName"
+    }
 }

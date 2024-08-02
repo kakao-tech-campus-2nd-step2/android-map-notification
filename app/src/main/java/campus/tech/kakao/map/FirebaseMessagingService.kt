@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import campus.tech.kakao.map.utilities.Constants
 import campus.tech.kakao.map.view.SplashActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -21,8 +22,24 @@ class AppFirebaseMessagingService : FirebaseMessagingService() {
             Log.d("testtt", "Message Notification Body: ${it.body}")
         }
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
         createNotificationChannel()
+        sendNotification()
+    }
+
+    private fun createNotificationChannel() {
+        val descriptionText = "알림 테스트"
+        val channel = NotificationChannel(
+            Constants.FirebaseMessage.CHANNEL_ID,
+            Constants.FirebaseMessage.CHANNEL_NAME,
+            NotificationManager.IMPORTANCE_DEFAULT
+        ).apply {
+            description = descriptionText
+        }
+        notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun sendNotification(){
+
         val intent = Intent(this, SplashActivity::class.java).apply { // 클릭하면 출력될 Activity
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -34,30 +51,20 @@ class AppFirebaseMessagingService : FirebaseMessagingService() {
         )
         val builder = NotificationCompat.Builder(
             this,
-            CHANNEL_ID
+            Constants.FirebaseMessage.CHANNEL_ID
         )
-            .setSmallIcon(R.drawable.ic_launcher_foreground) // 필수
+            .setSmallIcon(R.drawable.map_app_splash_screen) // 필수
+            .setContentTitle("포그라운드 알림")
+            .setContentText("앱이 실행 중입니다.")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText("포그라운드 발생.")
+            )
+            .setAutoCancel(true) // 만약 없으면 notification 눌러도 사라지지 않음
 
-        notificationManager.notify(NOTIFICATION_ID, builder.build())
 
-    }
-
-    companion object {
-        private const val NOTIFICATION_ID = 1
-        private const val CHANNEL_ID = "main_default_channel"
-        private const val CHANNEL_NAME = "main channelName"
-    }
-    private fun createNotificationChannel() {
-        val descriptionText = "알림 테스트"
-        val channel = NotificationChannel(
-            CHANNEL_ID,
-            CHANNEL_NAME,
-            NotificationManager.IMPORTANCE_DEFAULT
-        ).apply {
-            description = descriptionText
-        }
-        notificationManager.createNotificationChannel(channel)
+        notificationManager.notify(Constants.FirebaseMessage.NOTIFICATION_ID, builder.build())
     }
 }

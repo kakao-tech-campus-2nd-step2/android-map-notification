@@ -10,6 +10,7 @@ import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -92,9 +93,9 @@ class SplashActivity : AppCompatActivity() {
         ActivityResultContracts.RequestPermission(),
     ) { isGranted: Boolean ->
         if (isGranted) {
-            // FCM SDK (and your app) can post notifications.
+            Toast.makeText(this, "notification이 전송됩니다.", Toast.LENGTH_SHORT).show()
         } else {
-            // TODO: Inform user that that your app will not show notifications.
+            Toast.makeText(this, "notification이 전송되지 않습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -107,12 +108,10 @@ class SplashActivity : AppCompatActivity() {
                 ) ==
                 PackageManager.PERMISSION_GRANTED
             ) {
-                // FCM SDK (and your app) can post notifications.
             } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
-                // 권한 요청 이유를 설명하는 UI를 표시
+                // TODO 사용자에게 버튼 제공
                 showNotificationPermissionDialog()
             } else {
-                // Directly ask for the permission
                 requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
             }
         }
