@@ -56,15 +56,19 @@ class MapActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setStatusBarTransparent()
         initBinding()
+        setUI()
         collectViewModel()
-        initSwipeRefreshLayout()
         initMapView()
-        initSearchView()
         setResultLauncher()
         askNotificationPermission()
 
+    }
+
+    private fun setUI(){
+        setStatusBarTransparent()
+        setSwipeListener()
+        setSearchView()
     }
 
     private fun setStatusBarTransparent() {
@@ -91,7 +95,7 @@ class MapActivity : AppCompatActivity() {
             }
         }
     }
-    private fun initSwipeRefreshLayout() {
+    private fun setSwipeListener() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             if (!isNetworkAvailable()) {
                 showErrorPage(Exception("네트워크 연결 오류"))
@@ -144,7 +148,7 @@ class MapActivity : AppCompatActivity() {
         binding.tvErrorMessage.text = "지도 인증에 실패했습니다.\n다시 시도해주세요.\n" + error.message
     }
 
-    private fun initSearchView() {
+    private fun setSearchView() {
         binding.searchView.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
             resultLauncher.launch(intent)
