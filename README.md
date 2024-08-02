@@ -19,7 +19,7 @@
 - 6주차 : 스플래시 스크린 추가, FCM 푸시 알림, Splash 뷰모델 유닛테스트 코드 작성
 
 ## 🗂 사용 라이브러리
-- Room, Retrofit, Hilt, Coroutine, LiveData, ViewModel, Glide, Google Maps, Kakao Maps, Kakao Local API
+- Room, Retrofit, Hilt, Coroutine, Kakao Maps, Kakao Local API
 
 ## 📁 프로젝트 구조
 <img width="300" alt="스크린샷 2024-08-02 오후 2 16 40" src="https://github.com/user-attachments/assets/e41c4e37-85f5-4dc8-b594-c228d4bdfc39">
