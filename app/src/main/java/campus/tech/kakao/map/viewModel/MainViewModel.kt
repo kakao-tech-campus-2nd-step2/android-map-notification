@@ -12,8 +12,8 @@ import campus.tech.kakao.map.databinding.ActivitySearchBinding
 import campus.tech.kakao.map.data.document.Document
 import campus.tech.kakao.map.data.mapPosition.MapPositionPreferences
 import campus.tech.kakao.map.data.searchWord.SearchWord
-import campus.tech.kakao.map.data.searchWord.SearchWordDao
 import campus.tech.kakao.map.data.remote.RetrofitData
+import campus.tech.kakao.map.repository.MapPositionRepository
 import campus.tech.kakao.map.repository.SearchWordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +24,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
 	application: Application, private val retrofitData: RetrofitData,
 	private val searchWordRepository: SearchWordRepository,
-	private val mapPosition: MapPositionPreferences
+	private val mapPositionRepository: MapPositionRepository
 ) : AndroidViewModel(application) {
 	val wordList: LiveData<List<SearchWord>> get() = searchWordRepository.getWordList()
 
@@ -35,8 +35,7 @@ class MainViewModel @Inject constructor(
 	private val _documentClicked = MutableLiveData<Boolean>()
 	val documentClicked: LiveData<Boolean> get() = _documentClicked
 
-	private val _mapInfo = MutableLiveData<List<String>>()
-	val mapInfo: LiveData<List<String>> get() = _mapInfo
+	val mapInfo: LiveData<List<String>> get() = mapPositionRepository.getMapInfoList()
 
 
 	fun addWord(document: Document){
@@ -72,17 +71,11 @@ class MainViewModel @Inject constructor(
 
 
 	private fun setMapInfo(document: Document){
-		mapPosition.setMapInfo(document)
-		getMapInfo()
+		mapPositionRepository.setMapInfo(document)
 	}
 
 	fun getMapInfo(){
-		_mapInfo.value = listOf()
-		val latitude = mapPosition.getPreferences(LATITUDE, INIT_LATITUDE)
-		val longitude = mapPosition.getPreferences(LONGITUDE, INIT_LONGITUDE)
-		val placeName = mapPosition.getPreferences(PLACE_NAME,"")
-		val addressName = mapPosition.getPreferences(ADDRESS_NAME,"")
-		_mapInfo.value = listOf(latitude, longitude, placeName, addressName)
+		mapPositionRepository.getMapInfo()
 	}
 
 	fun placeClicked(document: Document){
