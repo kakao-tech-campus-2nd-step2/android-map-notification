@@ -1,12 +1,14 @@
 package campus.tech.kakao.map.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import campus.tech.kakao.map.repository.RemoteConfigManager
 import campus.tech.kakao.map.repository.WelcomeRepository
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +22,6 @@ class WelcomeViewModel @Inject constructor(
 
     private val _serviceMessage = MutableLiveData<String>()
     val serviceMessage: LiveData<String> get() = _serviceMessage
-
     init {
         processRemoteConfig()
     }

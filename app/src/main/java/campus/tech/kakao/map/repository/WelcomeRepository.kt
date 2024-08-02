@@ -15,12 +15,12 @@ class WelcomeRepository {
         val intent = Intent(context, WelcomeActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, REQUEST_CODE, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("KAKAO MAP")
-            .setContentText("IN FOREGROUND, THIS APP IS RUNNING ...!")
+            .setSmallIcon(R.drawable.icon)
+            .setContentTitle("[알림]KAKAO MAP")
+            .setContentText("In Foreground, This app is RUNNING...!")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
@@ -48,8 +48,9 @@ class WelcomeRepository {
 
     companion object {
         private const val NOTIFICATION_ID = 222222
-        private const val CHANNEL_ID = "foreground_channel"
-        private const val CHANNEL_NAME = "foreground_channel"
-        private const val CHANNEL_DESCRIPTION = "This is foreground_channel"
+        private const val REQUEST_CODE = 0
+        private const val CHANNEL_ID = "Mychannel"
+        private const val CHANNEL_NAME = "Mychannel"
+        private const val CHANNEL_DESCRIPTION = "This is Mychannel"
     }
 }
