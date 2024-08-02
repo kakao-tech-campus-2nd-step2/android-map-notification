@@ -13,45 +13,65 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import campus.tech.kakao.map.R
+import campus.tech.kakao.map.databinding.ActivitySearchBinding
 import campus.tech.kakao.map.databinding.ActivitySplashBinding
+import campus.tech.kakao.map.viewmodel.SearchActivityViewModel
 import campus.tech.kakao.map.viewmodel.SplashActivityViewModel
 import campus.tech.kakao.map.viewmodel.SplashUIState
+import campus.tech.kakao.map.viewmodel.UiState
 import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.get
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySplashBinding
+    private val viewModel: SplashActivityViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel : SplashActivityViewModel by viewModels()
-        val binding = ActivitySplashBinding.inflate(layoutInflater)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initObserve()
 
+    }
+
+    fun initObserve() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.splashUiState.collect { uiState ->
-                    when(uiState){
-                        is SplashUIState.Loading -> {}
-                        is SplashUIState.OnService -> {
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                val mainIntent = Intent(this@SplashActivity, MapActivity::class.java)
-                                startActivity(mainIntent)
-                                finish()
-                            }, 2000)
-                        }
-
-                        is SplashUIState.OffService -> {
-                            binding.serviceMessage.isVisible = true
-                        }
-                    }
+                    Log.d("testtt", uiState.toString())
+                    UpdateSplash(uiState)
                 }
             }
         }
+    }
 
+    fun UpdateSplash(uiState : SplashUIState){
+        when (uiState) {
+            is SplashUIState.Loading -> {
+                binding.serviceMessage.isVisible = true
+                binding.serviceMessage.text = "로딩"
+            }
+
+            is SplashUIState.OnService -> {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    val mainIntent =
+                        Intent(this@SplashActivity, MapActivity::class.java)
+                    startActivity(mainIntent)
+                    finish()
+                }, 2000)
+            }
+
+            is SplashUIState.OffService -> {
+                binding.serviceMessage.isVisible = true
+                binding.serviceMessage.text = uiState.message
+            }
+        }
     }
 }
 

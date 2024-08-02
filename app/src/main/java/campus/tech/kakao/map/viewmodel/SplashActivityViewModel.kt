@@ -33,7 +33,12 @@ class SplashActivityViewModel @Inject constructor(
     val splashUiState : StateFlow<SplashUIState>
         get() = _splashUiState.asStateFlow()
 
+    init{
+        getRemoteConfigs()
+    }
+
     fun getRemoteConfigs(){
+        Log.d("testtt", "2번")
         viewModelScope.launch {
             remoteConfigRepository.getRemoteConfig().collect{
                 if(it.state == "ON_SERVICE"){

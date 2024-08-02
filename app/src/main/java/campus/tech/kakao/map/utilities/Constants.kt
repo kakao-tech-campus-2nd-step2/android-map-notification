@@ -13,4 +13,9 @@ class Constants {
         const val LATITUDE = "35.175487"
         const val LONGITUDE = "126.907163"
     }
+
+    object RemoteConfigKeys{
+        const val KEY_SERVICE_STATE = "serviceState"
+        const val KEY_SERVICE_MESSAGE = "serviceMessage"
+    }
 }
