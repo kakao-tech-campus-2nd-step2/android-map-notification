@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">검색어를 입력해 주세요.</string>
+    <string name="no_search_result">검색 결과가 없습니다.</string>
+    <string name="explanation_no_search">누르면 입력중인 검색어가 사라지는 버튼입니다.</string>
+    <string name="explanation_map_icon">지도의 위치 모양 이미지입니다.</string>
+    <string name="explanation_delete_recent_search">누르면 최근 검색어가 삭제되는 버튼입니다.</string>
+    <string name="searchBar_text">검색어를 입력해 주세요.</string>
+    <string name="error_text">지도 인증을 실패했습니다.\n다시 시도해 주세요.</string>
+    <string name="ask_notification_permission_dialog_title">앱 사용을 위해 필요한 권한을 다시 확인해 주세요.</string>
+    <string name="accept_notification_permission">동의</string>
+    <string name="deny_notification_permission">비동의</string>
+    <string name="fcm_channel_description">알림 예제</string>
+    <string name="myNotification_title">[중요] 포그라운드 알림</string>
+    <string name="myNotification_body">앱이 실행 중입니다.</string>
+    <string name="notification_big_text">앱이 실행 중일 때는 포그라운드 알림이 발생합니다.</string>
+    <string name="notification_dialog_text">
+    권한을 허용하시면, 다양한 알림 소식을 받으실 수 있습니다.
+    (알림에서 %s의 알림 권한을 허용해주세요.)
+</string>
+    <string name="exit_message">앱을 사용하기 위해 알림 권한이 필요합니다. 권한을 허용해주세요!</string>
+</resources>
