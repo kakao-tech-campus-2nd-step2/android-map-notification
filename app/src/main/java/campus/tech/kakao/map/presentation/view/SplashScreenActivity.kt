@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,8 @@ import androidx.databinding.DataBindingUtil
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivitySplashScreenBinding
 import campus.tech.kakao.map.presentation.viewmodel.SplashScreenViewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,17 +31,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
     private val splashScreenViewModel: SplashScreenViewModel by viewModels()
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission(),
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            // FCM SDK (and your app) can post notifications.
-            Log.d("SplashScreenActivity", "Notification permission granted.")
-        } else {
-            // TODO: Inform user that that your app will not show notifications.
-            Log.d("SplashScreenActivity", "Notification permission denied.")
-        }
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +40,9 @@ class SplashScreenActivity : AppCompatActivity() {
 
         binding.serviceMessage.visibility = View.GONE
 
-        askNotificationPermission()
         observeFirebaseValues()
 
+        getFCMToken()
     }
 
     private fun observeFirebaseValues() {
@@ -75,41 +68,16 @@ class SplashScreenActivity : AppCompatActivity() {
         }
     }
 
-    private fun askNotificationPermission() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.POST_NOTIFICATIONS
-            ) ==
-            PackageManager.PERMISSION_GRANTED
-        ) {
-            // FCM SDK (and your app) can post notifications.
-            Log.d("SplashScreenActivity", "Notification permission already granted.")
-        } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
-            // 권한 요청 이유를 설명하는 UI를 표시
-            showNotificationPermissionDialog()
-        } else {
-            // Directly ask for the permission
-            requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-        }
-    }
-
-    private fun showNotificationPermissionDialog() {
-        AlertDialog.Builder(this@SplashScreenActivity).apply {
-            setTitle(getString(R.string.ask_notification_permission_dialog_title))
-            setMessage(
-                String.format(
-                    "다양한 알림 소식을 받기 위해 권한을 허용하시겠어요?\n(설정에서 %s의 알림 권한을 허용해주세요.",
-                    getString(R.string.app_name)
-                )
-            )
-            setPositiveButton(getString(R.string.yes)) { _, _ ->
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                val uri = Uri.fromParts("package", packageName, null)
-                intent.data = uri
-                startActivity(intent)
+    private fun getFCMToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("FCMToken", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
             }
-            setNegativeButton(getString(R.string.deny_notification_permission)) { _, _ -> }
-            show()
-        }
+            val token = task.result
+            val msg = getString(R.string.msg_token_fmt, token)
+            Log.d("FCMToken", msg)
+            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+        })
     }
 }

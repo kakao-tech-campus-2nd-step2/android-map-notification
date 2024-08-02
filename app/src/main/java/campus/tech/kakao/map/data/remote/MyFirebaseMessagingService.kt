@@ -3,10 +3,8 @@ package campus.tech.kakao.map.data.remote
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import campus.tech.kakao.map.R
@@ -28,33 +26,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             createNotificationChannel()
-
-            val intent = Intent(this, SplashScreenActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            val pendingIntent = PendingIntent.getActivity(
-                this,
-                0,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
-            val builder = NotificationCompat.Builder(
-                this,
-                CHANNEL_ID
-            )
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("[중요] 포그라운드 알림")
-                .setContentText("앱이 실행 중입니다.")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
-                .setStyle(
-                    NotificationCompat.BigTextStyle()
-                        .bigText("앱이 실행 중일 때는 포그라운드 알림이 발생합니다.")
-                )
-                .setAutoCancel(true)
-
-            notificationManager.notify(NOTIFICATION_ID, builder.build())
-
+            setNotification()
         }
     }
 
@@ -64,6 +36,33 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         private const val CHANNEL_NAME = "main channelName"
     }
 
+    private fun setNotification() {
+        val intent = Intent(this, SplashScreenActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+        val builder = NotificationCompat.Builder(
+            this,
+            CHANNEL_ID
+        )
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle("[중요] 포그라운드 알림")
+            .setContentText("앱이 실행 중입니다.")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText("앱이 실행 중일 때는 포그라운드 알림이 발생합니다.")
+            )
+            .setAutoCancel(true)
+
+        notificationManager.notify(NOTIFICATION_ID, builder.build())
+    }
     private fun createNotificationChannel() {
         val descriptionText = getString(R.string.fcm_channel_description)
         val channel = NotificationChannel(
