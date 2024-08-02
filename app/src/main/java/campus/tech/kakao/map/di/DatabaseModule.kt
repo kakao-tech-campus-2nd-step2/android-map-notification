@@ -3,6 +3,8 @@ package campus.tech.kakao.map.di
 import android.content.Context
 import androidx.room.Room
 import campus.tech.kakao.map.data.local.db.AppDatabase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +27,10 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext appContext: Context, @DatabaseName dbName: String): AppDatabase {
+    fun provideDatabase(
+        @ApplicationContext appContext: Context,
+        @DatabaseName dbName: String
+    ): AppDatabase {
         return Room.databaseBuilder(
             appContext,
             AppDatabase::class.java,
@@ -38,4 +43,14 @@ object DatabaseModule {
 
     @Provides
     fun provideVisitedPlaceDao(database: AppDatabase) = database.visitedPlaceDao()
+
+    @Provides
+    fun provideFirebaseRemoteConfigDao(): FirebaseRemoteConfig {
+        val remoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 0 // 개발용
+        }
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        return remoteConfig
+    }
 }

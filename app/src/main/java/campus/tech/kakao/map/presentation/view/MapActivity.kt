@@ -1,13 +1,17 @@
 package campus.tech.kakao.map.presentation.view
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityMapBinding
 import campus.tech.kakao.map.domain.dto.PlaceVO
@@ -36,6 +40,7 @@ class MapActivity : AppCompatActivity() {
     private lateinit var kakaoMap: KakaoMap
     private val mapViewModel: MapViewModel by viewModels()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    private val PERMISSION_REQUEST_CODE = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         KakaoMapSdk.init(this, ApiKeyProvider.KAKAO_API_KEY)
@@ -50,6 +55,7 @@ class MapActivity : AppCompatActivity() {
 
         setUpMap()
         setUpSearchBox()
+        checkNotificationPermission()
     }
 
     private fun bindingViews() {
@@ -147,7 +153,7 @@ class MapActivity : AppCompatActivity() {
 
         styles = kakaoMap.labelManager!!.addLabelStyles(styles!!)
 
-        val label = kakaoMap.labelManager!!.layer!!.addLabel(
+        kakaoMap.labelManager!!.layer!!.addLabel(
             LabelOptions.from(LatLng.from(place.latitude, place.longitude))
                 .setTexts(place.placeName)
                 .setStyles(styles)
@@ -166,6 +172,38 @@ class MapActivity : AppCompatActivity() {
             val intent = Intent(this@MapActivity, ErrorActivity::class.java)
             intent.putExtra("error", error.message)
             startActivity(intent)
+        }
+    }
+
+    private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_DENIED
+            ) {
+                // 푸시 알림 권한이 없는 경우
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                    PERMISSION_REQUEST_CODE
+                )
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d("testt", "Notification permission granted")
+            } else {
+                Log.d("testt", "Notification permission denied")
+            }
         }
     }
 }
