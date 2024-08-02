@@ -26,15 +26,7 @@ class SplashScreen : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(PlaceViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-
-
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
-        val configSettings = FirebaseRemoteConfigSettings.Builder()
-            .setMinimumFetchIntervalInSeconds(0)
-            .build()
-        firebaseRemoteConfig.setConfigSettingsAsync(configSettings)
-
-
         viewModel.fetchRemoteConfig(firebaseRemoteConfig)
         viewModel.toMap.observe(this, Observer { map ->
             if (map) {

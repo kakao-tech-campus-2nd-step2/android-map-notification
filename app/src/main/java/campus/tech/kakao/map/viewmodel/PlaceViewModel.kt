@@ -27,7 +27,9 @@ class PlaceViewModel @Inject constructor(
 
 
     // search
-    companion object { private const val API_KEY = "KakaoAK ${BuildConfig.KAKAO_REST_API_KEY}" }
+    companion object {
+        private const val API_KEY = "KakaoAK ${BuildConfig.KAKAO_REST_API_KEY}"
+    }
 
     private val _places = MutableLiveData<List<Document>>()
     private val _savedQueries = MutableLiveData<MutableList<String>>()
@@ -85,10 +87,18 @@ class PlaceViewModel @Inject constructor(
     // main
     private fun loadPlacePreferences() {
         viewModelScope.launch {
-            val placeName = sharedPreferences.getString(MainActivity.EXTRA_PLACE_NAME, "Unknown Place") ?: "Unknown Place"
-            val addressName = sharedPreferences.getString(MainActivity.EXTRA_PLACE_ADDRESSNAME, "Unknown Address") ?: "Unknown Address"
-            val longitude = sharedPreferences.getString(MainActivity.EXTRA_PLACE_LONGITUDE, "127.108621")?.toDouble() ?: 0.0
-            val latitude = sharedPreferences.getString(MainActivity.EXTRA_PLACE_LATITUDE, "37.402005")?.toDouble() ?: 0.0
+            val placeName =
+                sharedPreferences.getString(MainActivity.EXTRA_PLACE_NAME, "Unknown Place")
+                    ?: "Unknown Place"
+            val addressName =
+                sharedPreferences.getString(MainActivity.EXTRA_PLACE_ADDRESSNAME, "Unknown Address")
+                    ?: "Unknown Address"
+            val longitude =
+                sharedPreferences.getString(MainActivity.EXTRA_PLACE_LONGITUDE, "127.108621")
+                    ?.toDouble() ?: 0.0
+            val latitude =
+                sharedPreferences.getString(MainActivity.EXTRA_PLACE_LATITUDE, "37.402005")
+                    ?.toDouble() ?: 0.0
 
             _placeData.value = PlaceData(
                 longitude,
@@ -128,7 +138,7 @@ class PlaceViewModel @Inject constructor(
                 }
             }
     }
-    
+
     // on_service가 아니면 다른 화면, 5초후
     private fun updateConfig(serviceState: String, serviceMessage: String) {
         if (serviceState == "ON_SERVICE") {
@@ -144,5 +154,4 @@ class PlaceViewModel @Inject constructor(
     }
 
 
-    
 }
