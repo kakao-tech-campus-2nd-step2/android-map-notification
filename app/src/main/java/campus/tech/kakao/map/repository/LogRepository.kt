@@ -12,43 +12,19 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class LogRepository @Inject constructor (private val application: MyApplication, private val placeDao: PlaceDao): LogRepositoryInterface {
-
-    private var logList = mutableListOf<Place>()
-
-    override fun getAllLogs(): List<Place> {
-        runBlocking {
-            withContext(Dispatchers.IO) {
-                logList = placeDao.getAllLogs().toMutableList()
-            }
-        }
-        return logList
+    override suspend fun getAllLogs(): List<Place> {
+        return placeDao.getAllLogs()
     }
 
-    override fun haveAnyLog() : Boolean {
-        return runBlocking {
-            withContext(Dispatchers.IO) {
-                placeDao.getPlaceCount() > 0
-            }
-        }
+    override suspend fun haveAnyLog(): Boolean {
+        return placeDao.getPlaceCount() > 0
     }
 
-    override fun insertLog(place: Place): List<Place> {
-        CoroutineScope(Dispatchers.IO).launch {
-            placeDao.insertLog(place)
-            withContext(Dispatchers.Main) {
-                logList.add(place)
-            }
-        }
-        return logList
+    override suspend fun insertLog(place: Place) {
+        placeDao.insertLog(place)
     }
 
-    override fun deleteLog(place: Place): List<Place> {
-        CoroutineScope(Dispatchers.IO).launch {
-            placeDao.deleteLog(place)
-            withContext(Dispatchers.Main) {
-                logList.remove(place)
-            }
-        }
-        return logList
+    override suspend fun deleteLog(place: Place) {
+        placeDao.deleteLog(place)
     }
 }
