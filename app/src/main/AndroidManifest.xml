@@ -31,7 +31,7 @@
         <activity android:name=".view.MapActivity"/>
 
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name=".service.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
