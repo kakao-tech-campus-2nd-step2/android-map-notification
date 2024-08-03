@@ -3,4 +3,13 @@
     <string name="input_query">검색어를 입력해 주세요.</string>
     <string name="no_result">검색 결과가 없습니다.</string>
     <string name="auth_error">지도 인증을 실패 했습니다.\n다시 시도해 주세요.</string>
+    <string name="fcm_default_channel_id">fcm_default_channel</string>
+    <string name="fcm_channel_description">fcm_channel_description</string>
+
+    <string name="ask_notification_permission_dialog_title">알림 권한 요청</string>
+    <string name="yes">예</string>
+    <string name="no">아니오</string>
+    <string name="permission_denied">권한 거부됨</string>
+    <string name="permission_denied_message">알림 권한이 거부되었습니다. 알림을 받으려면 설정에서 권한을 허용하세요.</string>
+    <string name="ok">확인</string>
 </resources>
