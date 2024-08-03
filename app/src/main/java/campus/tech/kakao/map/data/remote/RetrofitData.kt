@@ -1,5 +1,6 @@
 package campus.tech.kakao.map.data.remote
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import campus.tech.kakao.map.data.document.Document
 import campus.tech.kakao.map.data.document.PlaceResponse
@@ -66,5 +67,7 @@ class RetrofitData @Inject constructor(private val retrofitService: RetrofitServ
 //		}
 //	}
 
-	fun getDocuments() = _documents
+	fun getDocuments() :LiveData<List<Document>>{
+		return _documents
+	}
 }

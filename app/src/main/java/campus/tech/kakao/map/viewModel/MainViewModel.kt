@@ -10,7 +10,6 @@ import campus.tech.kakao.map.view.adapter.DocumentAdapter
 import campus.tech.kakao.map.view.adapter.WordAdapter
 import campus.tech.kakao.map.databinding.ActivitySearchBinding
 import campus.tech.kakao.map.data.document.Document
-import campus.tech.kakao.map.data.mapPosition.MapPositionPreferences
 import campus.tech.kakao.map.data.searchWord.SearchWord
 import campus.tech.kakao.map.data.remote.RetrofitData
 import campus.tech.kakao.map.repository.MapPositionRepository
@@ -37,8 +36,11 @@ class MainViewModel @Inject constructor(
 
 	val mapInfo: LiveData<List<String>> get() = mapPositionRepository.getMapInfoList()
 
+	init {
+		loadWord()
+	}
 
-	fun addWord(document: Document){
+	private fun addWord(document: Document){
 		val word = searchWordRepository.wordFromDocument(document)
 		viewModelScope.launch(Dispatchers.IO) {
 			searchWordRepository.addWord(word)
@@ -69,11 +71,6 @@ class MainViewModel @Inject constructor(
 		retrofitData.searchPlace(query)
 	}
 
-
-	private fun setMapInfo(document: Document){
-		mapPositionRepository.setMapInfo(document)
-	}
-
 	fun getMapInfo(){
 		mapPositionRepository.getMapInfo()
 	}
@@ -81,7 +78,7 @@ class MainViewModel @Inject constructor(
 	fun placeClicked(document: Document){
 		_documentClicked.value = false
 		addWord(document)
-		setMapInfo(document)
+		mapPositionRepository.setMapInfo(document)
 		_documentClicked.value = true
 	}
 
