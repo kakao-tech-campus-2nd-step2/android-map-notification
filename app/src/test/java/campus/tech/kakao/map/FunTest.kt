@@ -1,17 +1,10 @@
 package campus.tech.kakao.map
 
-import android.app.Application
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import campus.tech.kakao.map.data.document.Document
-import campus.tech.kakao.map.data.mapPosition.MapPositionPreferences
 import campus.tech.kakao.map.data.searchWord.SearchWord
-import campus.tech.kakao.map.data.searchWord.SearchWordDao
 import campus.tech.kakao.map.data.remote.RetrofitData
-import campus.tech.kakao.map.data.remote.RetrofitService
-import campus.tech.kakao.map.repository.MapPositionRepository
 import campus.tech.kakao.map.repository.SearchWordRepository
-import campus.tech.kakao.map.viewModel.MainViewModel
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -22,9 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import javax.inject.Inject
 
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = Config.NONE)
