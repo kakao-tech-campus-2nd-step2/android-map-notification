@@ -13,7 +13,6 @@ import campus.tech.kakao.map.repository.PlaceRepository
 import campus.tech.kakao.map.repository.SearchWordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +22,7 @@ class MainViewModel @Inject constructor(
 	private val searchWordRepository: SearchWordRepository,
 	private val mapPositionRepository: MapPositionRepository
 ) : AndroidViewModel(application) {
-	val wordList: LiveData<List<SearchWord>> get() = searchWordRepository.getWordList()
+	val wordList: LiveData<List<SearchWord>> get() = searchWordRepository.wordList.asLiveData()
 
 	var documentList: LiveData<List<Document>>
 

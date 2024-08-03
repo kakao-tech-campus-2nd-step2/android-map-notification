@@ -1,16 +1,18 @@
 package campus.tech.kakao.map.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import campus.tech.kakao.map.data.document.Document
 import campus.tech.kakao.map.data.searchWord.SearchWord
 import campus.tech.kakao.map.data.searchWord.SearchWordDao
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class SearchWordRepository @Inject constructor(
 	private val searchWordDao: SearchWordDao
 ):SearchWordRepositoryInterface {
-	private val _wordList = MutableLiveData<List<SearchWord>>()
+	private val _wordList = MutableStateFlow<List<SearchWord>>(emptyList())
+	val wordList: StateFlow<List<SearchWord>> = _wordList.asStateFlow()
 
 	override suspend fun addWord(word: SearchWord) {
 		deleteWord(word)
@@ -28,10 +30,6 @@ class SearchWordRepository @Inject constructor(
 	}
 
 	override suspend fun loadWord() {
-		_wordList.postValue(searchWordDao.getAll())
-	}
-
-	fun getWordList(): LiveData<List<SearchWord>> {
-		return _wordList
+		_wordList.value = searchWordDao.getAll()
 	}
 }
