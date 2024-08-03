@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import campus.tech.kakao.map.data.document.Document
 import campus.tech.kakao.map.data.searchWord.SearchWord
@@ -28,7 +29,7 @@ class MainViewModel @Inject constructor(
 	private val _documentClicked = MutableLiveData<Boolean>()
 	val documentClicked: LiveData<Boolean> get() = _documentClicked
 
-	val mapInfo: LiveData<List<String>> get() = mapPositionRepository.getMapInfoList()
+	val mapInfo: LiveData<List<String>> get() = mapPositionRepository.mapInfoList.asLiveData()
 
 	init {
 		documentList = placeRepository.searchPlace("")

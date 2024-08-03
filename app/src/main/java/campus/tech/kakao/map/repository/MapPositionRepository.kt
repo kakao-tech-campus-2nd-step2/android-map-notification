@@ -1,21 +1,19 @@
 package campus.tech.kakao.map.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import campus.tech.kakao.map.data.document.Document
 import campus.tech.kakao.map.data.mapPosition.MapPositionPreferences
 import campus.tech.kakao.map.viewModel.MainViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class MapPositionRepository @Inject constructor(
 	private val mapPosition: MapPositionPreferences
 ):MapPositionRepositoryInterface{
 
-	private val _mapInfoList = MutableLiveData<List<String>>()
-
-	fun getMapInfoList():LiveData<List<String>>{
-		return _mapInfoList
-	}
+	private val _mapInfoList = MutableStateFlow<List<String>>(emptyList())
+	val mapInfoList: StateFlow<List<String>> = _mapInfoList.asStateFlow()
 
 	override fun setMapInfo(document: Document) {
 		mapPosition.setMapInfo(document)
@@ -23,7 +21,6 @@ class MapPositionRepository @Inject constructor(
 	}
 
 	override fun getMapInfo() {
-		_mapInfoList.value = listOf()
 		val latitude = mapPosition.getPreferences(
 			MainViewModel.LATITUDE,
 			MainViewModel.INIT_LATITUDE
