@@ -1,6 +1,5 @@
 package campus.tech.kakao.map.module
 
-import campus.tech.kakao.map.data.remote.RetrofitData
 import campus.tech.kakao.map.data.remote.RetrofitService
 import campus.tech.kakao.map.data.remote.UrlContract
 import dagger.Module
@@ -29,13 +28,4 @@ object RetrofitModule {
 			.addConverterFactory(GsonConverterFactory.create())
 			.build()
 	}
-
-	@Provides
-	@Singleton
-	fun provideRetrofitData(retrofitService: RetrofitService): RetrofitData {
-		return RetrofitData(retrofitService)
-	}
-
-
-
 }

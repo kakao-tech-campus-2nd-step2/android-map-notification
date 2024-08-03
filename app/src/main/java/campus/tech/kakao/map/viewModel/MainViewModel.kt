@@ -23,8 +23,7 @@ class MainViewModel @Inject constructor(
 	private val mapPositionRepository: MapPositionRepository
 ) : AndroidViewModel(application) {
 	val wordList: LiveData<List<SearchWord>> get() = searchWordRepository.wordList.asLiveData()
-
-	var documentList: LiveData<List<Document>>
+	val documentList: LiveData<List<Document>> get() = placeRepository.documentList.asLiveData()
 
 	private val _documentClicked = MutableLiveData<Boolean>()
 	val documentClicked: LiveData<Boolean> get() = _documentClicked
@@ -32,7 +31,6 @@ class MainViewModel @Inject constructor(
 	val mapInfo: LiveData<List<String>> get() = mapPositionRepository.mapInfoList.asLiveData()
 
 	init {
-		documentList = placeRepository.searchPlace("").asLiveData()
 		loadWord()
 	}
 
@@ -56,7 +54,7 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun searchLocalAPI(query: String){
-		documentList = placeRepository.searchPlace(query).asLiveData()
+		placeRepository.searchPlace(query)
 	}
 
 	fun getMapInfo(){

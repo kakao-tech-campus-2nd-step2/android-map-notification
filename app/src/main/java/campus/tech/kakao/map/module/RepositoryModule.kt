@@ -1,7 +1,8 @@
 package campus.tech.kakao.map.module
 
 import campus.tech.kakao.map.data.mapPosition.MapPositionPreferences
-import campus.tech.kakao.map.data.remote.RetrofitData
+import campus.tech.kakao.map.data.remote.PlaceRemoteDataSource
+import campus.tech.kakao.map.data.remote.RetrofitService
 import campus.tech.kakao.map.data.searchWord.SearchWordDao
 import campus.tech.kakao.map.repository.MapPositionRepository
 import campus.tech.kakao.map.repository.PlaceRepository
@@ -29,7 +30,13 @@ object RepositoryModule {
 
 	@Provides
 	@Singleton
-	fun providePlaceRepository(retrofitData: RetrofitData): PlaceRepository {
-		return PlaceRepository(retrofitData)
+	fun providePlaceRemoteDataSource(retrofitService: RetrofitService): PlaceRemoteDataSource {
+		return PlaceRemoteDataSource(retrofitService)
+	}
+
+	@Provides
+	@Singleton
+	fun providePlaceRepository(placeRemoteDataSource: PlaceRemoteDataSource): PlaceRepository {
+		return PlaceRepository(placeRemoteDataSource)
 	}
 }
