@@ -31,9 +31,6 @@ class SearchFragment : Fragment(), AdapterCallback {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		observeData()
-		lifecycleScope.launch {
-			model.loadWord()
-		}
 	}
 
 	override fun onCreateView(
