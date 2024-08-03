@@ -8,4 +8,10 @@
     <string name="enter_search">"검색어를 입력해 주세요."</string>
     <string name="fail_authorization">"지도 인증을 실패 했습니다.\n다시 시도해 주세요.\n\nMapAuthException(401): Unauthorized\n"</string>
     <string name="not_on_service">"On_SERVICE가 아닐 때 serviceMessage 표시"</string>
+    <string name="fcm_default_channel_id">"FirebaseCloudMessaging 기본 설정 메시지"</string>
+    <string name="ask_notification_permission_dialog_title">"알림 권한 설정"</string>
+    <string name="accept_notification_permission">"수락"</string>
+    <string name="deny_notification_permission">"거절"</string>
+    <string name="fcm_channel_description">"FCM 채널 설명"</string>
+    <string name="msg_token_fmt">FCM Registration Token: %1$s</string>
 </resources>
