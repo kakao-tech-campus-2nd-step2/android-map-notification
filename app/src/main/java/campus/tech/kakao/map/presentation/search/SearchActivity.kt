@@ -24,11 +24,20 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
-    @Inject lateinit var listener: SearchActivityRecyclerviewListener
     private lateinit var binding: ActivityMainBinding
     private val searchedPlaceAdapter by lazy { SearchedPlaceAdapter(listener)}
     private val logAdapter by lazy { LogAdapter(listener) }
     private val viewModel: SearchViewModel by viewModels()
+
+    private val listener = object : SearchActivityRecyclerviewListener {
+        override fun onPlaceClick(place: Place) {
+            handlePlaceClick(place)
+        }
+
+        override fun onLogDelBtnClick(logId: String) {
+            handleLogDelBtnClick(logId)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

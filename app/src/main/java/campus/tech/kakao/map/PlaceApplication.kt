@@ -26,7 +26,7 @@ class PlaceApplication: Application() {
         KakaoMapSdk.init(this, key)
     }
     companion object {
-        fun isNetworkActive(@ApplicationContext context: Context): Boolean {
+        fun isNetworkActive(context: Context): Boolean {
             val connectivityManager: ConnectivityManager =
                 context.getSystemService(ConnectivityManager::class.java)
             val network: Network = connectivityManager.activeNetwork ?: return false
