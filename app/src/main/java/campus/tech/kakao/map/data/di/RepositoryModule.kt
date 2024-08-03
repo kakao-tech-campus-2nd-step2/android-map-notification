@@ -39,8 +39,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideLogRepository(context: Context, placeDao: PlaceDao): LogRepositoryInterface {
-        return LogRepository(context.applicationContext as MyApplication, placeDao)
+    fun provideLogRepository(placeDao: PlaceDao): LogRepositoryInterface {
+        return LogRepository(placeDao)
     }
 
     @Provides
