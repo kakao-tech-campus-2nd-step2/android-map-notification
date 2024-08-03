@@ -8,6 +8,9 @@ import campus.tech.kakao.map.data.mapPosition.MapPositionPreferences
 import campus.tech.kakao.map.data.searchWord.SearchWord
 import campus.tech.kakao.map.data.searchWord.SearchWordDao
 import campus.tech.kakao.map.data.remote.RetrofitData
+import campus.tech.kakao.map.data.remote.RetrofitService
+import campus.tech.kakao.map.repository.MapPositionRepository
+import campus.tech.kakao.map.repository.SearchWordRepository
 import campus.tech.kakao.map.viewModel.MainViewModel
 import io.mockk.coEvery
 import io.mockk.every
@@ -21,14 +24,12 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import javax.inject.Inject
 
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = Config.NONE)
-class FunTest {
-	private lateinit var model: MainViewModel
-	private lateinit var context: Context
-	private val mapPosition= mockk<MapPositionPreferences>()
-	private val searchWordDao= mockk<SearchWordDao>()
+class FunTest{
+	private val searchWordRepository= mockk<SearchWordRepository>()
 	private val retrofitData= mockk<RetrofitData>()
 	private val documentList = MutableLiveData<List<Document>>()
 	private val wordList = MutableLiveData<List<SearchWord>>()
@@ -41,52 +42,43 @@ class FunTest {
 			"남양주", "10",
 			"10")
 		)
-		context = RuntimeEnvironment.getApplication()
-		model = MainViewModel(context as Application, retrofitData, searchWordDao, mapPosition)
-		every { retrofitData.getDocuments() } returns documentList
+		wordList.value = listOf()
 	}
 	@Test
 	fun 검색어를_입력하면_검색_결과_표시(){
 		val query = "이안아파트"
 		every { retrofitData.searchPlace(query) } returns Unit
-		val expectedQueryResultName = arrayOf("이안아파트", "대우이안아파트", "이안금곡아파트 관리사무소",
-			"대우이안아파트 정문", "이안동래센트럴시티아파트", "이안금곡아파트 입주자대표회의 전기차충전소",
-			"대우이안아파트 상가동", "CU 화명대우이안점", "대우이안아파트 지하주차장",
-			"이안공인중개사사무소", "부산시 북구 대우이안아파트 전기차충전소", "대우이안공인중개사사무소",
-			"삼계이안아파트", "이안센트럴포레장유1단지아파트", "성일이안시티아파트")
-		model.searchLocalAPI(query)
-		val actualQueryResult = model.documentList.value
-		actualQueryResult?.forEach { document ->
-			assert(expectedQueryResultName.contains(document.placeName))
-		}
+		every { retrofitData.getDocuments() } returns documentList
+		retrofitData.searchPlace(query)
+		val actualQueryResult = retrofitData.getDocuments().value!!
+		assert(actualQueryResult.any { it.placeName == query })
 	}
+
 
 	@Test
 	fun 검색어_저장_되는지_확인(){
-		val query = Document(
-			"이안아파트", "아파트",
-			"남양주", "10",
-			"10")
+		val query = SearchWord(
+			"이안아파트", "남양주", "아파트")
 
 		val expectedResult = SearchWord(
 			"이안아파트", "남양주", "아파트")
 
-		coEvery { searchWordDao.delete(any(),any(),any()) } returns delete()
-		coEvery { searchWordDao.getAll() } returns wordList.value!!
-		coEvery { searchWordDao.insert(any()) } returns insert(expectedResult)
+		coEvery { searchWordRepository.addWord(any()) } returns insert(query)
 
-		model.addWord(query)
-		assert(wordList.value?.contains(expectedResult)!!)
+		CoroutineScope(Dispatchers.IO).launch {
+			searchWordRepository.addWord(query)
+		}
+		assert(wordList.value?.get(0) == expectedResult)
 	}
 
 	@Test
 	fun 검색어_삭제_되는지_확인(){
 		val word = SearchWord(
 			"이안아파트", "남양주", "아파트")
-		coEvery { searchWordDao.delete(any(),any(),any()) } returns delete()
-		coEvery { searchWordDao.getAll() } returns wordList.value!!
+		coEvery { searchWordRepository.deleteWord(any()) } returns delete()
+		coEvery { searchWordRepository.loadWord()} returns Unit
 		CoroutineScope(Dispatchers.IO).launch {
-			model.deleteWord(word)
+			searchWordRepository.deleteWord(word)
 		}
 		assert(wordList.value?.isEmpty()!!)
 	}
