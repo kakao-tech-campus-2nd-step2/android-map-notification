@@ -1,8 +1,8 @@
 package campus.tech.kakao.map.repository
 
-import androidx.lifecycle.LiveData
 import campus.tech.kakao.map.data.document.Document
+import kotlinx.coroutines.flow.StateFlow
 
 interface PlaceRepositoryInterface {
-	fun searchPlace(query: String): LiveData<List<Document>>
+	fun searchPlace(query: String): StateFlow<List<Document>>
 }

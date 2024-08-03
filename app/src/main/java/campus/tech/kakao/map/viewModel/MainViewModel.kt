@@ -13,6 +13,7 @@ import campus.tech.kakao.map.repository.PlaceRepository
 import campus.tech.kakao.map.repository.SearchWordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +33,7 @@ class MainViewModel @Inject constructor(
 	val mapInfo: LiveData<List<String>> get() = mapPositionRepository.mapInfoList.asLiveData()
 
 	init {
-		documentList = placeRepository.searchPlace("")
+		documentList = placeRepository.searchPlace("").asLiveData()
 		loadWord()
 	}
 
@@ -56,7 +57,7 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun searchLocalAPI(query: String){
-		documentList = placeRepository.searchPlace(query)
+		documentList = placeRepository.searchPlace(query).asLiveData()
 	}
 
 	fun getMapInfo(){
