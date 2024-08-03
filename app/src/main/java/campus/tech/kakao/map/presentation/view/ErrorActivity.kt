@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.view
+package campus.tech.kakao.map.presentation.view
 
 import android.os.Bundle
 import android.widget.TextView

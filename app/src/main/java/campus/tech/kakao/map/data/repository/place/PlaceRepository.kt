@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.repository
+package campus.tech.kakao.map.data.repository.place
 
 import android.content.SharedPreferences
 import android.util.Log

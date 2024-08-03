@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.repository
+package campus.tech.kakao.map.data.repository.log
 
 import campus.tech.kakao.map.data.db.entity.Place
 

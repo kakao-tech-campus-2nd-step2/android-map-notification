@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.repository
+package campus.tech.kakao.map.data.repository
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,7 +8,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import campus.tech.kakao.map.R
-import campus.tech.kakao.map.view.WelcomeActivity
+import campus.tech.kakao.map.presentation.view.WelcomeActivity
 
 class WelcomeRepository {
     fun sendForegroundNotification(context: Context) {

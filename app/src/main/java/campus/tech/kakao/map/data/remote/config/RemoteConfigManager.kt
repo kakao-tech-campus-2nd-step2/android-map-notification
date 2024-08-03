@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.repository
+package campus.tech.kakao.map.data.remote.config
 
 import android.util.Log
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig

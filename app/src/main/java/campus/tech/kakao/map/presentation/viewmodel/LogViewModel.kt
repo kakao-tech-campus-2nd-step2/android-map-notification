@@ -1,11 +1,11 @@
-package campus.tech.kakao.map.viewmodel
+package campus.tech.kakao.map.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import campus.tech.kakao.map.data.db.entity.Place
-import campus.tech.kakao.map.repository.LogRepositoryInterface
+import campus.tech.kakao.map.data.repository.log.LogRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

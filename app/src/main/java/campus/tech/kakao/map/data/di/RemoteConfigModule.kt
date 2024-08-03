@@ -1,6 +1,6 @@
 package campus.tech.kakao.map.data.di
 
-import campus.tech.kakao.map.repository.RemoteConfigManager
+import campus.tech.kakao.map.data.remote.config.RemoteConfigManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

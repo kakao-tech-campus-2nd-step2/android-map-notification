@@ -1,18 +1,16 @@
 package campus.tech.kakao.map.data.di
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import campus.tech.kakao.map.base.MyApplication
 import campus.tech.kakao.map.data.db.PlaceDao
 import campus.tech.kakao.map.data.remote.api.KakaoApiService
-import campus.tech.kakao.map.repository.LogRepository
-import campus.tech.kakao.map.repository.LogRepositoryInterface
-import campus.tech.kakao.map.repository.MapRepository
-import campus.tech.kakao.map.repository.MapRepositoryInterface
-import campus.tech.kakao.map.repository.PlaceRepository
-import campus.tech.kakao.map.repository.PlaceRepositoryInterface
-import campus.tech.kakao.map.repository.WelcomeRepository
+import campus.tech.kakao.map.data.repository.log.LogRepository
+import campus.tech.kakao.map.data.repository.log.LogRepositoryInterface
+import campus.tech.kakao.map.data.repository.map.MapRepository
+import campus.tech.kakao.map.data.repository.map.MapRepositoryInterface
+import campus.tech.kakao.map.data.repository.place.PlaceRepository
+import campus.tech.kakao.map.data.repository.place.PlaceRepositoryInterface
+import campus.tech.kakao.map.data.repository.WelcomeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

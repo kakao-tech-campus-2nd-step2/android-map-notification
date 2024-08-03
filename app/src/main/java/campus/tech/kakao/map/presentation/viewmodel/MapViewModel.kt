@@ -1,8 +1,8 @@
-package campus.tech.kakao.map.viewmodel
+package campus.tech.kakao.map.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import campus.tech.kakao.map.repository.MapRepositoryInterface
+import campus.tech.kakao.map.data.repository.map.MapRepositoryInterface
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

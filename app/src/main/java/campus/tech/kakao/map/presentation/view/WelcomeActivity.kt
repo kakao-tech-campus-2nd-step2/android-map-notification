@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.view
+package campus.tech.kakao.map.presentation.view
 
 import android.Manifest
 import android.content.Intent
@@ -16,8 +16,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityWelcomeBinding
-import campus.tech.kakao.map.repository.RemoteConfigManager
-import campus.tech.kakao.map.viewmodel.WelcomeViewModel
+import campus.tech.kakao.map.data.remote.config.RemoteConfigManager
+import campus.tech.kakao.map.presentation.viewmodel.WelcomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

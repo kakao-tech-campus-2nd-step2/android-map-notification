@@ -1,12 +1,12 @@
-package campus.tech.kakao.map.viewmodel
+package campus.tech.kakao.map.presentation.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import campus.tech.kakao.map.repository.RemoteConfigManager
-import campus.tech.kakao.map.repository.WelcomeRepository
+import campus.tech.kakao.map.data.remote.config.RemoteConfigManager
+import campus.tech.kakao.map.data.repository.WelcomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
