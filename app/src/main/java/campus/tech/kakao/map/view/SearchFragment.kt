@@ -64,7 +64,6 @@ class SearchFragment : Fragment(), AdapterCallback {
 		searchBinding.search.doOnTextChanged { text, _, _, _ ->
 			val query = text.toString()
 			model.doOnTextChanged(query, searchBinding)
-			searchBinding.invalidateAll()
 		}
 	}
 
