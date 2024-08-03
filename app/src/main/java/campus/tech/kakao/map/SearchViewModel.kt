@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     context: Context,
-    private val preferenceManager: PreferenceManager,
+//    private val preferenceManager: PreferenceManager,
     var repository: RetrofitRepository,
     private val searchHistoryRepository: SearchHistoryRepository
 ) : ViewModel() {
@@ -80,24 +80,24 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun getSearchHistoryList() {
-        _searchHistoryList.value = getSearchHistory()
-    }
+//    fun getSearchHistoryList() {
+//        _searchHistoryList.value = getSearchHistory()
+//    }
 
-    private fun getSearchHistory(): ArrayList<SearchHistory> {
-        return preferenceManager.getArrayList(Constants.SEARCH_HISTORY_KEY)
-    }
+//    private fun getSearchHistory(): ArrayList<SearchHistory> {
+//        return preferenceManager.getArrayList(Constants.SEARCH_HISTORY_KEY)
+//    }
 
-    fun saveSearchHistory(searchHistory: SearchHistory) {
-        val currentList = getSearchHistory()
-        preferenceManager.savePreference(Constants.SEARCH_HISTORY_KEY, searchHistory, currentList)
-        getSearchHistoryList()
-    }
+//    fun saveSearchHistory(searchHistory: SearchHistory) {
+//        val currentList = getSearchHistory()
+//        preferenceManager.savePreference(Constants.SEARCH_HISTORY_KEY, searchHistory, currentList)
+//        getSearchHistoryList()
+//    }
 
-    fun deleteSearchHistory(position: Int) {
-        preferenceManager.deleteArrayListItem(Constants.SEARCH_HISTORY_KEY, position)
-        getSearchHistoryList()
-    }
+//    fun deleteSearchHistory(position: Int) {
+//        preferenceManager.deleteArrayListItem(Constants.SEARCH_HISTORY_KEY, position)
+//        getSearchHistoryList()
+//    }
 
     fun getPlace(query: String) {
         viewModelScope.launch {

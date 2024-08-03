@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 class ViewModelFactory(private val context: Context
-                       , private val preferenceManager: PreferenceManager
                        , private val retrofitRepository: RetrofitRepository
                        , private val searchHistoryRepository: SearchHistoryRepository
 )
@@ -13,10 +12,10 @@ class ViewModelFactory(private val context: Context
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
-            return SearchViewModel(context, preferenceManager, retrofitRepository, searchHistoryRepository) as T
+            return SearchViewModel(context, retrofitRepository, searchHistoryRepository) as T
         }
         else if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            return MainViewModel(preferenceManager) as T
+            return MainViewModel(searchHistoryRepository) as T
         }
         else {
             throw IllegalArgumentException("Failed to create ViewModel : ${modelClass.name}")

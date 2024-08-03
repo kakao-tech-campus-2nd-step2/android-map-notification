@@ -1,15 +1,16 @@
 package campus.tech.kakao.map
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kakao.vectormap.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val preferenceManager: PreferenceManager
+    private val searchHistory: SearchHistoryRepository
 ) : ViewModel() {
 
     private val _placeInfo = MutableLiveData<MainPlaceInfo>()
@@ -20,20 +21,26 @@ class MainViewModel @Inject constructor(
     val isBottomSheetVisible: LiveData<Boolean>
         get() = _isBottomSheetVisible
 
-    fun setLocation(latitude: Double? = null, longitude: Double? = null): LatLng? {
-        return if (latitude != null && longitude != null) {
-            LatLng.from(latitude, longitude)
-        } else {
-            val historyList = preferenceManager.getArrayList(Constants.SEARCH_HISTORY_KEY)
-            if (historyList.isNullOrEmpty()) {
-                null
+    private val _location = MutableLiveData<LatLng>()
+    val location: LiveData<LatLng>
+        get() = _location
+
+    fun setLocation(latitude: Double? = null, longitude: Double? = null) {
+        viewModelScope.launch {
+            _location.value = if (latitude != null && longitude != null) {
+                LatLng.from(latitude, longitude)
             } else {
-                val historyLongitude = historyList[0].x?.toDoubleOrNull()
-                val historyLatitude = historyList[0].y?.toDoubleOrNull()
-                if (historyLongitude != null && historyLatitude != null) {
-                    LatLng.from(historyLatitude, historyLongitude)
-                } else {
+                val historyList = searchHistory.getAllSearchHistories()
+                if (historyList.isEmpty()) {
                     null
+                } else {
+                    val historyLongitude = historyList[0].x?.toDoubleOrNull()
+                    val historyLatitude = historyList[0].y?.toDoubleOrNull()
+                    if (historyLongitude != null && historyLatitude != null) {
+                        LatLng.from(historyLatitude, historyLongitude)
+                    } else {
+                        null
+                    }
                 }
             }
         }

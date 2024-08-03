@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import campus.tech.kakao.map.databinding.ActivityMainBinding
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
@@ -33,12 +34,19 @@ class MainActivity : AppCompatActivity() {
         mainViewBinding.viewModel = mainViewModel
         mainViewBinding.lifecycleOwner = this
 
-        val latitude = intent?.getStringExtra("latitude")?.toDoubleOrNull()
-        val longitude = intent?.getStringExtra("longitude")?.toDoubleOrNull()
+        var latitude = intent?.getStringExtra("latitude")?.toDoubleOrNull()
+        var longitude = intent?.getStringExtra("longitude")?.toDoubleOrNull()
         val name = intent?.getStringExtra("name")
         val address = intent?.getStringExtra("address")
 
         mapView = mainViewBinding.mapView
+
+        mainViewModel.location.observe(this@MainActivity, Observer { position ->
+            if (position != null) {
+                latitude = position.latitude
+                longitude = position.longitude
+            }
+        })
 
         setUpMapView(mapView, longitude, latitude)
         mainViewModel.updatePlaceInfo(name, address)
@@ -100,7 +108,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun getPosition(): LatLng {
-                return mainViewModel.setLocation(latitude, longitude) ?: super.getPosition()
+                return if (latitude != null && longitude != null) {
+                    LatLng.from(latitude, longitude)
+                } else super.getPosition()
             }
         })
     }
