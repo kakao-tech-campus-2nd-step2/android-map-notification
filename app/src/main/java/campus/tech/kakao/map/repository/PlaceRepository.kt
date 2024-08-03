@@ -43,4 +43,4 @@ class PlaceRepository @Inject constructor(
     companion object {
         private const val KAKAOAK = "KakaoAK "
     }
-}gi
+}

@@ -21,7 +21,6 @@ import campus.tech.kakao.map.viewmodel.WelcomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
 @AndroidEntryPoint
 class WelcomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWelcomeBinding
@@ -52,13 +51,13 @@ class WelcomeActivity : AppCompatActivity() {
         welcomeViewModel.serviceState.observe(this){ state ->
             when(state) {
                 RemoteConfigManager.REMOTE_ON_SERVICE -> {
-                    Log.d("arieum", state)
+                    Log.d("arieum", "$state")
                     lifecycleScope.launch {
                         delayBeforeMoveMapView()
                         runOnUiThread { moveMapView() }
                     }
                 }
-                else -> { Log.d("arieum", state) }
+                else -> { Log.d("arieum", "$state") }
             }
         }
     }

@@ -20,6 +20,7 @@ class WelcomeViewModel @Inject constructor(
 
     private val _serviceMessage = MutableLiveData<String>()
     val serviceMessage: LiveData<String> get() = _serviceMessage
+
     init {
         processRemoteConfig()
     }
@@ -31,8 +32,12 @@ class WelcomeViewModel @Inject constructor(
                 val setServiceState = remoteConfigManager.getServiceState()
                 _serviceState.value = setServiceState
                 when (setServiceState) {
-                    RemoteConfigManager.REMOTE_ON_SERVICE -> { _serviceMessage.value = "" }
-                    else -> { _serviceMessage.value = remoteConfigManager.getServiceMessage() }
+                    RemoteConfigManager.REMOTE_ON_SERVICE -> {
+                        _serviceMessage.value = ""
+                    }
+                    else -> {
+                        _serviceMessage.value = remoteConfigManager.getServiceMessage()
+                    }
                 }
             } else {
                 _serviceState.value = remoteConfigManager.REMOTE_ON_ERROR
