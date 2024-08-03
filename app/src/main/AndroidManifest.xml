@@ -45,6 +45,9 @@
             android:name=".presentation.view.KakaoMapViewActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.view.KakaoMapViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.view.MapErrorActivity"
             android:exported="false" />
         <activity
