@@ -35,7 +35,6 @@ class SplashScreenActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash_screen)
 
         askNotificationPermission()
-//        getToken()
 
         viewModel.getService()
         displayServiceState()
@@ -55,16 +54,6 @@ class SplashScreenActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun getToken(){
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-            Log.w(TAG, "FCM Token: ${task.result}")
-        })
     }
 
     private fun askNotificationPermission() {
