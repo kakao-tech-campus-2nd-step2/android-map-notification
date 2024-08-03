@@ -1,0 +1,10 @@
+<defaultsMap>
+    <entry>
+        <key>serviceState</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>serviceMessage</key>
+        <value>Service is running</value>
+    </entry>
+</defaultsMap>

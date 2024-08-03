@@ -21,14 +21,15 @@
             android:value="@string/KAKAO_API_KEY" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".view.SplashActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".MainActivity"/>
         <activity android:name=".view.SearchActivity" />
     </application>
 
