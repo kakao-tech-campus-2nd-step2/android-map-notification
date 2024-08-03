@@ -53,15 +53,14 @@ class WelcomeActivity : AppCompatActivity() {
                 RemoteConfigManager.REMOTE_ON_SERVICE -> {
                     Log.d("arieum", state)
                     lifecycleScope.launch {
-                        delayBeforeMoveMapView()
-                        runOnUiThread { moveMapView() }
+                        delay(1000L)
+                        moveMapView()
                     }
                 }
                 else -> { Log.d("arieum", state) }
             }
         }
     }
-    private suspend fun delayBeforeMoveMapView(){ delay(1000L) }
     private fun moveMapView() {
         val intent = Intent(this@WelcomeActivity, MapViewActivity::class.java)
         startActivity(intent)
