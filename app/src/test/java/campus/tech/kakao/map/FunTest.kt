@@ -3,15 +3,15 @@ package campus.tech.kakao.map
 import androidx.lifecycle.MutableLiveData
 import campus.tech.kakao.map.data.document.Document
 import campus.tech.kakao.map.data.searchWord.SearchWord
-import campus.tech.kakao.map.data.remote.RetrofitData
+import campus.tech.kakao.map.repository.PlaceRepository
 import campus.tech.kakao.map.repository.SearchWordRepository
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -21,27 +21,22 @@ import org.robolectric.annotation.Config
 @Config(manifest = Config.NONE)
 class FunTest{
 	private val searchWordRepository= mockk<SearchWordRepository>()
-	private val retrofitData= mockk<RetrofitData>()
-	private val documentList = MutableLiveData<List<Document>>()
-	private val wordList = MutableLiveData<List<SearchWord>>()
-
-	@Before
-	fun setUp() {
-		documentList.value = listOf(
-			Document(
+	private val placeRepository= mockk<PlaceRepository>()
+	private val documentList = MutableStateFlow<List<Document>>(listOf(
+		Document(
 			"이안아파트", "아파트",
 			"남양주", "10",
 			"10")
-		)
-		wordList.value = listOf()
-	}
+	))
+	private val wordList = MutableLiveData<List<SearchWord>>(listOf())
+
 	@Test
 	fun 검색어를_입력하면_검색_결과_표시(){
 		val query = "이안아파트"
-		every { retrofitData.searchPlace(query) } returns Unit
-		every { retrofitData.getDocuments() } returns documentList
-		retrofitData.searchPlace(query)
-		val actualQueryResult = retrofitData.getDocuments().value!!
+		every { placeRepository.searchPlace(query) } returns Unit
+		every { placeRepository.documentList } returns documentList
+		placeRepository.searchPlace(query)
+		val actualQueryResult = placeRepository.documentList.value
 		assert(actualQueryResult.any { it.placeName == query })
 	}
 
