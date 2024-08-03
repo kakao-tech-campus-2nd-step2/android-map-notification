@@ -2,7 +2,7 @@ package campus.tech.kakao.map.data.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import campus.tech.kakao.map.data.db.PlaceDao
+import campus.tech.kakao.map.data.db.AppDatabase
 import campus.tech.kakao.map.data.remote.api.KakaoApiService
 import campus.tech.kakao.map.data.repository.log.LogRepository
 import campus.tech.kakao.map.data.repository.log.LogRepositoryInterface
@@ -37,8 +37,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideLogRepository(placeDao: PlaceDao): LogRepositoryInterface {
-        return LogRepository(placeDao)
+    fun provideLogRepository(placeDatabase: AppDatabase): LogRepositoryInterface {
+        return LogRepository(placeDatabase)
     }
 
     @Provides

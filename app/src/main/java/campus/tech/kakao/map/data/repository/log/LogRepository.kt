@@ -1,25 +1,23 @@
 package campus.tech.kakao.map.data.repository.log
 
-import campus.tech.kakao.map.data.db.PlaceDao
+import campus.tech.kakao.map.data.db.AppDatabase
 import campus.tech.kakao.map.data.db.entity.Place
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class LogRepository @Inject constructor (private val placeDao: PlaceDao): LogRepositoryInterface {
-    override suspend fun getAllLogs(): List<Place> = withContext(Dispatchers.IO) {
-        placeDao.getAllLogs()
+class LogRepository @Inject constructor (private val placeDatabase: AppDatabase): LogRepositoryInterface {
+    override suspend fun getAllLogs(): List<Place> {
+        return placeDatabase.placeDao().getAllLogs()
     }
 
-    override suspend fun haveAnyLog(): Boolean = withContext(Dispatchers.IO) {
-        placeDao.getPlaceCount() > 0
+    override suspend fun haveAnyLog(): Boolean {
+        return placeDatabase.placeDao().getPlaceCount() > 0
     }
 
-    override suspend fun insertLog(place: Place) = withContext(Dispatchers.IO) {
-        placeDao.insertLog(place)
+    override suspend fun insertLog(place: Place) {
+        placeDatabase.placeDao().insertLog(place)
     }
 
-    override suspend fun deleteLog(place: Place) = withContext(Dispatchers.IO) {
-        placeDao.deleteLog(place)
+    override suspend fun deleteLog(place: Place) {
+        placeDatabase.placeDao().deleteLog(place)
     }
 }
