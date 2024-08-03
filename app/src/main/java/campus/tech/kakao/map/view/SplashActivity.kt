@@ -25,6 +25,7 @@ class SplashActivity : AppCompatActivity() {
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     } else {
+
                         Log.e("SplashActivity", "Service is unavailable: $serviceMessage")
                     }
                 } else {
