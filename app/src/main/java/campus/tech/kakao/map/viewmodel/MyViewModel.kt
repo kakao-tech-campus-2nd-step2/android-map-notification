@@ -1,6 +1,10 @@
 package campus.tech.kakao.map.viewmodel
 
+import android.content.pm.PackageManager
+import android.os.Build
 import android.util.Log
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,6 +16,7 @@ import campus.tech.kakao.map.model.network.KakaoSearchResponse
 import campus.tech.kakao.map.model.repository.MyRepository
 import campus.tech.kakao.map.view.PlaceAdapter
 import campus.tech.kakao.map.view.SavedSearchAdapter
+import dagger.hilt.android.internal.Contexts.getApplication
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,6 +56,8 @@ class MyViewModel @Inject constructor(private val repository: MyRepository) : Vi
     private val _remoteConfigMessage = MutableLiveData<String>()
     val remoteConfigMessage get() = _remoteConfigMessage
 
+    private val _isPermissionGranted = MutableLiveData<Boolean>()
+    val isPermissionGranted get() = _isPermissionGranted
 
     //LiveData 세팅---------------------------------------------------------------------------------
     fun itemClick(place: Place){
@@ -152,4 +159,6 @@ class MyViewModel @Inject constructor(private val repository: MyRepository) : Vi
             }
         }
     }
+    //FCM-----------------------------------------------------------------------------------
+
 }
