@@ -2,18 +2,27 @@
 
 ## Layout requirements
 
+**Splash Screen**
+
+Splash Screen
+
+- Logo is Center of screen
+- serviceMessage display on the bottom
+
 **Kakao map**
 
-Display kakao Map
+Kakao Map
 
-- Display selected search result using `bottom sheet`
-- When onMapError() is called, print error message
-- Save last location before app closed, and when app is started, focusing that location
+- Using `kakaomap.Mapview` for display map
+- Display selected search result using `bottom sheet`
 
 Search window button
 
-- If Search window button is clicked, go to _Save search keyword_
-  - _Stack Save search keyword_ on top of the this window
+- Looks like search bar
+
+Error Screen
+
+- Print error message
 
 **Save search keyword**
 
@@ -29,31 +38,50 @@ Saved search keyword list
 
 Search result list
 
-- Using `RecyclerView` to implement about search result list
+- Using `RecyclerView` to implement about search result list
 - It scrolls vertically
+
+**Service**
+
+When Firebase server send message
+- If App is in the background, notification is generated using FCM defaults
+- If App is in the foreground, custom notification is generated
 
 ## Function List
 
-**Kakao map**
+**Splash Screen**
+
+Display Splash Screen
+
+- Using `Firebase’s RemoteConfig` to set parameter
+- When serviceState is ON_SERVICE, Switching screen to **Kakao map**
+- When serviceState is not ON_SERVICE, display serviceMessage on the bottom and not switching screen
+
+Ask Permission
+
+- Request POST_NOTIFICATIONS permission
 
 **Kakao map**
 
 Display kakao Map
 
-- Display selected search result using `bottom sheet`
-- When onMapError() is called, print error message
+- Display selected search result using `bottom sheet`
 - Save last location before app closed, and when app is started, focusing that location
 
-Go to _Save serach keyword_
+Go to *Save serach keyword*
 
-- If Search window button is clicked, go to _Save search keyword_
-  - _Stack Save search keyword_ on top of the this window
+- If Search window button is clicked, go to *Save search keyword*
+  - *Stack Save search keyword* on top of the this window
+
+Display Error Screen
+
+- When onMapError() is called, print error message
 
 **Save search keyword**
 
 Requirements Rule
 
-- Using `SQLite` to save search data
+- Using `SQLite` to save search data
   - When application is restart, data is maintained
 - Apply the MVVM architectural pattern
 
@@ -74,3 +102,9 @@ Search result list
 - There are at least 15 search results
 - Search results have search word as categories
 - Selected item is added to the saved search word list, and display location on the kakao map
+
+**Service**
+
+Call initial screen
+
+- When touching notification window
