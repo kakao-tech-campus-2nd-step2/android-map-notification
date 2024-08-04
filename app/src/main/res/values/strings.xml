@@ -9,4 +9,7 @@
     <string name="name">name</string>
     <string name="address">address</string>
     <string name="type">type</string>
+    <string name="serviceState">serviceState</string>
+    <string name="serviceState_default">ON_SERVICE</string>
+    <string name="serviceMessage">serviceMessage</string>
 </resources>

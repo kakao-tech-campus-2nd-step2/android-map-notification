@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.adapter
+package campus.tech.kakao.map.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import campus.tech.kakao.map.databinding.WordItemBinding
-import campus.tech.kakao.map.dto.SearchWord
+import campus.tech.kakao.map.data.searchWord.SearchWord
 
 class WordAdapter(
 	private val callback: AdapterCallback

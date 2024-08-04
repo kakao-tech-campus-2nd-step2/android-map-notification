@@ -6,7 +6,7 @@
     <data>
         <variable
             name="document"
-            type="campus.tech.kakao.map.dto.Document" />
+            type="campus.tech.kakao.map.data.document.Document" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

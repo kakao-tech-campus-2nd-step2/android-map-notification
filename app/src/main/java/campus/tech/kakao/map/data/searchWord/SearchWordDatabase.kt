@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.dto
+package campus.tech.kakao.map.data.searchWord
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

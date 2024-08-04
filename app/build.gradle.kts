@@ -59,6 +59,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.core:core-splashscreen:1.0.1")
     val fragment_version = "1.8.1"
     debugImplementation("androidx.fragment:fragment-testing-manifest:$fragment_version")
     debugImplementation("androidx.fragment:fragment-testing:$fragment_version")
