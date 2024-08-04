@@ -14,3 +14,6 @@
   - 앱이 백그라운드 상태일 경우 FCM 기본 값을 사용하여 Notification을 발생한다.
   - 앱이 포그라운드 상태일 경우 커스텀 Notification을 발생한다.
 - Notification 창을 터치하면 초기 진입 화면이 호출된다.
+
+  
+![KakaoTalk_20240805_002702486](https://github.com/user-attachments/assets/69e6b982-aaee-4232-ac19-e204bbe15b03)
