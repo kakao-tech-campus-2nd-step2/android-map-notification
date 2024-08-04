@@ -46,4 +46,3 @@ object ActivityModule {
         return MapNotificationManager(context, notificationHelper)
     }
 }
-

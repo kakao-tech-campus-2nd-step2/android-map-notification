@@ -17,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     context: Context,
-//    private val preferenceManager: PreferenceManager,
     var repository: RetrofitRepository,
     private val searchHistoryRepository: SearchHistoryRepository
 ) : ViewModel() {
@@ -79,7 +78,6 @@ class SearchViewModel @Inject constructor(
             _placeList.postValue(places)
         }
     }
-
     fun getPlace(query: String) {
         viewModelScope.launch {
             val places = withContext(Dispatchers.IO) {

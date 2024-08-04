@@ -119,7 +119,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         mapView.resume()
-
     }
 
     private fun setUpMapView(mapView: MapView, longitude: Double?, latitude: Double?) {
