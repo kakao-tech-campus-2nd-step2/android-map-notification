@@ -22,6 +22,7 @@ import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.kakao.sdk.common.util.Utility
 
 @AndroidEntryPoint
 class MapActivity : AppCompatActivity() {

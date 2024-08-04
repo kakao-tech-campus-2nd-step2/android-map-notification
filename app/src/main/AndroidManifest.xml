@@ -19,13 +19,16 @@
         android:theme="@style/Theme.Map"
         tools:targetApi="31">
         <activity
+            android:name=".activity.MapActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.MapErrorActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.MapActivity"
+            android:name=".activity.LoadingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

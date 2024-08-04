@@ -3,10 +3,15 @@ package campus.tech.kakao.map.Module
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import campus.tech.kakao.map.R
 import campus.tech.kakao.map.Room.MapDatabase
 import campus.tech.kakao.map.Room.SelectMapItemDao
 import campus.tech.kakao.map.kakaoAPI.NetworkService
 import campus.tech.kakao.map.kakaoAPI.RetrofitService
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +31,7 @@ object DataModule {
         @ApplicationContext context: Context
     ): MapDatabase = Room.databaseBuilder(
         context,
-        MapDatabase::class.java, "kakaoMapDB"
+        MapDatabase::class.java, "KakaoMapDB"
     ).build()
 
     @Singleton
@@ -51,4 +56,18 @@ object DataModule {
     fun provideSharedPreferences(
         @ApplicationContext context: Context
     ): SharedPreferences = context.getSharedPreferences("lastPos", Context.MODE_PRIVATE)
+
+    @Singleton
+    @Provides
+    fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig {
+        val remoteConfig = Firebase.remoteConfig
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 0 // 개발용
+        }
+        remoteConfig.setConfigSettingsAsync(configSettings)
+
+        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+        return remoteConfig
+    }
+
 }

@@ -27,7 +27,9 @@ class MapItemViewModel @Inject constructor(
     }
 
     fun makeAllSelectItemList() {
-        _selectItemList.postValue(mapDB.selectMapItemDao().getAll())
+        viewModelScope.launch(Dispatchers.IO) {
+            _selectItemList.postValue(mapDB.selectMapItemDao().getAll())
+        }
     }
 
     suspend fun searchKakaoMapItem(category: String) {
