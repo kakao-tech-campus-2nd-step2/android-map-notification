@@ -10,7 +10,6 @@ import campus.tech.kakao.map.data.repository.map.MapRepository
 import campus.tech.kakao.map.data.repository.map.MapRepositoryInterface
 import campus.tech.kakao.map.data.repository.place.PlaceRepository
 import campus.tech.kakao.map.data.repository.place.PlaceRepositoryInterface
-import campus.tech.kakao.map.data.repository.WelcomeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,11 +44,5 @@ object RepositoryModule {
     @Singleton
     fun provideMapRepository(sharedPreferences: SharedPreferences): MapRepositoryInterface {
         return MapRepository(sharedPreferences)
-    }
-
-    @Provides
-    @Singleton
-    fun provideWelcomeRepository(): WelcomeRepository {
-        return WelcomeRepository()
     }
 }

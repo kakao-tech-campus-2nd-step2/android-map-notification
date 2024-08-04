@@ -39,7 +39,6 @@ class WelcomeActivity : AppCompatActivity() {
         setupBinding()
         observeServiceStateChanges()
         askNotificationPermission()
-        setForegroundNotification()
     }
 
     private fun setupBinding() {
@@ -64,10 +63,6 @@ class WelcomeActivity : AppCompatActivity() {
     private fun moveMapView() {
         val intent = Intent(this@WelcomeActivity, MapViewActivity::class.java)
         startActivity(intent)
-    }
-    private fun setForegroundNotification(){
-        welcomeViewModel.createNotificationChannel(this)
-        welcomeViewModel.sendForegroundNotification(this)
     }
     private fun askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
