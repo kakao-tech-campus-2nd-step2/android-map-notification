@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         initMapView()
 
 
-
+        
         // 현재 토큰을 가져오려면 FirebaseMessaging.getInstace().getToken()
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
