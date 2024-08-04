@@ -4,10 +4,11 @@ import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.Constants
 import com.google.firebase.messaging.FirebaseMessaging
+import javax.inject.Inject
 
-class UtilityManager {
+class UtilityManager @Inject constructor(private val firebaseMessaging: FirebaseMessaging){
     private fun getToken(){
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+        firebaseMessaging.token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w(Constants.TAG, "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
