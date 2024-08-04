@@ -8,4 +8,10 @@
     <string name="Error403">지도 접근 권한이 없습니다.\n다시 시도해주세요.</string>
     <string name="Error429">카카오맵의 정해진 사용량을 모두 사용하였습니다.\n다시 시도해주세요.</string>
     <string name="Error499">인터넷 연결 상태 확인이 필요합니다.\n다시 시도해주세요.</string>
+    <string name="askNotificationPermissionDialogTitle">알림 권환 요청</string>
+    <string name="yes">예</string>
+    <string name="no">아니오</string>
+
+    <string name="notificationChannelName">custom_notification_channel</string>
+    <string name="notificationChannelDescription">custom notification channel</string>
 </resources>

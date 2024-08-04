@@ -1,5 +1,6 @@
 package campus.tech.kakao.map.data.remote_config
 
+import campus.tech.kakao.map.BuildConfig
 import campus.tech.kakao.map.domain.repository.RemoteConfigRepository
 import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
@@ -10,8 +11,7 @@ import kotlin.coroutines.suspendCoroutine
 class RemoteConfigRepositoryImpl() : RemoteConfigRepository {
     private val remoteConfig = Firebase.remoteConfig.apply {
         val configSettings = remoteConfigSettings {
-            // 개발용 (https://firebase.google.com/docs/remote-config/get-started?platform=android&throttling)
-            minimumFetchIntervalInSeconds = 0
+            minimumFetchIntervalInSeconds = if (BuildConfig.DEBUG) 0 else 3600
         }
         setConfigSettingsAsync(configSettings)
     }

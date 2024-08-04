@@ -1,14 +1,20 @@
 package campus.tech.kakao.map.ui.map
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityMapBinding
 import campus.tech.kakao.map.data.local_search.Location
@@ -41,6 +47,15 @@ class MapActivity : AppCompatActivity() {
     private lateinit var mapErrorLauncher: ActivityResultLauncher<Intent>
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
     private lateinit var myKakaoMap: KakaoMap
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // FCM SDK (and your app) can post notifications.
+        } else {
+            showNotificationPermissionDialog()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +74,8 @@ class MapActivity : AppCompatActivity() {
             val intent = Intent(this@MapActivity, SearchLocationActivity::class.java)
             searchLocationLauncher.launch(intent)
         }
+
+        askNotificationPermission()
     }
 
     private fun createSearchLocationLauncher(): ActivityResultLauncher<Intent> {
@@ -164,5 +181,39 @@ class MapActivity : AppCompatActivity() {
         }
 
         override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+    }
+
+    private fun askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                showNotificationPermissionDialog()
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    private fun showNotificationPermissionDialog() {
+        AlertDialog.Builder(this@MapActivity).apply {
+            setTitle(getString(R.string.askNotificationPermissionDialogTitle))
+            setMessage(
+                String.format(
+                    "다양한 알림 소식을 받기 위해 권한을 허용하시겠어요?\n(알림에서 %s의 알림 권한을 허용해주세요.)",
+                    getString(R.string.app_name)
+                )
+            )
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            setNegativeButton(getString(R.string.no)) { _, _ -> }
+            show()
+        }
     }
 }
