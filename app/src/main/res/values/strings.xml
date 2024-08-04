@@ -4,4 +4,8 @@
     <string name="please_enter">검색어를 입력해 주세요.</string>
     <string name="clear">삭제</string>
     <string name="map_error_message">지도 인증을 실패했습니다.\n다시 시도해 주세요.</string>
+    <string name="permission_request_notification_title">알림을 받기위해 권한을 부여해주세요.</string>
+    <string name="yes">네</string>
+    <string name="no">아니오</string>
+    <string name="permission_request_notification_message">다양한 알림 소식을 받기 위해 권한을 허용하시겠어요?\n(알림 에서 %s의 알림 권한을 허용해주세요.)</string>
 </resources>

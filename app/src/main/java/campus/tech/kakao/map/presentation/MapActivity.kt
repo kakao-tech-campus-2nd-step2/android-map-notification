@@ -1,11 +1,19 @@
 package campus.tech.kakao.map.presentation
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import campus.tech.kakao.map.domain.model.Location
@@ -30,6 +38,14 @@ class MapActivity : AppCompatActivity() {
     private val viewModel : MapViewModel by viewModels()
     private lateinit var binding: ActivityMapBinding
     private lateinit var kakaoMap: KakaoMap
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (!isGranted) {
+            Toast.makeText(this, "알림 권한이 부여되지 않아 알림을 받을 수 없어요.",Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_map)
@@ -57,6 +73,7 @@ class MapActivity : AppCompatActivity() {
         binding.searchBox.setOnClickListener {
             startActivity(Intent(this, SearchActivity::class.java))
         }
+        askNotificationPermission()
     }
 
     override fun onResume() {
@@ -106,6 +123,42 @@ class MapActivity : AppCompatActivity() {
             binding.lastLoc = lastLocation
             moveToTargetLocation(kakaoMap, lastLocation)
             binding.infoSheet.isVisible = true
+        }
+    }
+
+    private fun askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+            } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
+                showNotificationPermissionDialog()
+            } else {
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    private fun showNotificationPermissionDialog() {
+        AlertDialog.Builder(this).apply {
+            setTitle(getString(R.string.permission_request_notification_title))
+            setMessage(
+                String.format(
+                    getString(R.string.permission_request_notification_message),
+                    getString(R.string.app_name)
+                )
+            )
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            setNegativeButton(getString(R.string.no)) { _, _ -> }
+            show()
         }
     }
 }
