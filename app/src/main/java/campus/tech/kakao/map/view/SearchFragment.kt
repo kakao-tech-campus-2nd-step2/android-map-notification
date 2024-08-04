@@ -11,12 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import campus.tech.kakao.map.viewModel.MainViewModel
-import campus.tech.kakao.map.adapter.AdapterCallback
-import campus.tech.kakao.map.adapter.DocumentAdapter
-import campus.tech.kakao.map.adapter.WordAdapter
+import campus.tech.kakao.map.view.adapter.AdapterCallback
+import campus.tech.kakao.map.view.adapter.DocumentAdapter
+import campus.tech.kakao.map.view.adapter.WordAdapter
 import campus.tech.kakao.map.databinding.ActivitySearchBinding
-import campus.tech.kakao.map.dto.Document
-import campus.tech.kakao.map.dto.SearchWord
+import campus.tech.kakao.map.data.document.Document
+import campus.tech.kakao.map.data.searchWord.SearchWord
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -31,9 +31,6 @@ class SearchFragment : Fragment(), AdapterCallback {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		observeData()
-		lifecycleScope.launch {
-			model.loadWord()
-		}
 	}
 
 	override fun onCreateView(
@@ -48,10 +45,25 @@ class SearchFragment : Fragment(), AdapterCallback {
 
 	private fun observeData(){
 		model.documentList.observe(this, Observer {documents ->
-			model.documentListObserved(documents, searchBinding, documentAdapter)
+			if (documents.isEmpty()){
+				searchBinding.noSearchResult.visibility = View.VISIBLE
+				searchBinding.searchResultRecyclerView.visibility = View.GONE
+			}else{
+				searchBinding.noSearchResult.visibility = View.GONE
+				searchBinding.searchResultRecyclerView.visibility = View.VISIBLE
+				documentAdapter.submitList(documents)
+				searchBinding.searchResultRecyclerView.adapter = documentAdapter
+			}
 		})
 		model.wordList.observe(this, Observer {searchWords ->
-			model.wordListObserved(searchWords, searchBinding, wordAdapter)
+			if (searchWords.isEmpty()){
+				searchBinding.searchWordRecyclerView.visibility = View.GONE
+			}
+			else{
+				searchBinding.searchWordRecyclerView.visibility = View.VISIBLE
+				wordAdapter.submitList(searchWords)
+				searchBinding.searchWordRecyclerView.adapter = wordAdapter
+			}
 		})
 	}
 	private fun setRecyclerAdapter(){
@@ -66,8 +78,7 @@ class SearchFragment : Fragment(), AdapterCallback {
 		}
 		searchBinding.search.doOnTextChanged { text, _, _, _ ->
 			val query = text.toString()
-			model.doOnTextChanged(query, searchBinding)
-			searchBinding.invalidateAll()
+			model.searchLocalAPI(query)
 		}
 	}
 

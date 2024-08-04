@@ -1,7 +1,7 @@
-package campus.tech.kakao.map.adapter
+package campus.tech.kakao.map.view.adapter
 
-import campus.tech.kakao.map.dto.Document
-import campus.tech.kakao.map.dto.SearchWord
+import campus.tech.kakao.map.data.document.Document
+import campus.tech.kakao.map.data.searchWord.SearchWord
 
 interface AdapterCallback {
 	fun onPlaceClicked(document: Document)
