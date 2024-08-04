@@ -1,12 +1,15 @@
 package campus.tech.kakao.map
 
+import android.app.Activity
+import android.content.Context
+import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
 import com.kakao.vectormap.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -21,26 +24,17 @@ class MainViewModel @Inject constructor(
     val isBottomSheetVisible: LiveData<Boolean>
         get() = _isBottomSheetVisible
 
-    private val _location = MutableLiveData<LatLng>()
-    val location: LiveData<LatLng>
-        get() = _location
-
-    fun setLocation(latitude: Double? = null, longitude: Double? = null) {
-        viewModelScope.launch {
-            _location.value = if (latitude != null && longitude != null) {
-                LatLng.from(latitude, longitude)
+    val location: LiveData<LatLng?> = searchHistory.getAllSearchHistories().asLiveData().switchMap { historyList ->
+        MutableLiveData<LatLng?>().apply {
+            value = if (historyList.isEmpty()) {
+                null
             } else {
-                val historyList = searchHistory.getAllSearchHistories()
-                if (historyList.isEmpty()) {
-                    null
+                val historyLongitude = historyList[0].x?.toDoubleOrNull()
+                val historyLatitude = historyList[0].y?.toDoubleOrNull()
+                if (historyLongitude != null && historyLatitude != null) {
+                    LatLng.from(historyLatitude, historyLongitude)
                 } else {
-                    val historyLongitude = historyList[0].x?.toDoubleOrNull()
-                    val historyLatitude = historyList[0].y?.toDoubleOrNull()
-                    if (historyLongitude != null && historyLatitude != null) {
-                        LatLng.from(historyLatitude, historyLongitude)
-                    } else {
-                        null
-                    }
+                    null
                 }
             }
         }

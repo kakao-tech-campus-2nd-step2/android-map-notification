@@ -1,5 +1,6 @@
 package campus.tech.kakao.map
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,17 +16,14 @@ class SplashViewModel @Inject constructor(): ViewModel() {
     private val _serviceMessage = MutableLiveData<String>()
     val serviceMessage: LiveData<String> get() = _serviceMessage
 
-    init {
-        fetchRemoteConfig()
-    }
-    fun fetchRemoteConfig() {
+    fun fetchRemoteConfig(context: Context) {
         RemoteConfig.fetchAndActivate { success ->
             if (success) {
                 _serviceState.value = RemoteConfig.getString("serviceState")
                 _serviceMessage.value = RemoteConfig.getString("serviceMessage")
             } else {
-                _serviceState.value = R.string.service_state.toString()
-                _serviceMessage.value = R.string.service_message.toString()
+                _serviceState.value = context.getString(R.string.service_state)
+                _serviceMessage.value = context.getString(R.string.service_message)
             }
 
             Log.d("firebase", serviceMessage.toString())

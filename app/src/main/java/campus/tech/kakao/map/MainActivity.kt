@@ -3,8 +3,12 @@ package campus.tech.kakao.map
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import campus.tech.kakao.map.databinding.ActivityMainBinding
@@ -18,14 +22,18 @@ import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.google.firebase.messaging.FirebaseMessaging
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var mainViewBinding: ActivityMainBinding
     private lateinit var mapView: MapView
     @Inject lateinit var preferenceManager: PreferenceManager
+    @Inject lateinit var mapNotificationManager: MapNotificationManager
 
     private val mainViewModel: MainViewModel by viewModels()
+
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +41,30 @@ class MainActivity : AppCompatActivity() {
         mainViewBinding.activity = this
         mainViewBinding.viewModel = mainViewModel
         mainViewBinding.lifecycleOwner = this
+
+        // requestPermissionLauncher 초기화
+        requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                // 권한이 허용되었을 때 수행할 작업
+                mapNotificationManager.askNotificationPermission(requestPermissionLauncher)
+            } else {
+                Toast.makeText(this@MainActivity, "알림 권한이 거부되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Firebase 토큰 요청
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("MainActivity", "Fetching FCM registration token failed", task.exception)
+                return@addOnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+            Log.d("MainActivity", "FCM Registration token: $token")
+        }
 
         var latitude = intent?.getStringExtra("latitude")?.toDoubleOrNull()
         var longitude = intent?.getStringExtra("longitude")?.toDoubleOrNull()
@@ -50,6 +82,17 @@ class MainActivity : AppCompatActivity() {
 
         setUpMapView(mapView, longitude, latitude)
         mainViewModel.updatePlaceInfo(name, address)
+
+        // 알림 권한 요청
+        mapNotificationManager.askNotificationPermission(requestPermissionLauncher)
+
+        // ForegroundService 시작
+        startForegroundService()
+    }
+
+    private fun startForegroundService() {
+        val serviceIntent = Intent(this, ForegroundService::class.java)
+        ContextCompat.startForegroundService(this, serviceIntent)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -76,6 +119,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         mapView.resume()
+
     }
 
     private fun setUpMapView(mapView: MapView, longitude: Double?, latitude: Double?) {

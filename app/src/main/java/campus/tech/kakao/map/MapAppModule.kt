@@ -5,6 +5,9 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -23,4 +26,24 @@ object AppModule {
     fun provideContext(application: Application): Context {
         return application.applicationContext
     }
+
+    @Singleton
+    @Provides
+    fun provideAppStatusNotificationHelper(@ApplicationContext context: Context): AppStatusNotificationHelper {
+        return AppStatusNotificationHelper(context)
+    }
 }
+
+@Module
+@InstallIn(ActivityComponent::class)
+object ActivityModule {
+
+    @Provides
+    fun provideNotificationPermissionManager(
+        @ActivityContext context: Context,
+        notificationHelper: AppStatusNotificationHelper
+    ): MapNotificationManager {
+        return MapNotificationManager(context, notificationHelper)
+    }
+}
+

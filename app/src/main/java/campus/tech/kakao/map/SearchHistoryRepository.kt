@@ -1,21 +1,26 @@
 package campus.tech.kakao.map
 
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-open class SearchHistoryRepository(val dao: SearchHistoryDao) {
-
-    open suspend fun getAllSearchHistories(): ArrayList<SearchHistory> {
-        return ArrayList(dao.getAllHistories())
+@Singleton
+class SearchHistoryRepository @Inject constructor(
+    private val dao: SearchHistoryDao
+) {
+    fun getAllSearchHistories(): Flow<List<SearchHistory>> {
+        return dao.getAllHistories()
     }
-    open suspend fun insert(searchHistory: SearchHistory) {
+
+    suspend fun insert(searchHistory: SearchHistory) {
         dao.insert(searchHistory)
     }
 
-    open suspend fun delete(searchHistory: SearchHistory) {
+    suspend fun delete(searchHistory: SearchHistory) {
         dao.delete(searchHistory)
     }
 
-    open suspend fun update(searchHistory: SearchHistory) {
+    suspend fun update(searchHistory: SearchHistory) {
         dao.update(searchHistory)
     }
 }

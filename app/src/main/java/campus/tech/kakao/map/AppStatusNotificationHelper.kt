@@ -1,5 +1,6 @@
 package campus.tech.kakao.map
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -9,7 +10,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import javax.inject.Inject
 
-class ForegroundNotificationHelper @Inject constructor(private val context: Context) {
+class AppStatusNotificationHelper @Inject constructor(private val context: Context) {
 
     private val notificationManager: NotificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -31,6 +32,14 @@ class ForegroundNotificationHelper @Inject constructor(private val context: Cont
     }
 
     fun showNotification() {
+        val notification = createNotification(
+            "포그라운드 알림",
+            "앱이 실행 중입니다."
+        )
+        notificationManager.notify(NOTIFICATION_ID, notification)
+    }
+
+    fun createNotification(title: String, content: String): Notification {
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -40,22 +49,20 @@ class ForegroundNotificationHelper @Inject constructor(private val context: Cont
             intent,
             PendingIntent.FLAG_IMMUTABLE
         )
-        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        return NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("[중요] 포그라운드 알림")
-            .setContentText("앱이 실행 중입니다.")
+            .setContentTitle(title)
+            .setContentText(content)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
-            .setStyle(NotificationCompat.BigTextStyle().bigText("앱이 실행 중일 때는 포그라운드 알림이 발생합니다."))
+            .setStyle(NotificationCompat.BigTextStyle().bigText(content))
             .setAutoCancel(true)
-
-        notificationManager.notify(NOTIFICATION_ID, builder.build())
+            .build()
     }
 
     companion object {
-        private const val NOTIFICATION_ID = 222222
-        private const val CHANNEL_ID = "main_default_channel"
-        private const val CHANNEL_NAME = "main channelName"
+        const val NOTIFICATION_ID = 222222
+        const val CHANNEL_ID = "main_default_channel"
+        const val CHANNEL_NAME = "main channelName"
     }
 }
-

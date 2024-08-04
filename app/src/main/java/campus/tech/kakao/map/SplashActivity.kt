@@ -30,6 +30,8 @@ class SplashActivity : AppCompatActivity() {
         splashViewModel.serviceState.observe(this, Observer { serviceState ->
             handleServiceState(serviceState)
         })
+
+        splashViewModel.fetchRemoteConfig(this)
     }
 
     private fun handleServiceState(serviceState: String) {

@@ -4,6 +4,9 @@
     <string name="EMPTY_TEXT">검색 결과가 없습니다.</string>
     <string name="ERROR_TEXT">오류가 발생했습니다 \n 다시 시도해 주세요.</string>
     <string name="ask_notification_permission_dialog_title">알림 권한 요청</string>
+    <string name="ask_notification_permission_dialog_body">"알림을 받기 위해 권한을 허용하시겠어요?"</string>
+    <string name="notification_yes">예</string>
+    <string name="notification_no">아니오</string>
     <string name="service_message">서버 점검 중입니다. 나중에 다시 시도해 주세요.</string>
     <string name="service_state">OFF_SERVICE</string>
 </resources>
