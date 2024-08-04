@@ -5,10 +5,10 @@
     <data>
         <variable
             name="viewModel"
-            type="campus.tech.kakao.map.viewmodel.main.MainViewModel" />
+            type="campus.tech.kakao.map.presentation.viewmodel.main.MainViewModel" />
         <variable
             name="keywordViewModel"
-            type="campus.tech.kakao.map.viewmodel.keyword.KeywordViewModel" />
+            type="campus.tech.kakao.map.presentation.viewmodel.keyword.KeywordViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
