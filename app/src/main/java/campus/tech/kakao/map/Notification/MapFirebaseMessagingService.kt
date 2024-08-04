@@ -1,14 +1,14 @@
-package campus.tech.kakao.map
+package campus.tech.kakao.map.Notification
 
 
+import campus.tech.kakao.map.Notification.NotificationManager.createNotification
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 class MapFirebaseMessagingService: FirebaseMessagingService() {
-	private val notification = Notification()
 	override fun onMessageReceived(remoteMessage: RemoteMessage) {
 		remoteMessage.notification?.let {remoteMessageContent->
-			notification.createNotification(remoteMessageContent.title, remoteMessageContent.body, this)
+			createNotification(remoteMessageContent.title, remoteMessageContent.body, this)
 		}
 	}
 
