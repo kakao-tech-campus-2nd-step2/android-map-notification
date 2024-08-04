@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.presentation.view.service
+package campus.tech.kakao.map.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -9,10 +9,10 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import campus.tech.kakao.map.MainActivity
 import campus.tech.kakao.map.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import campus.tech.kakao.map.presentation.view.SplashActivity
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -20,23 +20,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(remoteMessage)
         Log.d(TAG, "From: ${remoteMessage.from}")
 
-        if (remoteMessage.notification != null) {
-            val title = remoteMessage.notification?.title ?: "Default Title"
-            val body = remoteMessage.notification?.body ?: "Default Body"
-            sendNotification(title, body)
-        }
+        val title = remoteMessage.notification?.title ?: DEFAULT_TITLE
+        val body = remoteMessage.notification?.body ?: DEFAULT_BODY
+        sendNotification(title, body)
 
         if (remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Message data payload: ${remoteMessage.data}")
-
-            val title = remoteMessage.data["title"] ?: "Default Title"
-            val body = remoteMessage.data["body"] ?: "Default Body"
+            val title = remoteMessage.data["title"] ?: DEFAULT_TITLE
+            val body = remoteMessage.data["body"] ?: DEFAULT_BODY
             sendNotification(title, body)
         }
     }
 
     private fun sendNotification(title: String, messageBody: String) {
-        val intent = Intent(this, SplashActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_ONE_SHOT)
 
@@ -64,7 +61,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         notificationManager.notify(0, notificationBuilder.build())
     }
 
-
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d(TAG, "Refreshed token: $token")
@@ -73,5 +69,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     companion object {
         private const val TAG = "MyFirebaseMsgService"
+        private const val DEFAULT_TITLE = "Default Title"
+        private const val DEFAULT_BODY = "Default Body"
     }
 }
