@@ -68,21 +68,6 @@ class MapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         askNotificationPermission()
 
-        // Log "notification" 을 통해 토큰 확인
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w("notification", "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-
-            // Get new FCM registration token
-            val token = task.result
-
-            // Log and toast
-            val msg = getString(R.string.msg_token_fmt, token)
-            Log.d("notification", msg)
-        })
-
         mapBinding = DataBindingUtil.setContentView(this, R.layout.map_layout)
         mapBinding.mapView.start(lifeCycleCallback, readyCallback)
         activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -160,8 +145,7 @@ class MapActivity : AppCompatActivity() {
         modal.show(supportFragmentManager, "modalBottomSheet")
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission(), ) {
-            isGranted: Boolean ->
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission(), ) { isGranted: Boolean ->
         if (isGranted) {
             Toast.makeText(this, "Notifications permission granted", Toast.LENGTH_SHORT).show()
         }
@@ -172,16 +156,13 @@ class MapActivity : AppCompatActivity() {
 
     private fun askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                // FCM SDK (and your app) can post notifications.
-            }
-            else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
-                // 권한 요청 이유를 설명하는 UI를 표시
-                showNotificationPermissionDialog()
-            }
-            else {
-                // Directly ask for the permission
-                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
+                    showNotificationPermissionDialog()
+                }
+                else {
+                    requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                }
             }
         }
     }

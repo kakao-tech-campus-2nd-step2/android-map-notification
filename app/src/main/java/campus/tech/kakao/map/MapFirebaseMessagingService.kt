@@ -23,15 +23,6 @@ class MapFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    override fun onNewToken(token: String) {
-        Log.d("notification", "Refreshed token: $token")
-        sendRegistrationToServer(token)
-    }
-
-    private fun sendRegistrationToServer(token: String?) {
-        Log.d("notification", "sendRegistrationTokenToServer($token)")
-    }
-
     private fun sendNotification() {
         val intent = Intent(this, SplashActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

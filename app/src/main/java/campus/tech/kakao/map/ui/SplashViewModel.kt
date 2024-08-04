@@ -23,8 +23,10 @@ class SplashViewModel @Inject constructor(private val remoteConfig: FirebaseRemo
         remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val serviceState = remoteConfig.getString("serviceState")
-                val serviceMessage = remoteConfig.getString("serviceMessage")
                 _serviceState.value = serviceState
+            }
+            else {
+                val serviceMessage = remoteConfig.getString("serviceMessage")
                 _serviceMessage.value = serviceMessage
             }
         }
