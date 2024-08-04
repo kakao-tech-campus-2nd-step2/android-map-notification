@@ -1,15 +1,19 @@
 package campus.tech.kakao.map
 
+import android.app.Activity
 import android.content.Context
+import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
 import com.kakao.vectormap.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val preferenceManager: PreferenceManager
+    private val searchHistory: SearchHistoryRepository
 ) : ViewModel() {
 
     private val _placeInfo = MutableLiveData<MainPlaceInfo>()
@@ -20,12 +24,9 @@ class MainViewModel @Inject constructor(
     val isBottomSheetVisible: LiveData<Boolean>
         get() = _isBottomSheetVisible
 
-    fun setLocation(latitude: Double? = null, longitude: Double? = null): LatLng? {
-        return if (latitude != null && longitude != null) {
-            LatLng.from(latitude, longitude)
-        } else {
-            val historyList = preferenceManager.getArrayList(Constants.SEARCH_HISTORY_KEY)
-            if (historyList.isNullOrEmpty()) {
+    val location: LiveData<LatLng?> = searchHistory.getAllSearchHistories().asLiveData().switchMap { historyList ->
+        MutableLiveData<LatLng?>().apply {
+            value = if (historyList.isEmpty()) {
                 null
             } else {
                 val historyLongitude = historyList[0].x?.toDoubleOrNull()

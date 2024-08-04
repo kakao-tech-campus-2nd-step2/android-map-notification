@@ -20,5 +20,5 @@ interface SearchHistoryDao {
     suspend fun delete(searchHistory: SearchHistory)
 
     @Query("SELECT * FROM search_histories ORDER BY id DESC")
-    suspend fun getAllHistories(): List<SearchHistory>
+    fun getAllHistories(): Flow<List<SearchHistory>>
 }
