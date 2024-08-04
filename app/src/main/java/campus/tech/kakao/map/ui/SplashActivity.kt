@@ -24,11 +24,10 @@ class SplashActivity : AppCompatActivity() {
                 val intent = Intent(this, MapActivity::class.java)
                 startActivity(intent)
             }
-            else {
-                splashViewModel.serviceMessage.observe(this) { serviceMessage ->
-                    splashBinding.tvError.text = serviceMessage
-                }
-            }
+        }
+
+        splashViewModel.serviceMessage.observe(this) { serviceMessage ->
+            splashBinding.tvError.text = serviceMessage
         }
     }
 }
