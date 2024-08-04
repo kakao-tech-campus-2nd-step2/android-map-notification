@@ -8,6 +8,7 @@ import campus.tech.kakao.map.model.database.AppDatabase
 import campus.tech.kakao.map.model.database.DatabaseManager
 import campus.tech.kakao.map.model.database.SavedSearchDao
 import campus.tech.kakao.map.model.network.KakaoLocalService
+import campus.tech.kakao.map.model.network.RemoteConfig
 import campus.tech.kakao.map.model.network.RetrofitInstance
 import campus.tech.kakao.map.model.repository.MyRepository
 import dagger.Module
@@ -57,6 +58,12 @@ object AppModule {
     @Provides
     fun provideSharedPreferencesEditor(sharedPreferences: SharedPreferences): SharedPreferences.Editor {
         return sharedPreferences.edit()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemotConfig(): RemoteConfig {
+        return RemoteConfig()
     }
 
 }

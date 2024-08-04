@@ -14,7 +14,12 @@ import campus.tech.kakao.map.model.database.AppDatabase
 import campus.tech.kakao.map.model.database.SavedSearchDao
 import campus.tech.kakao.map.model.network.KakaoLocalService
 import campus.tech.kakao.map.model.network.KakaoSearchResponse
+import campus.tech.kakao.map.model.network.RemoteConfig
 import campus.tech.kakao.map.model.network.RetrofitInstance
+import com.google.firebase.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -26,15 +31,9 @@ class MyRepository @Inject constructor(
     private val savedSearchDao: SavedSearchDao,
     private val apiService: KakaoLocalService,
     private val sharedPreferences: SharedPreferences,
-    private val editor: SharedPreferences.Editor
+    private val editor: SharedPreferences.Editor,
+    private val remoteConfig: RemoteConfig
 ) {
-
-    companion object {
-        const val NAME = "name"
-        const val ADDRESS = "address"
-        const val LATITUDE = "latitude"
-        const val LONGITUDE = "longitude"
-    }
 
 
     // SharedPreferences 저장하기
@@ -92,5 +91,27 @@ class MyRepository @Inject constructor(
         return withContext(Dispatchers.IO) {
             apiService.searchKeyword(query).execute()
         }
+    }
+    //----------------------------------------------------------------------------------------------
+
+    suspend fun fetchState() : String{
+        return withContext(Dispatchers.IO){
+            remoteConfig.fetchRemoteConfigState()
+        }
+    }
+
+    suspend fun fetchMessage() : String{
+        return withContext(Dispatchers.IO){
+            remoteConfig.fetchRemoteConfigMessage()
+        }
+    }
+
+
+    //----------------------------------------------------------------------------------------------
+    companion object {
+        const val NAME = "name"
+        const val ADDRESS = "address"
+        const val LATITUDE = "latitude"
+        const val LONGITUDE = "longitude"
     }
 }

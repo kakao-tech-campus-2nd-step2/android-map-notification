@@ -13,7 +13,9 @@ import campus.tech.kakao.map.model.repository.MyRepository
 import campus.tech.kakao.map.view.PlaceAdapter
 import campus.tech.kakao.map.view.SavedSearchAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -42,6 +44,12 @@ class MyViewModel @Inject constructor(private val repository: MyRepository) : Vi
 
     private val _location = MutableLiveData<Location>()
     val location get() = _location
+
+    private val _remoteConfigState = MutableLiveData<Boolean>(false)
+    val remoteConfigState get() = _remoteConfigState
+
+    private val _remoteConfigMessage = MutableLiveData<String>()
+    val remoteConfigMessage get() = _remoteConfigMessage
 
 
     //LiveData 세팅---------------------------------------------------------------------------------
@@ -126,4 +134,22 @@ class MyViewModel @Inject constructor(private val repository: MyRepository) : Vi
         }
     }
 
+    //remoteConfig-----------------------------------------------------------------------------------
+    fun fetchRemoteConfig(){
+        Log.d("seyoung","viewModle-fetchRemoteConfig")
+        viewModelScope.launch {
+
+            val stateText = repository.fetchState()
+            Log.d("seyoung", "viewModle-stateText : $stateText")
+
+            if(stateText == "ON_SERVICE"){
+                _remoteConfigState.value = true
+                Log.d("seyoung","viewModle-ON_STATE")
+            }
+            else{
+                Log.d("seyoung","viewModle-fetchRemoteConfig : else")
+                _remoteConfigMessage.value = repository.fetchMessage()
+            }
+        }
+    }
 }

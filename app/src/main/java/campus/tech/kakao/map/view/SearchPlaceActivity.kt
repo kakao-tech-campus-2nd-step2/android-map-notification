@@ -76,7 +76,7 @@ class SearchPlaceActivity : AppCompatActivity() {
             //PlaceAdapter -->Parcelable 이용해보기
             itemClick.observe(activity, Observer { place ->  //Place 클릭 했을 때
                 val resultIntent = Intent()
-                resultIntent.putExtra("location", place.toLocation())
+                resultIntent.putExtra(INTENT_EXTRA_LOCATION, place.toLocation())
                 setResult(Activity.RESULT_OK, resultIntent)
                 finish()
             })
@@ -109,5 +109,9 @@ class SearchPlaceActivity : AppCompatActivity() {
         } //with(viewModel)
 
     } //onCreate
-
+    companion object{
+        const val INTENT_EXTRA_LOCATION = "location"
+    }
 }
+
+
