@@ -12,6 +12,8 @@ import androidx.lifecycle.Observer
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityMainBinding
 import campus.tech.kakao.map.viewmodel.PlaceViewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.common.util.Utility
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
@@ -54,6 +56,19 @@ class MainActivity : AppCompatActivity() {
         initKakaoMap()
         initSearchEditText()
         initMapView()
+
+
+        
+        // 현재 토큰을 가져오려면 FirebaseMessaging.getInstace().getToken()
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                return@OnCompleteListener
+            }
+            // FCM 등록 토큰 가져오기
+            val token = task.result
+            val msg = "FCM Registration token: " + token;
+            Log.d("testt", msg)
+        })
 
     }
 
