@@ -59,7 +59,6 @@ class MyViewModel @Inject constructor(private val repository: MyRepository) : Vi
     private val _isPermissionGranted = MutableLiveData<Boolean>()
     val isPermissionGranted get() = _isPermissionGranted
 
-
     //LiveData 세팅---------------------------------------------------------------------------------
     fun itemClick(place: Place){
         _itemClick.value = place
