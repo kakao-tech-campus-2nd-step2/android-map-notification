@@ -1,6 +1,8 @@
-# android-map-notification-STEP1
+# android-map-notification-STEP2
 
 ## 개요
 
-`android-map-notification-STEP1`에서는 `android-map`애플리케이션에 초기 진입 화면을 추가합니다.
-- `Firebase`의 `Remote Config`를 설정하고, 매개변수를 추가하여 상태값에 따라 지도 화면으로의 진입 여부를 결정합니다.
+`android-map-notification-STEP2`에서는 `Firebase Cloud Message`를 이용해 푸시 알림 기능을 추가합니다.
+- Firebase Console에서 테스트 메세지를 보내 정상 작동 여부를 확인합니다.
+- 앱이 백그라운드 상태일 때 FCM의 기본 값으로 알림을 발생시킵니다.
+- 앱이 포그라운드 상태일 때 커스텀 알림을 발생시킵니다.
