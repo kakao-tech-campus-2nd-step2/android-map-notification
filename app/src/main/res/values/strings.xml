@@ -3,4 +3,8 @@
     <string name="search_input_hint">검색어를 입력해 주세요.</string>
     <string name="no_searched_data">검색 결과가 없습니다.</string>
     <string name="map_error_text">지도 인증을 실패 했습니다.\n다시 시도해 주세요.</string>
+    <string name="ask_notification_permission_dialog_title">알림 권한 요청</string>
+    <string name="alarm_notification">다양한 알림 소식을 받기 위해 권한을 허용하시겠어요?\n(알림 에서 %s의 알림 권한을 허용해주세요.)</string>
+    <string name="accept_notification_permission">허용</string>
+    <string name="deny_notification_permission">거부</string>
 </resources>

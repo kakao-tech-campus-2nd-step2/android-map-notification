@@ -17,7 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.data.model.Place
-import campus.tech.kakao.map.databinding.ActivityMainBinding
+import campus.tech.kakao.map.databinding.ActivityMapBinding
 import campus.tech.kakao.map.databinding.BottomSheetBinding
 import campus.tech.kakao.map.databinding.MapErrorBinding
 import campus.tech.kakao.map.ui.viewModel.MapViewModel
@@ -38,8 +38,8 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class MapActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMapBinding
     private lateinit var kakaoMap: KakaoMap
     private var label: Label? = null
     private lateinit var styles: LabelStyles
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 //        KakaoMapSdk.init(this, "I'm nativeKey")     // 오류확인
@@ -192,5 +192,6 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         binding.mapView.pause()
     }
+
 
 }
