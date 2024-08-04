@@ -21,16 +21,18 @@ import campus.tech.kakao.map.viewmodel.MyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EnterActivity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEnterBinding
     private val viewModel: MyViewModel by viewModels()
 
+    //제일 처음 뜨는 알림권한 요청
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
-        if (isGranted) {
+        if (isGranted) {    //허가 받았다면
             // FCM SDK (및 앱)가 알림을 게시할 수 있습니다.
+            viewModel.fetchRemoteConfig()
         } else {
             // 사용자에게 앱이 알림을 표시하지 않을 것임을 알립니다.
             Toast.makeText(this, "알림 권한 거부", Toast.LENGTH_SHORT).show()
@@ -46,16 +48,17 @@ class EnterActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_enter)
         binding.viewModel = viewModel
 
-        viewModel.fetchRemoteConfig()
 
         askNotificationPermission()
+
+
 
         viewModel.remoteConfigState.observe(this, Observer {
             if (it) {
                 Log.d("seyoung", "intent : $it")
-//                val intent = Intent(this, MainActivity::class.java)
-//                startActivity(intent)
-//                finish()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         })
 
@@ -66,14 +69,17 @@ class EnterActivity : AppCompatActivity() {
 
     private fun askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            //권한이 이미 허용되었는지 확인
             if (ContextCompat.checkSelfPermission(
                     this,
-                    android.Manifest.permission.POST_NOTIFICATIONS
+                    android.Manifest.permission.POST_NOTIFICATIONS  //알림권한이 있는지 확인
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 // 이미 권한이 허용된 경우
+                viewModel.fetchRemoteConfig()
+
             } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
-                // 권한 요청 이유를 설명하는 UI를 표시
+                // 거부했다면 권한 요청 이유를 설명하는 UI를 표시
                 showNotificationPermissionDialog()
             } else {
                 // 직접 권한 요청
