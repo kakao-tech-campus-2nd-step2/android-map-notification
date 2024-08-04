@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.service
+package campus.tech.kakao.map.presentation.view.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
