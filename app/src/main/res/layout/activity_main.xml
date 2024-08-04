@@ -2,11 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.MainActivity">
+    tools:context=".presentation.view.MainActivity">
     <data>
         <variable
             name="viewModel"
-            type="campus.tech.kakao.map.viewmodel.PlaceViewModel" />
+            type="campus.tech.kakao.map.presentation.viewmodel.PlaceViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/main"
         android:layout_width="match_parent"

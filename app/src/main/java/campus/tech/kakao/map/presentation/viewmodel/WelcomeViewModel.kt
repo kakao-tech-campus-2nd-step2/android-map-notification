@@ -1,10 +1,10 @@
-package campus.tech.kakao.map.viewmodel
+package campus.tech.kakao.map.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import campus.tech.kakao.map.repository.RemoteConfigManager
+import campus.tech.kakao.map.data.remote.config.RemoteConfigManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,16 +17,23 @@ class WelcomeViewModel @Inject constructor(
 
     private val _serviceMessage = MutableLiveData<String>()
     val serviceMessage: LiveData<String> get() = _serviceMessage
+    init {
+        processRemoteConfig()
+    }
 
-    fun processRemoteConfig() {
+    private fun processRemoteConfig() {
         viewModelScope.launch {
             val success = remoteConfigManager.fetchAndActivateConfig()
             if (success) {
                 val setServiceState = remoteConfigManager.getServiceState()
                 _serviceState.value = setServiceState
                 when (setServiceState) {
-                    RemoteConfigManager.REMOTE_ON_SERVICE -> { _serviceMessage.value = "" }
-                    else -> { _serviceMessage.value = remoteConfigManager.getServiceMessage() }
+                    RemoteConfigManager.REMOTE_ON_SERVICE -> {
+                        _serviceMessage.value = ""
+                    }
+                    else -> {
+                        _serviceMessage.value = remoteConfigManager.getServiceMessage()
+                    }
                 }
             } else {
                 _serviceState.value = remoteConfigManager.REMOTE_ON_ERROR

@@ -6,17 +6,17 @@
     <data>
         <variable
             name="view"
-            type="campus.tech.kakao.map.view.WelcomeActivity" />
+            type="campus.tech.kakao.map.presentation.view.WelcomeActivity" />
         <variable
             name="viewModel"
-            type="campus.tech.kakao.map.viewmodel.WelcomeViewModel" />
+            type="campus.tech.kakao.map.presentation.viewmodel.WelcomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.WelcomeActivity">
+        tools:context=".presentation.view.WelcomeActivity">
 
         <ImageView
             android:id="@+id/welcome_img"

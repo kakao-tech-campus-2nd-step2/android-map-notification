@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.repository
+package campus.tech.kakao.map.data.repository.map
 
 import android.content.SharedPreferences
 import javax.inject.Inject

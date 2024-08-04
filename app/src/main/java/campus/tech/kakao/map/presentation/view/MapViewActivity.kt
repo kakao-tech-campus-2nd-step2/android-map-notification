@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.view
+package campus.tech.kakao.map.presentation.view
 
 import android.content.Intent
 import android.graphics.Color
@@ -8,10 +8,10 @@ import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import campus.tech.kakao.map.viewmodel.MapViewModel
+import campus.tech.kakao.map.presentation.viewmodel.MapViewModel
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityMapViewBinding
-import campus.tech.kakao.map.repository.MapRepositoryInterface
+import campus.tech.kakao.map.data.repository.map.MapRepositoryInterface
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
