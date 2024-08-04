@@ -4,6 +4,10 @@
     <string name="on_Pause">ON_PAUSE</string>
     <string name="default_channel_id">default_channel</string>
     <string name="msg_token_fmt" />
+    <string name="notification_disabled_message">Notifications are disabled</string>
+    <string name="notification_permission_required_title">알림권한이 필요합니다</string>
+    <string name="notification_permission_message">This app needs notification permission to send you updates and important information</string>
+    <string name="notification_permission_denied_message">알림권한이 거절됐습니다</string>
     <string name="positive_button">OK</string>
     <string name="negative_button">NO</string>
 </resources>

@@ -31,7 +31,7 @@ class WelcomeActivity : AppCompatActivity() {
         if (isGranted) {
             // FCM SDK와 앱이 알림을 게시할 수 있게 된다
         } else {
-            Toast.makeText(this, "Notifications are disabled", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.notification_disabled_message, Toast.LENGTH_LONG).show()
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,14 +77,14 @@ class WelcomeActivity : AppCompatActivity() {
                 shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
                     // 사용자에게 권한 요청 이유를 설명하는 UI
                     AlertDialog.Builder(this)
-                        .setTitle("알림권한이 필요합니다")
-                        .setMessage("This app needs notification permission to send you updates and important information")
+                        .setTitle(R.string.notification_permission_required_title)
+                        .setMessage(R.string.notification_permission_message)
                         .setPositiveButton(R.string.positive_button) { _, _ ->
                             requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                         }
                         .setNegativeButton(R.string.negative_button) { dialog, _ ->
                             dialog.dismiss()
-                            Toast.makeText(this, "알림권한이 거절됐습니다", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, R.string.notification_permission_denied_message, Toast.LENGTH_LONG).show()
                         }
                         .show()
                 }
