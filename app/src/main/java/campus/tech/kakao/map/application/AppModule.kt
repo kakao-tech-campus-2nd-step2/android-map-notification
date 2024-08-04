@@ -7,6 +7,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import campus.tech.kakao.map.data.dao.PlaceDao
 import campus.tech.kakao.map.data.database.PlacesRoomDB
 import campus.tech.kakao.map.data.network.api.RetrofitService
+import campus.tech.kakao.map.data.remote.ConfigService
 import campus.tech.kakao.map.data.repository.DataStoreManager
 import campus.tech.kakao.map.data.repository.MapRepository
 import dagger.Module
@@ -14,7 +15,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -29,12 +29,13 @@ object AppModule {
     @Singleton
     fun provideMapRepository(
         @ApplicationContext context: Context,
+        configService: ConfigService,
         retrofitService: RetrofitService,
         dataStoreManager: DataStoreManager,
         placeDao: PlaceDao,
         placesRoomDB: PlacesRoomDB
     ): MapRepository {
-        return MapRepository(context, retrofitService, dataStoreManager, placeDao, placesRoomDB)
+        return MapRepository(context, configService, retrofitService, dataStoreManager, placeDao, placesRoomDB)
     }
 
     @Provides
@@ -59,6 +60,12 @@ object AppModule {
     @Singleton
     fun provideDataStoreManager(dataStore: DataStore<Preferences>): DataStoreManager {
         return DataStoreManager(dataStore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideConfigService(): ConfigService {
+        return ConfigService()
     }
 
     @Provides

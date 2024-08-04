@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import campus.tech.kakao.map.data.model.Place
 import campus.tech.kakao.map.data.model.RecentSearchWord
 import campus.tech.kakao.map.data.repository.MapRepository
+import campus.tech.kakao.map.data.vo.Config
 import com.kakao.vectormap.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapViewModel @Inject constructor(private val repository: MapRepository) : ViewModel() {
+
+    private val _config: MutableLiveData<Config> = MutableLiveData<Config>()
+    val config: LiveData<Config> get()= _config
 
     private val _places: MutableLiveData<List<Place>> = MutableLiveData<List<Place>>()
     val places: LiveData<List<Place>> get()= _places
@@ -27,6 +31,14 @@ class MapViewModel @Inject constructor(private val repository: MapRepository) : 
     init {
         _searchHistoryData.value = repository.searchHistoryList
         setLocalDB()
+        getConfig()
+    }
+
+    fun getConfig() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val fireDbConfig = repository.getConfig()
+            _config.postValue(fireDbConfig)
+        }
     }
 
     fun searchPlaces(search: String) {
