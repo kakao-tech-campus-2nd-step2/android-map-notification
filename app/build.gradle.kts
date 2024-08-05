@@ -31,6 +31,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -42,11 +43,13 @@ android {
     buildFeatures {
         dataBinding = true
         buildConfig = true
+        viewBinding = true
     }
 }
 
 dependencies {
-
+    implementation ("com.google.firebase:firebase-messaging:24.0.0")
+    implementation ("com.google.firebase:firebase-config:24.0.0")
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
@@ -59,6 +62,9 @@ dependencies {
     implementation("androidx.test:core-ktx:1.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
     implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.activity:activity:1.9.1")
+    implementation("com.google.firebase:firebase-config:22.0.0")
+    implementation("com.google.firebase:firebase-messaging:24.0.0")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-compiler:2.48.1")
