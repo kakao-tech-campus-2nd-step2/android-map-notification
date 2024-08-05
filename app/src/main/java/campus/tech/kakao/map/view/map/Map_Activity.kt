@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import campus.tech.kakao.map.R
 import com.kakao.vectormap.MapView
 
-class MapActivity : AppCompatActivity() {
+class Map_Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
