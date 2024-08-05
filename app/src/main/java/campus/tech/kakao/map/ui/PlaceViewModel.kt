@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import campus.tech.kakao.map.data.NetworkRepository
 import campus.tech.kakao.map.data.PlaceRepository
 import campus.tech.kakao.map.domain.Place
-import campus.tech.kakao.map.domain.PlaceUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
