@@ -27,7 +27,7 @@ class Map_Activity : AppCompatActivity() {
         mapViewContainer.addView(mapView)
         val mFirebaseRemoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
         val configSettings: FirebaseRemoteConfigSettings = Builder()
-            .setMinimumFetchIntervalInSeconds(3600) // 1시간마다 새 값을 가져옴
+            .setMinimumFetchIntervalInSeconds(3600)
             .build()
         mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings)
 
