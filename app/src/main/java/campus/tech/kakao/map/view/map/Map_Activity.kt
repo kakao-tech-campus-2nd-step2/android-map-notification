@@ -1,6 +1,5 @@
 package campus.tech.kakao.map.view.map
 
-import android.R
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
@@ -14,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.kakao.vectormap.MapView
 
 
@@ -34,7 +34,7 @@ class Map_Activity : AppCompatActivity() {
 
 // 기본 값 설정
         val defaultValues: MutableMap<String, Any> = HashMap()
-        defaultValues["serviceState"] = "OFF_SERVICE"
+        defaultValues["serviceState"] = "ON_SERVICE"
         defaultValues["serviceMessage"] = "서비스가 현재 중지되었습니다."
         mFirebaseRemoteConfig.setDefaultsAsync(defaultValues)
 
