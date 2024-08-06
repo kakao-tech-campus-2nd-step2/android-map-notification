@@ -43,11 +43,15 @@
         <activity
             android:name=".view.search.SearchActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <service
+                android:name=".MyFirebaseMessagingService"
+                android:permission="com.google.android.c2dm.permission.RECEIVE">
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN" />
+                    <category android:name="android.intent.category.LAUNCHER" />
+                    <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                </intent-filter>
+            </service>
         </activity>
     </application>
 

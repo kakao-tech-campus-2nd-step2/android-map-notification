@@ -1,12 +1,18 @@
 package campus.tech.kakao.map.view.map
 
+import android.R
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.FrameLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import campus.tech.kakao.map.service_message
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.kakao.vectormap.MapView
 
@@ -43,7 +49,7 @@ class Map_Activity : AppCompatActivity() {
                         val serviceMessage: String =
                             mFirebaseRemoteConfig.getString("serviceMessage")
 
-                        // 서비스 상태에 따른 로직 처리
+                        // 서비스 상태
                         if ("ON_SERVICE" == serviceState) {
                             // 지도 화면으로 이동
                             startActivity(
@@ -53,12 +59,49 @@ class Map_Activity : AppCompatActivity() {
                             )
                             finish()
                         } else {
-                            // 서비스 메시지를 화면에 표시
+                            // service_message
                             val intent = Intent(this, service_message::class.java)
                             startActivity(intent)
                         }
                     }
                 })
+
+        //firebase message(FCM 사용)
+        class MyFirebaseMessagingService : FirebaseMessagingService() {
+            override fun onMessageReceived(remoteMessage: RemoteMessage) {
+                // 메시지가 포그라운드 상태일 때 수신될 경우
+                if (remoteMessage.notification != null) {
+                    val title = remoteMessage.notification!!.title
+                    val message = remoteMessage.notification!!.body
+                    sendCustomNotification(title, message)
+                }
+            }
+
+            private fun sendCustomNotification(title: String?, message: String?) {
+                val notificationManager =
+                    getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                val channelId = "default_channel_id"
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val channel = NotificationChannel(
+                        channelId,
+                        "Default Channel",
+                        NotificationManager.IMPORTANCE_DEFAULT
+                    )
+                    notificationManager.createNotificationChannel(channel)
+                }
+
+                val notificationBuilder: NotificationCompat.Builder =
+                    NotificationCompat.Builder(this, channelId)
+                        .setContentTitle(title)
+                        .setContentText(message)
+                        .setAutoCancel(true)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+
+                notificationManager.notify(0, notificationBuilder.build())
+            }
+        }
+
 
     }
 }
