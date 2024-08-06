@@ -48,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation("com.google.firebase:firebase-analytics")
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
     implementation ("com.google.firebase:firebase-messaging:24.0.0")
     implementation ("com.google.firebase:firebase-config:24.0.0")
     implementation("androidx.core:core-ktx:1.13.1")
