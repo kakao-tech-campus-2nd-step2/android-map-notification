@@ -69,7 +69,6 @@ class Map_Activity : AppCompatActivity() {
         //firebase message(FCM 사용)
         class MyFirebaseMessagingService : FirebaseMessagingService() {
             override fun onMessageReceived(remoteMessage: RemoteMessage) {
-                // 메시지가 포그라운드 상태일 때 수신될 경우
                 if (remoteMessage.notification != null) {
                     val title = remoteMessage.notification!!.title
                     val message = remoteMessage.notification!!.body
