@@ -2,19 +2,24 @@ package campus.tech.kakao.map.view.map
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.databinding.ActivityMapBinding
 import campus.tech.kakao.map.model.kakaolocal.LocalUiModel
@@ -50,7 +55,7 @@ class MapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupBinding()
         initView()
-        checkLocationPermission()
+        askNotificationPermission()
         setupMapView()
         observeUiState()
         addActivityResultLauncher()
@@ -81,36 +86,6 @@ class MapActivity : AppCompatActivity() {
     private fun initView() {
         bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet.root)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-    }
-
-    private fun checkLocationPermission(): Boolean {
-        val locationPermissions = arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        )
-        kotlin.runCatching {
-            if (
-                ActivityCompat.checkSelfPermission(
-                    this,
-                    locationPermissions[0]
-                ) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(
-                    this,
-                    locationPermissions[1]
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                requestPermissions(
-                    locationPermissions,
-                    100
-                )
-                return false
-            } else {
-                return true
-            }
-        }.onFailure {
-            Log.e("MapActivity", "locationError : ${it.message}}")
-        }
-        return false
     }
 
     private fun setupMapView(position: LatLng? = null) {
@@ -254,5 +229,63 @@ class MapActivity : AppCompatActivity() {
         }
 
         label.moveTo(position)
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            Toast.makeText(
+                this,
+                getString(R.string.allow_notification_permission),
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(
+                this,
+                getString(R.string.deny_notification_permission),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
+                // 권한 요청 이유를 설명하는 UI를 표시
+                showNotificationPermissionDialog()
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    private fun showNotificationPermissionDialog() {
+        AlertDialog.Builder(this@MapActivity).apply {
+            setTitle(getString(R.string.ask_notification_permission_dialog_title))
+            setMessage(
+                String.format(
+                    getString(R.string.ask_notification_permission_dialog_body),
+                    getString(R.string.app_name)
+                )
+            )
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            setNegativeButton(getString(R.string.deny_notification_permission)) { _, _ -> }
+            show()
+        }
     }
 }

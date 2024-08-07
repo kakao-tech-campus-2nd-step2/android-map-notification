@@ -1,5 +1,8 @@
 package campus.tech.kakao.map.repository.keyword
 
+import campus.tech.kakao.map.repository.keyword.Keyword
+import campus.tech.kakao.map.repository.keyword.KeywordDatabase
+import campus.tech.kakao.map.repository.keyword.KeywordRepository
 import javax.inject.Inject
 
 class KeywordRepositoryImpl @Inject constructor(private val keywordDatabase: KeywordDatabase) :

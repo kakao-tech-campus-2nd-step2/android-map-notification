@@ -7,7 +7,7 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-//    id("com.google.gms.google-services")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -24,6 +24,7 @@ android {
         testInstrumentationRunner = "campus.tech.kakao.map.CustomTestRunner"
 
         resValue("string", "kakao_api_key", getApiKey("KAKAO_API_KEY"))
+        resValue("string", "fcm_default_channel_id", getApiKey("FCM_DEFAULT_CHANNEL_ID"))
         buildConfigField("String", "KAKAO_REST_API_KEY", getApiKey("KAKAO_REST_API_KEY"))
     }
 

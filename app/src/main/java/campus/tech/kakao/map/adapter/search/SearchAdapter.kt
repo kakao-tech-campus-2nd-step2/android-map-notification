@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import campus.tech.kakao.map.databinding.ListItemBinding
-import campus.tech.kakao.map.viewmodel.OnSearchItemClickListener
 import campus.tech.kakao.map.model.kakaolocal.LocalUiModel
+import campus.tech.kakao.map.viewmodel.OnSearchItemClickListener
 
 class SearchAdapter(
     private val onSearchItemClickListener: OnSearchItemClickListener

@@ -6,4 +6,11 @@
     <string name="current_location">현재 위치</string>
     <string name="refresh">새로고침</string>
     <string name="map_auth_error">지도 인증을 실패 했습니다.\n다시 시도해 주세요.</string>
+    <string name="ask_notification_permission_dialog_title">알림 권한 요청</string>
+    <string name="ask_notification_permission_dialog_body">다양한 알림 소식을 받기 위해 권한을 허용하시겠어요?\n(알림 에서 %s의 알림 권한을 허용해주세요.)</string>
+    <string name="yes">네</string>
+    <string name="deny_notification_permission">다음에 받아볼게요.</string>
+    <string name="allow_notification_permission">유용한 정보 많이 보내드릴게요.</string>
+    <string name="fcm_channel_description">나의 FCM 설명입니다</string>
+    <string name="service_state_unknown">서버 점검 중 입니다. 나중에 다시 시도해 주세요.</string>
 </resources>
