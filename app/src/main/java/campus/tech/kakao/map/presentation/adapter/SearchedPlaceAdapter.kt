@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import campus.tech.kakao.map.util.DiffUtilCallback
 import campus.tech.kakao.map.domain.model.Place
 import campus.tech.kakao.map.databinding.ListItemBinding
+import campus.tech.kakao.map.presentation.search.SearchActivityRecyclerviewListener
 
 
 class SearchedPlaceAdapter(
-    private var onItemClicked: (Place) -> Unit
+    private val listener: SearchActivityRecyclerviewListener
 ): ListAdapter<Place, SearchedPlaceAdapter.LocationViewHolder>(DiffUtilCallback()) {
 
     inner class LocationViewHolder(private val binding: ListItemBinding )
@@ -18,7 +19,7 @@ class SearchedPlaceAdapter(
             fun bind(place: Place){
                 binding.place = place
                 binding.root.setOnClickListener {
-                    onItemClicked(place)
+                    listener.onPlaceClick(place)
                 }
             }
     }

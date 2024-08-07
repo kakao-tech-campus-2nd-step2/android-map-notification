@@ -21,7 +21,7 @@ class SplashScreenViewModel
 @Inject
 constructor(private val repository: RemoteConfigRepository): ViewModel() {
 
-    private val _remoteConfigState = MutableLiveData<RemoteConfigState>()
+    private val _remoteConfigState = MutableLiveData<RemoteConfigState>(RemoteConfigState.Loading)
     val remoteConfigState: LiveData<RemoteConfigState> get() = _remoteConfigState
 
     init {
@@ -29,8 +29,6 @@ constructor(private val repository: RemoteConfigRepository): ViewModel() {
     }
 
     private fun fetchAndActiveRemoteConfig(){
-        _remoteConfigState.value = RemoteConfigState.Loading
-
         viewModelScope.launch {
             val fetchedResult = repository.getFetchedRemoteResult()
 

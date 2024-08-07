@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +33,7 @@ constructor( private val repository: PlaceRepository) : ViewModel() {
     val searchedPlaces: StateFlow<List<Place>> get() = _searchedPlaces
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _logList.value = getLogs()
         }
     }
@@ -41,14 +42,29 @@ constructor( private val repository: PlaceRepository) : ViewModel() {
         searchText.value = ""
     }
 
+    // control Place
     private suspend fun getPlaces(keyword: String): List<Place> {
-        return repository.getPlaces(keyword)
+        return withContext(Dispatchers.IO) {
+            val resultPlaces = mutableListOf<Place>()
+
+            for (page in 1..3) {
+                val places = getPlacesByPage(keyword, page)
+                resultPlaces.addAll(places)
+            }
+
+            repository.updatePlaces(resultPlaces)
+            resultPlaces
+        }
+    }
+    private suspend fun getPlacesByPage(keyword: String, page: Int): List<Place> {
+        return repository.getPlaces(keyword, page)
     }
 
     suspend fun getPlaceById(id: String): Place? {
         return repository.getPlaceById(id)
     }
 
+    // control Log
     private suspend fun getLogs(): List<Place> {
         return repository.getLogs()
     }

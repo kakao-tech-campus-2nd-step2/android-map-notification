@@ -12,6 +12,12 @@ android {
     namespace = "campus.tech.kakao.map"
     compileSdk = 34
 
+    packagingOptions {
+        exclude("META-INF/LICENSE-notice.md")
+        exclude("META-INF/LICENSE.md")
+        exclude("META-INF/NOTICE.md")
+        exclude("META-INF/NOTICE")
+    }
 
     defaultConfig {
         resValue("string", "kakao_api_key", getApiKey("KAKAO_API_KEY"))
@@ -67,7 +73,8 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     implementation("com.kakao.sdk:v2-all:2.20.3")
@@ -81,10 +88,13 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.activity:activity:1.8.0")
+
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.13.12")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     implementation("androidx.test:core-ktx:1.6.1")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+    androidTestImplementation("io.mockk:mockk-android:1.13.12")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.3.0")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.3.0")

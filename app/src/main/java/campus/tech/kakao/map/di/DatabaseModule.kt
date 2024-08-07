@@ -1,6 +1,7 @@
 package campus.tech.kakao.map.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import campus.tech.kakao.map.data.dao.PlaceDao
 import campus.tech.kakao.map.data.database.PlaceDatabase
@@ -29,5 +30,11 @@ object DatabaseModule {
     @Singleton
     fun providePlaceDao(placeDatabase: PlaceDatabase): PlaceDao {
         return placeDatabase.placeDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences("LastVisitedPlace", Context.MODE_PRIVATE)
     }
 }

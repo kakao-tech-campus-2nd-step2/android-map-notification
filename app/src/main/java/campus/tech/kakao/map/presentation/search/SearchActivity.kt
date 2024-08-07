@@ -20,13 +20,24 @@ import campus.tech.kakao.map.presentation.map.MapActivity
 import campus.tech.kakao.map.util.PlaceMapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var searchedPlaceAdapter: SearchedPlaceAdapter
-    private lateinit var logAdapter: LogAdapter
+    private val searchedPlaceAdapter by lazy { SearchedPlaceAdapter(listener)}
+    private val logAdapter by lazy { LogAdapter(listener) }
     private val viewModel: SearchViewModel by viewModels()
+
+    private val listener = object : SearchActivityRecyclerviewListener {
+        override fun onPlaceClick(place: Place) {
+            handlePlaceClick(place)
+        }
+
+        override fun onLogDelBtnClick(logId: String) {
+            handleLogDelBtnClick(logId)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,10 +72,6 @@ class SearchActivity : AppCompatActivity() {
 
     private fun setupSearchedPlaceRecyclerView() {
         val searchedPlaceRecyclerView = binding.recyclerPlace
-        searchedPlaceAdapter = SearchedPlaceAdapter { place ->
-            viewModel.updateLogs(place)
-            handlePlaceClick(place)
-        }
 
         searchedPlaceRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@SearchActivity)
@@ -73,24 +80,9 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun handlePlaceClick(place: Place) {
-        lifecycleScope.launch {
-            val selectedPlace = viewModel.getPlaceById(place.id)
-            val intent = Intent(this@SearchActivity, MapActivity::class.java).apply {
-                putExtra("placeData", selectedPlace)
-            }
-            setResult(RESULT_OK, intent)
-            finish()
-        }
-    }
 
     private fun setupLogRecyclerView() {
         val logRecyclerView = binding.recyclerLog
-        logAdapter = LogAdapter { id ->
-            lifecycleScope.launch {
-                viewModel.removeLog(id)
-            }
-        }
 
         logRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@SearchActivity, RecyclerView.HORIZONTAL, false)
@@ -110,6 +102,24 @@ class SearchActivity : AppCompatActivity() {
             viewModel.logList.collect { logList ->
                 logAdapter.submitList(PlaceMapper.mapPlaces(logList))
             }
+        }
+    }
+
+    fun handlePlaceClick(place: Place) {
+        lifecycleScope.launch {
+            viewModel.updateLogs(place)
+            val selectedPlace = viewModel.getPlaceById(place.id)
+            val intent = Intent(this@SearchActivity, MapActivity::class.java).apply {
+                putExtra("placeData", selectedPlace)
+            }
+            setResult(RESULT_OK, intent)
+            finish()
+        }
+    }
+
+    fun handleLogDelBtnClick(logId: String) {
+        lifecycleScope.launch {
+            viewModel.removeLog(logId)
         }
     }
 

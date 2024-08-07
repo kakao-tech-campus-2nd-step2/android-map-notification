@@ -14,21 +14,20 @@ class PlaceRemoteDataRepository @Inject constructor(
     private val placeDao: PlaceDao,
     private val kakaoApi: KakaoApi
 ) : PlaceLocalDataRepository(placeDao){
-    override suspend fun getPlaces(placeName: String): List<Place> {
+    override suspend fun getPlaces(placeName: String, page: Int): List<Place> {
         return withContext(Dispatchers.IO) {
             val resultPlaces = mutableListOf<Place>()
-            for (page in 1..3) {
-                val response = kakaoApi.getSearchKeyword(
-                    key = BuildConfig.KAKAO_REST_API_KEY,
-                    query = placeName,
-                    size = 15,
-                    page = page
-                )
-                if (response.isSuccessful) {
-                    response.body()?.documents?.let { resultPlaces.addAll(it) }
-                } else throw RuntimeException("통신 에러 발생")
-            }
-            updatePlaces(resultPlaces)
+
+            val response = kakaoApi.getSearchKeyword(
+                key = BuildConfig.KAKAO_REST_API_KEY,
+                query = placeName,
+                size = 15,
+                page = page
+            )
+            if (response.isSuccessful) {
+                response.body()?.documents?.let { resultPlaces.addAll(it) }
+            } else throw RuntimeException("통신 에러 발생")
+
             resultPlaces
         }
     }

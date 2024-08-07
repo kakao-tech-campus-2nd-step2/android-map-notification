@@ -15,6 +15,7 @@ import campus.tech.kakao.map.presentation.splash.RemoteConfigState.*
 import campus.tech.kakao.map.presentation.map.MapActivity
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashScreenBinding
@@ -63,7 +64,7 @@ class SplashScreenActivity : AppCompatActivity() {
     private fun handleErrorState(errorMessage: String?){
         val message = errorMessage ?: "연결에 문제가 발생했습니다"
 
-        if (!isNetworkActive()){
+        if (!isNetworkActive(this)){
             startMapActivity()
         }else{
             setSplashScreenMessage(message)

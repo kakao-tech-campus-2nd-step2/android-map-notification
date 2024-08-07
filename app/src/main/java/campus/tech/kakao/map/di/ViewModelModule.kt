@@ -1,6 +1,7 @@
 package campus.tech.kakao.map.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import campus.tech.kakao.map.PlaceApplication
 import campus.tech.kakao.map.data.*
 import campus.tech.kakao.map.data.dao.PlaceDao
@@ -18,13 +19,17 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object ViewModelModule {
     // SearchViewModel
+    @Singleton
     @Provides
     fun providePlaceRepository(
-        placeDao: PlaceDao, kakaoApi: KakaoApi): PlaceRepository {
-        return if (PlaceApplication.isNetworkActive()) {
+        @ApplicationContext context: Context,
+        placeDao: PlaceDao,
+        kakaoApi: KakaoApi
+    ): PlaceRepository {
+        return if (PlaceApplication.isNetworkActive(context)) {
             PlaceRemoteDataRepository(placeDao,kakaoApi)
         } else {
             PlaceLocalDataRepository(placeDao)
@@ -32,12 +37,14 @@ object ViewModelModule {
     }
 
     // MapViewModel
+    @Singleton
     @Provides
-    fun provideLastVisitedPlaceManager(@ApplicationContext context: Context): LastVisitedPlaceManager{
-        return LastVisitedPlaceManager(context)
+    fun provideLastVisitedPlaceManager(sharedPreferences: SharedPreferences): LastVisitedPlaceManager{
+        return LastVisitedPlaceManager(sharedPreferences)
     }
 
     // SearchViewModel
+    @Singleton
     @Provides
     fun provideRemoteConfigRepository(remoteConfig: FirebaseRemoteConfig):RemoteConfigRepository{
         return RemoteConfigRepository(remoteConfig)

@@ -1,14 +1,22 @@
 package campus.tech.kakao.map.presentation.map
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import campus.tech.kakao.map.PlaceApplication
@@ -35,16 +43,32 @@ class MapActivity : AppCompatActivity() {
     private lateinit var kakaoMap: KakaoMap
     private val mapViewModel: MapViewModel by viewModels()
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            Log.i("permission", "권한 획득")
+        } else {
+            Log.i("permission", "권한 거절")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setStatusBarTransparent()
         initBinding()
+        setUI()
         collectViewModel()
-        initSwipeRefreshLayout()
         initMapView()
-        initSearchView()
         setResultLauncher()
+        askNotificationPermission()
+
+    }
+
+    private fun setUI(){
+        setStatusBarTransparent()
+        setSwipeListener()
+        setSearchView()
     }
 
     private fun setStatusBarTransparent() {
@@ -71,7 +95,7 @@ class MapActivity : AppCompatActivity() {
             }
         }
     }
-    private fun initSwipeRefreshLayout() {
+    private fun setSwipeListener() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             if (!isNetworkAvailable()) {
                 showErrorPage(Exception("네트워크 연결 오류"))
@@ -103,7 +127,7 @@ class MapActivity : AppCompatActivity() {
     }
 
     private fun isNetworkAvailable(): Boolean {
-        return PlaceApplication.isNetworkActive()
+        return PlaceApplication.isNetworkActive(this)
     }
 
     private fun initMapPage(){
@@ -113,19 +137,19 @@ class MapActivity : AppCompatActivity() {
 
     private fun showMapPage(){
         binding.tvErrorMessage.visibility = View.GONE
-        binding.searchView.visibility = View.VISIBLE
+        binding.btnSearch.visibility = View.VISIBLE
         binding.mapView.visibility = View.VISIBLE
     }
 
     private fun showErrorPage(error: Exception) {
         binding.tvErrorMessage.visibility = View.VISIBLE
         binding.mapView.visibility = View.GONE
-        binding.searchView.visibility = View.GONE
+        binding.btnSearch.visibility = View.GONE
         binding.tvErrorMessage.text = "지도 인증에 실패했습니다.\n다시 시도해주세요.\n" + error.message
     }
 
-    private fun initSearchView() {
-        binding.searchView.setOnClickListener {
+    private fun setSearchView() {
+        binding.btnSearch.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
             resultLauncher.launch(intent)
         }
@@ -176,5 +200,41 @@ class MapActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         binding.mapView.pause()
+    }
+
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED) {
+
+            if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
+                // 권한 요청 이유를 설명하는 UI를 표시
+                showNotificationPermissionDialog()
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    private fun showNotificationPermissionDialog() {
+        AlertDialog.Builder(this).apply {
+            setMessage(
+                String.format(
+                    "다양한 알림 소식을 받기 위해 권한을 허용하시겠어요?\n(알림 에서 %s의 알림 권한을 허용해주세요.)",
+                    getString(R.string.app_name)
+                )
+            )
+            setPositiveButton("허용") { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            setNegativeButton("허용 안함") { _, _ -> }
+            show()
+        }
     }
 }

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".PlaceApplication"
         android:allowBackup="true"
@@ -15,9 +16,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Map"
         tools:targetApi="31">
+        <service
+            android:name=".data.service.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".presentation.splash.SplashScreenActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,9 +36,7 @@
         </activity>
         <activity
             android:name=".presentation.map.MapActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".presentation.search.SearchViewModel"
             android:exported="false" />
