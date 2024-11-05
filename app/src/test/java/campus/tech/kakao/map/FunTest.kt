@@ -12,9 +12,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
@@ -39,7 +41,6 @@ class FunTest{
 		val actualQueryResult = placeRepository.documentList.value
 		assert(actualQueryResult.any { it.placeName == query })
 	}
-
 
 	@Test
 	fun 검색어_저장_되는지_확인(){
