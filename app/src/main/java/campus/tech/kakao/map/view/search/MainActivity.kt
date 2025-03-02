@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import campus.tech.kakao.map.databinding.ActivityMainBinding
 import campus.tech.kakao.map.model.Location
 import campus.tech.kakao.map.model.SavedLocation
@@ -88,6 +90,17 @@ class MainActivity : AppCompatActivity(), ItemSelectedListener, SearchClearButto
         activityMainBinding.savedLocationRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         activityMainBinding.savedLocationRecyclerView.adapter = savedLocationAdapter
+
+        // 맨 아래로 스크롤했을 시 데이터 더 불러오기
+        activityMainBinding.locationRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!activityMainBinding.locationRecyclerView.canScrollVertically(1)
+                    && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    locationViewModel.loadAdditionalLocations(activityMainBinding.searchEditTextMain.text.toString())
+                }
+            }
+        })
     }
 
     override fun onLocationItemClicked(location: Location) {

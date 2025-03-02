@@ -30,13 +30,13 @@
 
     <ImageView
         android:id="@+id/clearButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:src="@drawable/x_mark"
         app:layout_constraintBottom_toBottomOf="@+id/searchEditTextMain"
         app:layout_constraintEnd_toEndOf="@+id/searchEditTextMain"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="10dp"
+        app:layout_constraintTop_toTopOf="@+id/searchEditTextMain"
+        android:layout_marginRight="15dp"
         android:onClick="@{() -> searchClickListener.onSearchClearButtonClicked()}"/>
 
     <androidx.recyclerview.widget.RecyclerView

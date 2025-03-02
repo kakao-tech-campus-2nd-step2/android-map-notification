@@ -1,8 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Map" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<!--        상태바 없애기-->
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+
+    <!--SplashTheme-->
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/map_icon2</item>
+<!--        postSplashScreenTheme는 splash가 끝난 후 사용될 테마를 지정해준다.-->
+        <item name="postSplashScreenTheme">@style/Theme.Map</item>
     </style>
 
     <style name="Theme.Map" parent="Base.Theme.Map" />

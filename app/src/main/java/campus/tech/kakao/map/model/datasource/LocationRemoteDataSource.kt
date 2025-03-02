@@ -14,9 +14,9 @@ class LocationRemoteDataSource @Inject constructor(
         private const val RESULT_SIZE = 15
     }
 
-    suspend fun getLocations(keyword: String): SearchFromKeywordResponse? {
+    suspend fun getLocations(keyword: String, page: Int): SearchFromKeywordResponse? {
         return withContext(dispatchersIO){
-            kakaoAPI.searchFromKeyword(keyword, RESULT_SIZE).body()
+            kakaoAPI.searchFromKeyword(keyword, RESULT_SIZE, page).body()
         }
     }
 }

@@ -3,7 +3,8 @@ package campus.tech.kakao.map.model
 import com.google.gson.annotations.SerializedName
 
 data class SearchFromKeywordResponse(
-    val documents: List<LocationDto>
+    val documents: List<LocationDto>,
+    val meta: CountDto
 )
 data class LocationDto(
     @SerializedName("id")
@@ -19,3 +20,13 @@ data class LocationDto(
     @SerializedName("y")
     val y: String
 )
+
+data class CountDto (
+    @SerializedName("total_count")
+    val totalCount: Int,
+    @SerializedName("pageable_count")
+    val pageableCount: Int,
+    @SerializedName("is_end")
+    val isEnd: Boolean
+)
+

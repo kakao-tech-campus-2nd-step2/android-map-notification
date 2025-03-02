@@ -12,7 +12,8 @@
     android:padding="10dp"
     android:clickable="true"
     android:focusable="true"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    app:layout_wrapBehaviorInParent="skipped">
 
     <TextView
         android:id="@+id/bottomSheetTitle"
@@ -21,7 +22,7 @@
         android:layout_margin="10dp"
         android:gravity="left"
         android:text="제목"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -43,12 +44,25 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="주소"
-        android:textColor="@color/white"
+        android:textColor="@color/cardview_shadow_start_color"
         android:textSize="20dp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="@+id/bottomSheetTitle"
         app:layout_constraintTop_toBottomOf="@+id/bottomSheetTitle"
         android:maxLines="2"/>
+
+    <TextView
+        android:id="@+id/bottomSheetCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="카테고리"
+        android:textColor="@color/cardview_shadow_start_color"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomSheetTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toEndOf="@+id/bottomSheetTitle"
+        app:layout_constraintTop_toTopOf="@+id/bottomSheetTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

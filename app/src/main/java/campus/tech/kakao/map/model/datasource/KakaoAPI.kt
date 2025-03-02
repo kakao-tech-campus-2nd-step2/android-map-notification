@@ -10,6 +10,7 @@ interface KakaoAPI {
     @GET("/v2/local/search/keyword.json")
     suspend fun searchFromKeyword(
         @Query("query") query: String,
-        @Query("size") size: Int
+        @Query("size") size: Int,
+        @Query("page") page: Int
     ): Response<SearchFromKeywordResponse>
 }
